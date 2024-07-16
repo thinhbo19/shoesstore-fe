@@ -1,0 +1,138 @@
+.chatbox__container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.chatbox__icon {
+  cursor: pointer;
+  font-size: 3rem;
+  color: #000000;
+  padding: 10px;
+}
+
+.chatbox__content {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background-color: #f0f0f0;
+  height: 70vh;
+  overflow-y: hidden;
+}
+.chatbox__notifi__count {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 25px;
+  text-align: center;
+  padding: 5px;
+  color: white;
+  background-color: rgb(26, 192, 26);
+  border-radius: 50%;
+}
+
+.chatbox__header {
+  background-color: #f6ba2e;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  position: relative;
+}
+
+.chatbox__iconOut {
+  position: absolute;
+  font-size: 2rem;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.chatbox__messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mess_server,
+.mess_client {
+  position: relative;
+  margin: 15px 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.mess_server {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.mess_client {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.timemess {
+  position: absolute;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.mess_server .timemess {
+  left: 0;
+  text-align: left;
+  margin-right: 5px;
+}
+.mess_client .timemess {
+  right: 0;
+  text-align: right;
+  margin-right: 5px;
+}
+
+pre {
+  margin: 0;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.chatbox__input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.chatbox__input input {
+  flex: 1;
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.chatbox__input button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chatbox__input button:hover {
+  background-color: #0056b3;
+}

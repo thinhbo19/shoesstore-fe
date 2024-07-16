@@ -1,0 +1,30 @@
+.DetailSecond {
+  display: flex;
+  margin: 5rem 0;
+  font-style: italic;
+}
+
+.DetailSecond h2 {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.DetailSecond .second-left {
+  flex: 1.25;
+  border-right: 1px solid black;
+}
+
+.DetailSecond .second-right {
+  flex: 1;
+  margin: 0 2rem;
+}
+.DetailSecond .second-right .step .step-content {
+  font-size: 1rem;
+}
+.DetailSecond .second-right .step {
+  margin-top: 5px;
+}
+.DetailSecond .second-right .step .step-content span {
+  font-size: 1.2rem;
+}

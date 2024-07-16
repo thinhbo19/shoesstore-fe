@@ -1,0 +1,122 @@
+.admincontainer {
+  max-width: 1080px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0 auto;
+}
+.main {
+  margin-left: 110px;
+}
+
+@media screen and (max-width: 1024px) {
+  .main {
+    margin-left: 0;
+  }
+}
+.action__from {
+  width: 100%;
+  display: flex;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid #4f4f4f;
+  padding: 8px;
+  text-align: left;
+  text-align: center;
+}
+
+th {
+  background-color: #5454ed;
+  text-align: center;
+  color: #ffffff;
+}
+tr:hover {
+  background-color: #f2f2f2;
+}
+
+.admin__icon {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.admin__icon:hover {
+  transform: scale(1.1);
+}
+
+.add-species input {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.add-species button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination button {
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #ddd;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.swal-container {
+  z-index: 9999 !important; /* Set a higher z-index value */
+}
+
+.swal-popup {
+  z-index: 10000 !important; /* Set a higher z-index value */
+}
+
+.img__field {
+  width: 120px;
+}
+.img__td {
+  width: 60%;
+  height: 60%;
+}
+.file-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 10px;
+}
+.image-preview img {
+  width: 50%;
+}
+
+/* categories__container */
+.categories__container {
+  min-height: 100vh;
+  position: relative;
+}

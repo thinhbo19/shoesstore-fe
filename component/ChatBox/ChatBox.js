@@ -1,0 +1,216 @@
+"use client";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import "./ChatBox.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import Logo from "../../app/favicon.ico";
+import io from "socket.io-client";
+import { useSelector } from "react-redux";
+import ChatBoxMess from "./ChatBoxMess";
+import Swal from "sweetalert2";
+import { getChat, getMess, postMess } from "../../services/apiChat";
+import { unreadNotificationFunc } from "../../utils/NotificationFunc";
+import Image from "next/image";
+import { selectUid } from "@/services/Redux/user/useSlice";
+
+const ChatBox = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [socket, setSocket] = useState(null);
+  const uid = useSelector(selectUid);
+  const [userChat, setUserChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessages, setNewMessages] = useState(null);
+  const [textMess, setTextMess] = useState("");
+  const [notifications, setNotifications] = useState([]);
+  const messagesEndRef = useRef(null);
+  const unreadNotifications = unreadNotificationFunc(notifications);
+
+  const toggleChatBox = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+    if (!isOpen) {
+      markAllNotificationAsRead();
+    }
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const newSocket = io("http://localhost:3001");
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.emit("addNewUser", uid);
+  }, [socket, uid]);
+
+  useEffect(() => {
+    if (!socket || !newMessages) return;
+    const recipientId = userChat?.members?.find((id) => id !== uid);
+    socket.emit("sendMess", { ...newMessages, recipientId });
+  }, [newMessages, userChat, uid, socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("getMess", (res) => {
+      if (userChat?._id !== res.chatId) return;
+      setMessages((prev) => [...prev, res]);
+    });
+
+    socket.on("getNotification", (res) => {
+      const isChatOpen = userChat?.members.some((id) => id === res.senderId);
+      if (isChatOpen && isOpen) {
+        const updatedNotifications = [
+          { ...res, isRead: true },
+          ...notifications,
+        ];
+        setNotifications(updatedNotifications);
+      } else {
+        const updatedNotifications = [res, ...notifications];
+        setNotifications(updatedNotifications);
+      }
+    });
+
+    return () => {
+      socket.off("getMess");
+      socket.off("getNotification");
+    };
+  }, [userChat, socket, isOpen, notifications]);
+
+  useEffect(() => {
+    const getUserChats = async () => {
+      try {
+        if (uid) {
+          const res = await getChat(uid);
+          setUserChat(res[0]);
+        } else {
+          Swal.fire({
+            icon: "info",
+            text: "Please login.",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUserChats();
+  }, [uid]);
+
+  useEffect(() => {
+    if (!userChat?._id) return;
+
+    const fetchChatMessages = async () => {
+      try {
+        const res = await getMess(userChat._id);
+        setMessages(res);
+        scrollToBottom();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchChatMessages();
+  }, [userChat]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const sendTextMess = async () => {
+    if (textMess.trim() === "") {
+      Swal.fire({
+        icon: "info",
+        text: "Please enter a message before sending.",
+      });
+      return;
+    }
+    try {
+      const res = await postMess(userChat._id, textMess, uid);
+      setNewMessages(res);
+      setMessages((prevMessages) => [...prevMessages, res]);
+      setTextMess("");
+      scrollToBottom();
+    } catch (error) {
+      console.error("Error sending message:", error);
+      Swal.fire({
+        icon: "error",
+        text: "An error occurred while sending the message. Please try again.",
+      });
+    }
+  };
+
+  const markAllNotificationAsRead = useCallback(() => {
+    const updatedNotifications = notifications.map((n) => ({
+      ...n,
+      isRead: true,
+    }));
+    setNotifications(updatedNotifications);
+  }, [notifications]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendTextMess();
+    }
+  };
+
+  return (
+    <div className="chatbox__container">
+      {!isOpen && (
+        <div className="chatbox__icon__container">
+          <Image
+            src={Logo}
+            className="chatbox__icon"
+            alt=""
+            onClick={toggleChatBox}
+          />
+          {unreadNotifications.length > 0 && (
+            <div className="chatbox__notifi__count">
+              <span>{unreadNotifications.length}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {isOpen && (
+        <div className="chatbox__content">
+          <div className="chatbox__header">
+            <p>Customer Support Department</p>
+            <FontAwesomeIcon
+              className="chatbox__iconOut"
+              icon={faCircleXmark}
+              onClick={toggleChatBox}
+            />
+          </div>
+          <ChatBoxMess
+            uid={uid}
+            messages={messages}
+            messagesEndRef={messagesEndRef}
+          />
+          <div className="chatbox__input">
+            <input
+              value={textMess}
+              type="text"
+              onKeyDown={handleKeyDown}
+              onChange={(e) => setTextMess(e.target.value)}
+              placeholder="Type your message..."
+            />
+            <button onClick={sendTextMess}>Send</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ChatBox;

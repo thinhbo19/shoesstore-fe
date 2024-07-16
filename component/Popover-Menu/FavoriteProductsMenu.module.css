@@ -1,0 +1,84 @@
+.favoriteProductsMenu {
+  position: absolute;
+  padding: 16px;
+  width: 380px;
+  top: 2.5rem;
+  right: 0;
+  background-color: #edb26c;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.favoriteProductsMenu ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.favoriteProductsMenu ul h3 {
+  text-align: center;
+  color: #ffffff;
+  font-style: italic;
+}
+
+.favoriteProductsMenu li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.favoriteProductsMenu li:hover {
+  transform: scale(1.05);
+}
+
+.favoriteProductsMenu ul li .imgName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.favoriteProductsMenu img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.namePro,
+.pricePro {
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.favoriteProductsMenu .noFavorite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.favoriteProductsMenu span {
+  margin: 0;
+  color: black;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.btnAllFavoritePro {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+}
+
+.btnAllFavoritePro:hover {
+  color: blue;
+}
