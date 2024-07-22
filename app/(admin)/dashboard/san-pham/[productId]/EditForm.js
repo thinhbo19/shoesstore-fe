@@ -7,8 +7,8 @@ import "./SanPhamAdmin.css";
 import "./EditSanPham.css";
 import axios from "axios";
 import { usePathname } from "next/navigation";
-import { getOneProduct } from "@/services/Redux/api";
 import Loading from "@/component/Loading/Loading";
+import { getOneProduct } from "@/services/Redux/handle/hanldeProduct";
 
 const EditForm = () => {
   const accessToken = useSelector(selectAccessToken);
