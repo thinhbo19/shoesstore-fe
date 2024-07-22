@@ -209,7 +209,7 @@ const ChatBox = () => {
               onInit={(_evt, editor) => (editorRef.current = editor)}
               initialValue="<p>Nhập tin nhắn.</p>"
               init={{
-                height: 50,
+                height: 10,
                 menubar: false,
                 plugins: [
                   "advlist autolink lists link image charmap preview anchor",
@@ -222,7 +222,9 @@ const ChatBox = () => {
                 statusbar: false,
               }}
             />
-            <button onClick={sendTextMess}>Send</button>
+            <button className="btn__sendermess" onClick={sendTextMess}>
+              Send
+            </button>
           </div>
         </div>
       )}

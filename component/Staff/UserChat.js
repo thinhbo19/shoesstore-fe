@@ -1,7 +1,7 @@
 import { useFetchRecipient } from "@/hooks/useFetchRecipient";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Button } from "@mui/material";
+import { Avatar } from "@mui/material";
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import DOMPurify from "dompurify";
@@ -152,7 +152,7 @@ const UserChat = ({
               }}
               apiKey="06txmbmjzqjj2tbcgqgwvs8xzubupbhjzun5zodh0as2q07u"
               onInit={(_evt, editor) => (editorRef.current = editor)}
-              initialValue="<p>Nhập tin nhắn.</p>"
+              initialValue="<p>Nhập tin nhắn</p>"
               init={{
                 height: 100,
                 menubar: false,
@@ -167,7 +167,9 @@ const UserChat = ({
                 statusbar: false,
               }}
             />
-            <Button onClick={() => sendTextMess()}>Gửi</Button>
+            <button className="senderbtn" onClick={() => sendTextMess()}>
+              Gửi
+            </button>
           </div>
         </>
       ) : null}

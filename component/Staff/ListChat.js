@@ -6,6 +6,7 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { unreadNotificationFunc } from "@/utils/NotificationFunc";
 import { useFetchLatestMessages } from "@/hooks/useFetchLatestMessages";
 import DOMPurify from "dompurify";
+import { formatDate } from "@/hooks/useFormatTime";
 
 const ListChat = ({
   filteredUserChatList,
@@ -18,13 +19,6 @@ const ListChat = ({
   setNotifications,
   newMessages,
 }) => {
-  const chatIds = filteredUserChatList.map((user) => user.chatId);
-  const { latestMessages } = useFetchLatestMessages(
-    chatIds,
-    notifications,
-    newMessages
-  );
-
   const thisIsUserNotifications = useCallback(
     (userId) => {
       const unreadNotifications = unreadNotificationFunc(notifications);
@@ -80,7 +74,6 @@ const ListChat = ({
       </div>
       <div className="listchat__main">
         {filteredUserChatList.map((user) => {
-          const latestMess = latestMessages[user.chatId];
           return (
             <div
               key={user._id}
@@ -106,17 +99,9 @@ const ListChat = ({
               <div className="listchat__info">
                 <div className="username__mess">
                   <p className="username__listchat">{user.username}</p>
-                  <div
-                    className="mess"
-                    dangerouslySetInnerHTML={{
-                      __html: latestMess
-                        ? DOMPurify.sanitize(latestMess.text)
-                        : "No message yet",
-                    }}
-                  />
                 </div>
                 <div className="listchat__date">
-                  <p className="date__listchat">19/03/2003</p>
+                  <p className="date__listchat"></p>
                   {thisIsUserNotifications(user._id).length > 0 && (
                     <p className="notification__listchat">
                       {thisIsUserNotifications(user._id).length}
