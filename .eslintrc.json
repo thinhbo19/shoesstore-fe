@@ -1,6 +1,7 @@
 {
-  "extends": ["next", "prettier"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
-    "react/react-in-jsx-scope": "off"
+    "prettier/prettier": "error"
   }
 }
