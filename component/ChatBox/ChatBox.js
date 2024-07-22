@@ -14,6 +14,8 @@ import { selectUid } from "@/services/Redux/user/useSlice";
 import { getChat, getMess, postMess } from "@/services/Redux/handle/handleChat";
 import { Editor } from "@tinymce/tinymce-react";
 
+const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001";
+
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [socket, setSocket] = useState(null);
@@ -45,7 +47,7 @@ const ChatBox = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io(`${socketUrl}`);
     setSocket(newSocket);
 
     return () => {

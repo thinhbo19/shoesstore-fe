@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import io from "socket.io-client";
 
+const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001";
+
 const Staff = ({ allUser }) => {
   const uid = useSelector(selectUid);
   const accessToken = useSelector(selectAccessToken);
@@ -55,7 +57,7 @@ const Staff = ({ allUser }) => {
   };
 
   useEffect(() => {
-    const newSocket = io("http://localhost:3001");
+    const newSocket = io(`${socketUrl}`);
     setSocket(newSocket);
 
     return () => {
