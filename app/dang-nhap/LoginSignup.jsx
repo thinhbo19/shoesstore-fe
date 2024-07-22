@@ -6,7 +6,7 @@ import Signup from "./DangKy";
 import ForgotPass from "./QuenMK";
 import Container from "@mui/material/Container";
 
-export const LoginSignup = () => {
+const LoginSignup = () => {
   useEffect(() => {
     localStorage.removeItem("cart");
     localStorage.removeItem("cartList");
@@ -20,3 +20,5 @@ export const LoginSignup = () => {
     </Container>
   );
 };
+
+export default LoginSignup;
