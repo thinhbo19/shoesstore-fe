@@ -13,6 +13,8 @@ import Loading from "@/component/Loading/Loading";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import DifferentProduct from "@/component/Slider/DifferentProduct";
 import Image from "next/image";
+import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
+import { getAllVoucher } from "@/services/Redux/fetchData/useFetchData";
 
 const MaGiamGiaShop = () => {
   const [freeShipVoucher, setFreeShipVoucher] = useState([]);
@@ -35,14 +37,11 @@ const MaGiamGiaShop = () => {
   const fetchData = async () => {
     try {
       if (accessToken) {
-        const resUser = await axios.get("http://localhost:8000/user/current/", {
-          headers: { token: `Bearer ${accessToken}` },
-        });
+        const resUser = await getUserCurrent(accessToken);
+        const res = await getAllVoucher();
 
-        const res = await axios.get("http://localhost:8000/coupon");
-
-        const voucherRes = res.data.data;
-        const voucherInUser = resUser.data.user.Coupon;
+        const voucherRes = res;
+        const voucherInUser = resUser.Coupon;
 
         const freeShipVouchers = voucherRes.filter(
           (voucher) => !voucherInUser.includes(voucher._id)
@@ -50,9 +49,9 @@ const MaGiamGiaShop = () => {
 
         setFreeShipVoucher(freeShipVouchers);
       } else {
-        const res = await axios.get("http://localhost:8000/coupon");
+        const res = await getAllVoucher();
 
-        const voucherRes = res.data.data;
+        const voucherRes = res;
         setFreeShipVoucher(voucherRes);
       }
     } catch (error) {

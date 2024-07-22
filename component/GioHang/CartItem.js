@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "react-router-dom";
-import { getOneProduct } from "../../service/api";
+import Link from "next/link";
+import { handleProductID } from "@/utils/hanleGet";
+import { useDispatch } from "react-redux";
+import { getOneProduct } from "@/services/Redux/handle/hanldeProduct";
+import { slugify } from "@/utils/slugify";
 
 const CartItem = ({
   cart,
@@ -14,6 +17,9 @@ const CartItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedQuantity, setEditedQuantity] = useState(cart.count);
   const [isChecked, setIsChecked] = useState(false);
+  const [remainingQuantity, setRemainingQuantity] = useState(0);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -23,8 +29,12 @@ const CartItem = ({
         );
 
         if (foundProduct) {
-          setSelectedProduct(
-            foundProduct.quantity.find((item) => item.size === cart.size)
+          const selectedSize = foundProduct.quantity.find(
+            (item) => item.size === cart.size
+          );
+          setSelectedProduct(selectedSize);
+          setRemainingQuantity(
+            selectedSize ? selectedSize.numberOfSize - cart.count : 0
           );
         }
       } catch (error) {
@@ -33,16 +43,16 @@ const CartItem = ({
     };
 
     fetchProductDetails();
-  }, [cart.product, cart.size]);
+  }, [cart.product, cart.size, cart.count, setSelectedProduct]);
 
-  const remainingQuantity = selectedProduct
-    ? selectedProduct.numberOfSize - editedQuantity
-    : 0;
   const handleSave = () => {
     updateCartQuantityOnServer(cart.product, cart.size, editedQuantity);
     setIsEditing(false);
     setIsChecked(false);
     localStorage.removeItem("cartList");
+    setRemainingQuantity(
+      selectedProduct ? selectedProduct.numberOfSize - editedQuantity : 0
+    );
   };
 
   const handleCheckboxChange = (e) => {
@@ -86,22 +96,29 @@ const CartItem = ({
           type="checkbox"
           checked={isChecked}
           onChange={handleCheckboxChange}
-        />{" "}
-        <Link to={`/chitietsanpham/${cart.product}`}>
+        />
+        <Link
+          href={`/san-pham/${slugify(cart.name)}`}
+          onClick={() => handleProductID(dispatch, cart.product)}
+        >
           <img src={cart.img} alt="" />
         </Link>
         <div className="infoNameSize">
-          <p style={{ fontWeight: "bold", fontSize: "1.8rem" }}>{cart.name}</p>
-          <p style={{ fontSize: "1.6rem" }}>Size: {cart.size}</p>
+          <p style={{ fontWeight: "bold", fontSize: "1rem" }}>{cart.name}</p>
+          <p style={{ fontSize: "1rem" }}>Size: {cart.size}</p>
         </div>
       </div>
       <div className="cart1Right">
         <div className="cartMain">
+          <p style={{ fontSize: "0.8rem", textAlign: "left" }}>
+            (còn {remainingQuantity})
+          </p>
           <div className="inputQuantity">
             <input
               className="inputNumberField"
               type="number"
               value={isEditing ? editedQuantity : cart.count}
+              readOnly={!isEditing}
               onChange={(e) => {
                 onQuantityChange(e);
                 setEditedQuantity(Number(e.target.value));
@@ -122,9 +139,11 @@ const CartItem = ({
           </div>
         </div>
 
-        <p>{(cart.price * cart.count).toLocaleString()} VNĐ</p>
+        <p style={{ fontSize: "1.4rem" }}>
+          {(cart.price * cart.count).toLocaleString()} VNĐ
+        </p>
         <DeleteIcon
-          style={{ fontSize: "3rem", cursor: "pointer", flex: "1" }}
+          style={{ fontSize: "1.6rem", cursor: "pointer", flex: "1" }}
           onClick={onDeleteProduct}
           className="deleteProduct"
         />

@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const HandleLogout = () => {
     dispatch(setLogout());
-    router.push("/login");
+    router.push("/dang-nhap");
   };
 
   return (
@@ -63,9 +63,9 @@ const Navbar = () => {
 
               <li className="nav__item">
                 <Link
-                  href="/dashboard/Voucher"
+                  href="/dashboard/voucher"
                   className={`nav__link__admin ${
-                    currentPath === "/dashboard/Voucher" ? "active" : ""
+                    currentPath === "/dashboard/voucher" ? "active" : ""
                   }`}
                 >
                   Voucher
@@ -74,9 +74,9 @@ const Navbar = () => {
 
               <li className="nav__item">
                 <Link
-                  href="/dashboard/Order"
+                  href="/dashboard/don-hang"
                   className={`nav__link__admin ${
-                    currentPath === "/dashboard/Order" ? "active" : ""
+                    currentPath === "/dashboard/don-hang" ? "active" : ""
                   }`}
                 >
                   Đơn Hàng
@@ -85,9 +85,9 @@ const Navbar = () => {
 
               <li className="nav__item">
                 <Link
-                  href="/dashboard/Users"
+                  href="/dashboard/tai-khoan"
                   className={`nav__link__admin ${
-                    currentPath === "/dashboard/Users" ? "active" : ""
+                    currentPath === "/dashboard/tai-khoan" ? "active" : ""
                   }`}
                 >
                   Tài Khoản
@@ -105,9 +105,9 @@ const Navbar = () => {
               </li>
               <li className="nav__item">
                 <Link
-                  href="/dashboard/Statistical"
+                  href="/dashboard/thong-ke"
                   className={`nav__link__admin ${
-                    currentPath === "/dashboard/Statistical" ? "active" : ""
+                    currentPath === "/dashboard/thong-ke" ? "active" : ""
                   }`}
                 >
                   Thông Kê

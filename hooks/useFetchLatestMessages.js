@@ -1,22 +1,26 @@
+import { getMess } from "@/services/Redux/handle/handleChat";
 import { useEffect, useState } from "react";
-import { getMess } from "../services/apiChat";
 
-export const useFetchLatestMessages = (chat, notifications, newMessages) => {
-  const [latestMess, setLatestMess] = useState(null);
+export const useFetchLatestMessages = (chatIds, notifications, newMessages) => {
+  const [latestMessages, setLatestMessages] = useState({});
 
   useEffect(() => {
     const fetchLatestMessages = async () => {
       try {
-        const res = await getMess(chat?._id);
-        const latestMessage = res[res?.length - 1];
-        setLatestMess(latestMessage);
+        const messages = {};
+        for (const chatId of chatIds) {
+          const res = await getMess(chatId);
+          const latestMessage = res[res.length - 1];
+          messages[chatId] = latestMessage;
+        }
+        setLatestMessages(messages);
       } catch (error) {
         console.error("Error fetching latest messages:", error);
       }
     };
 
     fetchLatestMessages();
-  }, [newMessages, notifications, chat]);
+  }, [chatIds, notifications, newMessages]);
 
-  return { latestMess };
+  return { latestMessages };
 };

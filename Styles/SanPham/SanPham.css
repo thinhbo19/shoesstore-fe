@@ -222,11 +222,9 @@
 
 .productList {
   flex: 6.5;
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;
-  margin-right: 20px;
   margin-left: 20px;
   background-color: #ffffff;
 }
@@ -234,14 +232,17 @@
 .productList ul {
   list-style: none;
   padding: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .product-item {
-  width: 16.3rem;
+  width: 16rem;
   height: 20rem;
+  margin-bottom: 5px;
   border-radius: 5px;
-  margin: 10px;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -301,14 +302,15 @@
 }
 
 .page-controller .btn-page {
-  padding: 10px 15px;
+  height: 40px;
+  width: 40px;
   margin: 0 5px;
   background: white;
   border: 3px solid black;
   border-radius: 50%;
   color: black;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.2s;
 }
@@ -334,4 +336,39 @@
 
 .page-controller .btn-page-arrow:hover {
   transform: scale(1.5);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1350px) {
+  .productList ul {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+  }
+  .product-item {
+    width: 15.5rem;
+    height: 18rem;
+  }
+  .product-item .imgMain {
+    width: 15.5rem;
+    height: 14rem;
+  }
+}
+
+@media (max-width: 1150px) {
+  .productList ul {
+    grid-template-columns: repeat(3, 1fr); /* 2 columns for smaller screens */
+  }
+  .product-item {
+    width: 12.5rem;
+    height: 14rem;
+  }
+  .product-item .imgMain {
+    width: 12.5rem;
+    height: 10rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .productList ul {
+    grid-template-columns: repeat(1, 1fr); /* 1 column for mobile screens */
+  }
 }

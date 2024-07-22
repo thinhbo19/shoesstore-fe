@@ -1,0 +1,58 @@
+.Users__container {
+  min-height: 100vh;
+  position: relative;
+}
+
+.img__td {
+  width: 80px;
+  height: 80px;
+}
+
+.round-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid #868484;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.round-checkbox:checked {
+  background-color: rgb(255, 6, 6);
+  border-color: rgb(243, 0, 0);
+}
+
+.round-checkbox-role {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #868484;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.round-checkbox-role:checked {
+  background-color: green;
+  border-color: green;
+}
+
+.round-checkbox-user {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid #868484;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}

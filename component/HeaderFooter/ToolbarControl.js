@@ -223,7 +223,10 @@ const ToolbarControl = () => {
                       THÔNG TIN
                     </Typography>
                   </Link>
-                  <Link className="link-item" href="/lich-su-mua-hang">
+                  <Link
+                    className="link-item"
+                    href="/thong-tin/lich-su-mua-hang"
+                  >
                     <Typography
                       className="setting-item"
                       sx={{

@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { useRouter } from "next/navigation";
 
 const BtnControlHis = () => {
   const [selectedOption, setSelectedOption] = useState("Tất Cả");
@@ -21,10 +22,12 @@ const BtnControlHis = () => {
   const [processingOrder, setProcessingOrder] = useState([]);
   const [shippingOrder, setShippingOrder] = useState([]);
   const [successOrder, setSuccessOrder] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     fetchData();
-  });
+  }, [accessToken]);
+
   const fetchData = async () => {
     try {
       const res = await axios.get("http://localhost:8000/order/", {
@@ -60,6 +63,10 @@ const BtnControlHis = () => {
     setSelectedOption(option);
   };
 
+  const handleOrderDetailPage = (orderId) => {
+    router.push(`/chi-tiet-don-hang/${orderId}`);
+  };
+
   const menuOptions = [
     "Tất Cả",
     "Chờ Xác Nhận",
@@ -76,6 +83,7 @@ const BtnControlHis = () => {
         <ConfirmComponent
           fetchData={fetchData}
           processingOrder={processingOrder}
+          handleOrderDetailPage={handleOrderDetailPage}
         />
       );
       break;
@@ -85,6 +93,7 @@ const BtnControlHis = () => {
           accessToken={accessToken}
           fetchData={fetchData}
           shippingOrder={shippingOrder}
+          handleOrderDetailPage={handleOrderDetailPage}
         />
       );
       break;
@@ -94,6 +103,7 @@ const BtnControlHis = () => {
           accessToken={accessToken}
           successOrder={successOrder}
           fetchData={fetchData}
+          handleOrderDetailPage={handleOrderDetailPage}
         />
       );
       break;
@@ -103,6 +113,7 @@ const BtnControlHis = () => {
           accessToken={accessToken}
           cancleOrder={cancleOrder}
           fetchData={fetchData}
+          handleOrderDetailPage={handleOrderDetailPage}
         />
       );
       break;
@@ -112,6 +123,7 @@ const BtnControlHis = () => {
           accessToken={accessToken}
           allOrder={allOrder}
           fetchData={fetchData}
+          handleOrderDetailPage={handleOrderDetailPage}
         />
       );
   }

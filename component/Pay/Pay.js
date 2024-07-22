@@ -1,13 +1,13 @@
+import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import {
   PayPalScriptProvider,
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectAccessToken } from "../../service/userSlice";
-import { useNavigate } from "react-router";
 
 const style = { layout: "horizontal" };
 
@@ -22,7 +22,7 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
   };
   const cartData = getCartData();
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch({
@@ -78,7 +78,7 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
       });
       localStorage.removeItem("cart");
       localStorage.removeItem("cartList");
-      navigate("/thongtin/lichsumuahang");
+      router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {
       console.log(error);
     }

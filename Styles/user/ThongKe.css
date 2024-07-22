@@ -1,0 +1,99 @@
+.midcontent {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+}
+.midcontent .dateThongKe {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.midcontent .dateThongKe .dateThongKeField {
+  height: 100%;
+  width: 200px;
+  background-color: #e1dfdf;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.midcontent .dateThongKe .dateThongKeField .dateThongKeItem {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 2;
+}
+.midcontent .dateThongKe .dateThongKeField .dateThongKeItem p {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: bold;
+}
+.midcontent .dateThongKe .dateThongKeField .dateThongKeItem input {
+  width: 40%;
+  padding: 5px;
+}
+
+.midcontent .dateThongKe .dateThongKeField .btnYearField {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btnYear {
+  width: 100px;
+  height: 30px;
+}
+/* ------------------------------------------------------- */
+.midcontent .infoThongKe {
+  flex: 2;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.midcontent .infoThongKe .tongdonanddoanhthu {
+  width: 250px;
+  height: 100%;
+  background-color: #fdd9d9;
+  border-radius: 20px;
+  display: flex;
+}
+.midcontent .infoThongKe .tongdonanddoanhthu .tongdonanddoanhthu-right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+.midcontent .infoThongKe .tongdonanddoanhthu .tongdonanddoanhthu-right p {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.statistical__title {
+  margin: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.midcontent .infoThongKe .tongdonanddoanhthu .tongdonanddoanhthu-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imgtongdonanddoanhthu {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+}
+
+/* ----------------------------------------------------------- */
+.botContent {
+  width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

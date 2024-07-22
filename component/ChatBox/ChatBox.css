@@ -67,7 +67,7 @@
   margin: 15px 10px;
   padding: 10px;
   border-radius: 10px;
-  max-width: 80%;
+  max-width: 100%;
   word-wrap: break-word;
 }
 
@@ -87,6 +87,8 @@
   position: absolute;
   font-size: 0.75rem;
   color: #999;
+  width: 200px;
+  margin-top: 10px;
 }
 
 .mess_server .timemess {
@@ -107,12 +109,12 @@ pre {
   word-wrap: break-word;
 }
 
-.chatbox__input {
+/* .chatbox__input {
   display: flex;
   align-items: center;
   padding: 10px;
   background-color: #f0f0f0;
-}
+} */
 
 .chatbox__input input {
   flex: 1;
@@ -135,4 +137,8 @@ pre {
 
 .chatbox__input button:hover {
   background-color: #0056b3;
+}
+.mess_p img {
+  width: 200px;
+  height: auto;
 }

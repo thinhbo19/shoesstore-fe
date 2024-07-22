@@ -8,11 +8,12 @@
   color: #ee4d2d;
   display: flex;
 }
-.giohang .iconHeaderCart {
-  font-size: 3.1rem;
+.giohang .headerCart .h2__cart {
+  font-size: 2rem;
   border-bottom: 1px solid #ee4d2d;
 }
-.giohang h1 {
+.giohang .iconHeaderCart {
+  font-size: 2.45rem;
   border-bottom: 1px solid #ee4d2d;
 }
 
@@ -36,9 +37,7 @@
   align-items: center;
   padding: 10px;
 }
-.cart1Left h2 {
-  margin-left: 20px;
-}
+
 .sumMoney {
   font-size: 3rem;
   margin: 0;
@@ -66,7 +65,7 @@
 .cart1Right .p {
   flex: 1;
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.3rem;
   text-align: center;
 }
 
@@ -178,6 +177,7 @@
   flex: 1;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -188,13 +188,13 @@
   justify-content: center;
 }
 .inputNumberField {
-  width: 4px;
+  width: 50px;
   text-align: center;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin: 0 4px;
-} 
+}
 .addQuantityBTN {
   flex: 1;
   height: 30px;

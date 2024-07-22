@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import CustomSnackbar from "@/component/Snakbar/CustomSnackbar";
+import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 
 export const ThongTin = () => {
   const dispatch = useDispatch();
@@ -26,16 +27,12 @@ export const ThongTin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/user/current", {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        });
-        setIdUser(res.data.user._id);
-        setUsername(res.data.user.username);
-        setEmail(res.data.user.email);
-        setPhoneNumber(res.data.user.phoneNumber);
-        const rawDate = res.data.user.Date;
+        const res = await getUserCurrent(accessToken);
+        setIdUser(res._id);
+        setUsername(res.username);
+        setEmail(res.email);
+        setPhoneNumber(res.phoneNumber);
+        const rawDate = res.Date;
         const dateObject = new Date(rawDate);
         setNgay(dateObject.getUTCDate());
         setThang(dateObject.getUTCMonth() + 1);

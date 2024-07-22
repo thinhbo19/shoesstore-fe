@@ -4,7 +4,12 @@ import { renderTextStatus } from "./SettingOrder";
 import { Button } from "@mui/material";
 import axios from "axios";
 
-const ConfirmComponent = ({ accessToken, processingOrder, fetchData }) => {
+const ConfirmComponent = ({
+  accessToken,
+  processingOrder,
+  fetchData,
+  handleOrderDetailPage,
+}) => {
   const Swal = require("sweetalert2");
 
   const handlePutStatus = async (orderId, newStatus) => {
@@ -67,6 +72,12 @@ const ConfirmComponent = ({ accessToken, processingOrder, fetchData }) => {
     <div className="item-list">
       {processingOrder.slice(0, 30).map((order) => (
         <div className="item-order" key={order._id}>
+          <div
+            className="info__order__detail"
+            onClick={() => handleOrderDetailPage(order._id)}
+          >
+            <p className="p__info__order__detail">Xem chi tiết</p>
+          </div>
           <div className="orderleft">
             {(order.products || []).map((product) => (
               <div className="product-order" key={product._id}>

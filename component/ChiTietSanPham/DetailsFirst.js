@@ -219,7 +219,7 @@ const DetailsFirst = ({ product }) => {
         localStorage.setItem("cart", JSON.stringify([data]));
 
         setIsCart(true);
-        router.push(`/thanhtoan/${product._id}`);
+        router.push(`/thanh-toan-ngay`);
         setSelectedSize(null);
         setQuantity(0);
         setIsCart(false);

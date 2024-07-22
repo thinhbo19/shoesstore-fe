@@ -20,3 +20,11 @@ export const deleteProduct = async (accessToken, id) => {
     throw error;
   }
 };
+export const getOneProduct = async (productId) => {
+  try {
+    const response = await axios.get(`${apiUrlProduct}?_id=${productId}`);
+    return response.data.productDatas;
+  } catch (error) {
+    console.error("Có lỗi xảy ra:", error);
+  }
+};

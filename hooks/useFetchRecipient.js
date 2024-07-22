@@ -1,5 +1,5 @@
+import { getUserById } from "@/services/Redux/handle/hanldeUser";
 import { useEffect, useState } from "react";
-import { getUsersForChat } from "../services/apiUser";
 
 export const useFetchRecipient = (chat, userId, accessToken) => {
   const [recipientUser, setRecipientUser] = useState(null);
@@ -9,7 +9,7 @@ export const useFetchRecipient = (chat, userId, accessToken) => {
   useEffect(() => {
     const getUser = async () => {
       if (!recipientId) return;
-      const res = await getUsersForChat(accessToken, recipientId);
+      const res = await getUserById(accessToken, recipientId);
       setRecipientUser(res);
     };
     getUser();

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import "../../../../Styles/user/ThongTinNguoiDung.css";
 import BtnControlHisLis from "../../../../component/ControlHistoryList/BtnControlHis";
+import "../../../../Styles/user/ThongTinNguoiDung.css";
 
 const LichSuMuaHang = () => {
   return (

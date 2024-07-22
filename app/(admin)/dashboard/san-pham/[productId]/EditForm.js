@@ -99,11 +99,7 @@ const EditForm = () => {
       formData.append(`quantity[${index}][numberOfSize]`, item.numberOfSize);
     });
     for (let i = 0; i < productEdit.images.length; i++) {
-      if (typeof productEdit.images[i] === "string") {
-        formData.append("images", productEdit.images[i]);
-      } else {
-        formData.append("images", productEdit.images[i]);
-      }
+      formData.append("images", productEdit.images[i]);
     }
     try {
       const res = await axios.put(

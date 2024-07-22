@@ -178,7 +178,7 @@ const Categories = ({ cateData }) => {
 
   return (
     <section className="Categories maincontainer section" id="Categories">
-      <div className="categories__container ">
+      <div className="categories__container">
         <h2 className="section_title">Quản lý danh mục</h2>
         <div className="action__from">
           <Box

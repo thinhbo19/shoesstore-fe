@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import "./NoitificationMenu.css";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
-import { getUserCurrent } from "@/services/Redux/api";
+import { getUserCurrentCart } from "@/services/Redux/handle/hanldeUser";
 
 const NoitificationMenu = () => {
   const [userData, setUserData] = useState([]);
@@ -15,7 +15,7 @@ const NoitificationMenu = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userdata = await getUserCurrent(accessToken);
+        const userdata = await getUserCurrentCart(accessToken);
         setUserData(userdata);
         // Tính số lượng thông báo
         let count = 0;

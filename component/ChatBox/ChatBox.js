@@ -3,15 +3,16 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./ChatBox.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import Logo from "../../app/favicon.ico";
+import Logo from "../../public/logo.svg";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import ChatBoxMess from "./ChatBoxMess";
 import Swal from "sweetalert2";
-import { getChat, getMess, postMess } from "../../services/apiChat";
 import { unreadNotificationFunc } from "../../utils/NotificationFunc";
 import Image from "next/image";
 import { selectUid } from "@/services/Redux/user/useSlice";
+import { getChat, getMess, postMess } from "@/services/Redux/handle/handleChat";
+import { Editor } from "@tinymce/tinymce-react";
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,7 @@ const ChatBox = () => {
   const [notifications, setNotifications] = useState([]);
   const messagesEndRef = useRef(null);
   const unreadNotifications = unreadNotificationFunc(notifications);
+  const editorRef = useRef(null);
 
   const toggleChatBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -198,12 +200,27 @@ const ChatBox = () => {
             messagesEndRef={messagesEndRef}
           />
           <div className="chatbox__input">
-            <input
+            <Editor
               value={textMess}
-              type="text"
-              onKeyDown={handleKeyDown}
-              onChange={(e) => setTextMess(e.target.value)}
-              placeholder="Type your message..."
+              onEditorChange={(content) => {
+                setTextMess(content);
+              }}
+              apiKey="06txmbmjzqjj2tbcgqgwvs8xzubupbhjzun5zodh0as2q07u"
+              onInit={(_evt, editor) => (editorRef.current = editor)}
+              initialValue="<p>Nhập tin nhắn.</p>"
+              init={{
+                height: 50,
+                menubar: false,
+                plugins: [
+                  "advlist autolink lists link image charmap preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table code help wordcount",
+                ],
+                toolbar: "",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                statusbar: false,
+              }}
             />
             <button onClick={sendTextMess}>Send</button>
           </div>

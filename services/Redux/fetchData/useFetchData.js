@@ -1,4 +1,10 @@
-import { apiUrlBrand, apiUrlCategory, apiUrlProduct } from "@/services/config";
+import {
+  apiUrlBrand,
+  apiUrlCategory,
+  apiUrlProduct,
+  apiUrlUser,
+  apiUrlVocher,
+} from "@/services/config";
 import axios from "axios";
 
 export const getCategory = async () => {
@@ -41,6 +47,26 @@ export const getProductByIdProduct = async (productID) => {
   try {
     const res = await axios.get(`${apiUrlProduct}/${productID}`);
     return res;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+};
+
+export const getAllVoucher = async () => {
+  try {
+    const res = await axios.get(`${apiUrlVocher}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const res = await axios.get(`${apiUrlUser}`);
+    return res.data.user;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

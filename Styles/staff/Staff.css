@@ -1,0 +1,337 @@
+.staff__container {
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  height: 95vh;
+}
+/* listchat__container */
+.listchat__container {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid #f0f0f0;
+  position: relative;
+}
+.icon__logoutAdmin {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 1.4rem;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.title_btn_chat {
+  height: 15%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #dfdfdf;
+}
+.title_btn_chat .title__chat {
+  font-size: 1.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.title_btn_chat .btn_addChat {
+  width: 100px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* search__chat */
+.search-container {
+  background-color: #dfdfdf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 5px;
+  border-bottom: 5px solid #f0f0f0;
+}
+.icon__search {
+  position: absolute;
+  right: 10px;
+}
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+/*listchat__main  */
+.listchat__main {
+  height: 100%;
+  padding: 5px;
+}
+
+.listchat__item {
+  display: flex;
+  align-items: center;
+  background-color: #dfdfdf;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.listchat__img {
+  width: 20%;
+  position: relative;
+}
+.dot__online {
+  width: 15px;
+  height: 15px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+
+.listchat__info {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.listchat__info p {
+  margin: 0;
+}
+.mess {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.username__mess {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.username__listchat,
+.mess {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.username__listchat {
+  font-weight: bold;
+}
+.listchat__date {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: end;
+}
+.date__listchat {
+  text-align: right;
+}
+.notification__listchat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.7rem;
+  background-color: green;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+}
+
+/* userchat__container */
+.userchat__container {
+  padding: 0 10px;
+  margin: 0 10px;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.userchat__info {
+  height: 10%;
+  width: 100%;
+  background-color: #dfdfdf;
+  border-left: 5px solid #dfdfdf;
+  border-right: 5px solid #dfdfdf;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px 15px 0 0;
+}
+.userchat__name {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.userchat_username {
+  font-weight: bold;
+  margin-left: 10px;
+  font-size: 1.4rem;
+}
+
+.userchat__notification {
+  position: relative;
+}
+.userchat__notification__icon {
+  font-size: 1.6rem;
+  margin-right: 15px;
+  cursor: pointer;
+}
+/* userchat__mess */
+.userchat__mess {
+  height: 70%;
+  width: 100%;
+  overflow: auto;
+  border-left: 5px solid #dfdfdf;
+  border-right: 5px solid #dfdfdf;
+  border-bottom: 5px solid #dfdfdf;
+}
+.userchat__mess p {
+  margin: 0;
+}
+.mess.client,
+.mess.server {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+.mess.client {
+  align-items: flex-end;
+}
+.mess.server {
+  align-items: flex-start;
+}
+.messFromClient,
+.messFromServer {
+  width: 50%;
+  color: white;
+}
+.messFromClient {
+  display: flex;
+  justify-content: right;
+}
+.messFromClient .mess_p {
+  background-color: rgb(48, 139, 48);
+  color: white;
+}
+.messFromServer .mess_p {
+  background-color: #bababa;
+  color: white;
+}
+.mess_p {
+  border-radius: 10px;
+  padding: 5px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.mess_p img {
+  width: 200px;
+  height: auto;
+}
+/* userchat__input */
+.userchat__input {
+  width: 100%;
+  border-left: 5px solid #dfdfdf;
+  border-right: 5px solid #dfdfdf;
+  border-bottom: 5px solid #dfdfdf;
+}
+
+/* notifications__field */
+
+.notifications__field {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 250px;
+  background-color: green;
+  color: white;
+  border-radius: 10px;
+}
+
+.notification__length {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background-color: green;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.notification__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title__noti,
+.read__all {
+  margin: 5px;
+}
+.notification__list {
+  height: 200px;
+  width: 100%;
+  overflow: auto;
+}
+
+.notification__list::-webkit-scrollbar {
+  width: 5px; /* Độ rộng của thanh cuộn dọc */
+}
+
+.notification__list::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của đường dẫn thanh cuộn */
+  border-radius: 10px; /* Bo góc của đường dẫn thanh cuộn */
+}
+
+.notification__list::-webkit-scrollbar-thumb {
+  background: #888; /* Màu của thanh cuộn */
+  border-radius: 10px; /* Bo góc của thanh cuộn */
+  border: 3px solid #f1f1f1; /* Đường viền của thanh cuộn */
+}
+
+.notification__list::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu của thanh cuộn khi hover */
+}
+
+.notification__list::-webkit-scrollbar-corner {
+  background: #f1f1f1; /* Màu nền của góc dưới bên phải */
+}
+
+.title__noti {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.read__all:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notification__item {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  cursor: pointer;
+  border: 2px solid #dfdfdf;
+}
+.notification__item.notRead {
+  background-color: #c5c5c5;
+}
+
+.notification__item p {
+  margin: 5px;
+}

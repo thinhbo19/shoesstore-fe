@@ -277,8 +277,8 @@
   display: flex;
 }
 .imgName img {
-  width: 150px;
-  height: 150px;
+  /* width: 150px; */
+  /* height: 150px; */
   margin-right: 10px;
   object-fit: cover;
 }
@@ -299,17 +299,17 @@
 /* +______________________________________________________ */
 .content-infor.voucher {
   background-color: white;
-  padding: 2rem 12rem;
+  padding: 2rem 2rem;
 }
 .info-coupon {
   width: 100%;
   height: 100%;
 }
-.info-coupon h3 {
-  text-align: left;
-  font-weight: bold;
-  margin-left: 2px;
-  font-size: 1.5rem;
+.icon-remove {
+  position: absolute;
+  right: 5px;
+  color: red;
+  cursor: pointer;
 }
 /* ----------------------------------------------------- */
 .headerDMK {

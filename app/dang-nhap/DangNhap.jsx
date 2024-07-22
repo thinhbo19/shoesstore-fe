@@ -63,7 +63,6 @@ const Login = () => {
       dispatch(setAdmin(user.role));
       dispatch(setLogin(true));
       dispatch(setUID(user._id));
-      console.log(user.role);
       if (user.role === "Admin") {
         router.push("/dashboard");
       }
@@ -75,12 +74,18 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.error("Đăng nhập không thành công", error);
-      Swal.fire({
-        icon: "warring",
-        title:
-          "Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu",
-      });
+      if (error.response.status === 400) {
+        Swal.fire({
+          icon: "warning",
+          title: error.response.data.message,
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title:
+            "Đăng nhập không thành công. Vui lòng kiểm tra tên đăng nhập và mật khẩu",
+        });
+      }
     }
   };
 

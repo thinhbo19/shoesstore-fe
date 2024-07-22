@@ -6,12 +6,14 @@ import {
   faUser,
   faEye,
   faEyeSlash,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { Box } from "@mui/material";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { createChat } from "@/services/Redux/handle/handleChat";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -22,6 +24,7 @@ const Signup = () => {
   const [message, setMessage] = useState("");
   const [messageServerity, setMessageServerity] = useState("");
   const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -47,6 +50,7 @@ const Signup = () => {
     setUsername("");
     setEmail("");
     setPassword("");
+    setPhoneNumber("");
   };
 
   const togglePasswordVisibility = () => {
@@ -58,6 +62,7 @@ const Signup = () => {
     setIsSigningUp(true);
     const userDataToSend = {
       username: username,
+      phoneNumber: phoneNumber,
       email: email,
       password: password,
     };
@@ -72,6 +77,7 @@ const Signup = () => {
           icon: "success",
           title: "Bạn đã đăng ký tài khoản thành công",
         });
+        await createChat();
         clearFields();
         toggleWrapperRemove();
       } else {
@@ -112,6 +118,19 @@ const Signup = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <label htmlFor="username">Họ và tên</label>
+          </div>
+          <div className="input-box">
+            <span className="icon">
+              <FontAwesomeIcon icon={faPhone} />
+            </span>
+            <input
+              type="text"
+              name="mobile"
+              required
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <label htmlFor="username">Số điện thoại</label>
           </div>
           <div className="input-box">
             <span className="icon">

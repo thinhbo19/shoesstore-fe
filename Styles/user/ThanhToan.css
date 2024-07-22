@@ -12,7 +12,7 @@
   font-size: 3.1rem;
   border-bottom: 1px solid #ee4d2d;
 }
-.thanhtoan h1 {
+.thanhtoan h3 {
   border-bottom: 1px solid #ee4d2d;
 }
 .thanhtoansecond {
@@ -79,9 +79,12 @@
   .addressField
   .noaddress {
   margin: 0;
-  font-size: 2rem;
+  font-size: 1.3rem;
 }
-
+.noaddress {
+  margin: 0;
+  font-size: 1.3rem;
+}
 .infoaddress {
   width: 100%;
   display: flex;
@@ -89,12 +92,13 @@
   align-items: center;
 }
 .infoaddress .address-left {
-  flex: 1;
+  flex: 2;
   font-size: 1rem;
   text-decoration: underline;
+  margin: 0;
 }
 .infoaddress .address {
-  font-size: 1.6rem;
+  font-size: 1rem;
   flex: 5;
   font-weight: bold;
   margin: 0;
@@ -140,25 +144,38 @@
 .main-5 .payCart {
   margin-left: 20px;
   flex: 1;
-  height: 50px;
+  height: 60px;
+  background-color: #ee4d2d;
+  color: white;
 }
 .main-5 .voucherischoose {
-  flex: 5;
+  flex: 6;
   height: 100%;
 }
 .main-5 .voucherischoose p {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.3rem;
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
 }
 
 .main-5 .voucherischoose .voucher-list-container {
-  height: 100px;
+  height: 100%;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  margin-left: 20px;
+}
+.voucher-list-container-information {
+  background-color: white;
+  height: 100px;
+  padding: 5px;
 }
 .main-5 .voucherischoose .voucher-list-container img {
   width: 100px;
@@ -234,13 +251,17 @@
   flex-direction: column;
   justify-content: space-around;
   margin-left: 7px;
+  width: 250px;
 }
 .itemProductOrder .bottom1 .bottom1Right h1 {
   border: none;
   font-size: 1.4rem;
 }
-.itemProductOrder .bottom1 .bottom1Right p {
+.itemProductOrder .bottom1 .bottom1Right .item__payment {
   font-size: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .itemProductOrder .bottom2 {
@@ -284,7 +305,7 @@ textarea {
 
 .thanhtoanrightLast {
   width: 100%;
-  height: 20vh;
+  height: 25vh;
   margin-top: 10px;
   background-color: #ffffff;
   display: flex;
@@ -313,26 +334,24 @@ textarea {
   justify-content: center;
   align-items: flex-start;
 }
-.cost2 h2 {
-  margin: 10px 0;
-  color: #ee4d2d;
-}
+
 .thanhtoanrightLast-2 {
   flex: 1;
   background-color: #ffffff;
   height: 100%;
   display: flex;
   justify-content: end;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
 }
 .btnPayment {
-  width: 120px;
+  width: 250px;
   height: 40px;
   margin: 10px;
   border-radius: 10px;
   background-color: #ee4d2d;
   color: #ffffff;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 .btnPayment:hover {
   background-color: #f79784;

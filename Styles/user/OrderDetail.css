@@ -1,0 +1,109 @@
+.order__detail {
+  display: flex;
+  min-height: 80vh;
+  margin: 10px;
+  padding: 10px;
+}
+
+/* order__detail__products */
+.order__detail .order__detail__products {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.order__detail__products__top {
+  height: 80%;
+  /* margin-bottom: 55px; */
+}
+.order__detail__h3 {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  border: 1px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.order__detail__products__top .products__hasBuy {
+  overflow: auto;
+  height: 90%;
+  border-bottom: 1px solid #ebebeb;
+}
+/* Tùy chỉnh thanh cuộn */
+.products__hasBuy::-webkit-scrollbar {
+  width: 8px; /* Chiều rộng của thanh cuộn dọc */
+  height: 8px; /* Chiều cao của thanh cuộn ngang */
+}
+
+.products__hasBuy::-webkit-scrollbar-thumb {
+  background: #888; /* Màu của thanh kéo */
+  border-radius: 4px; /* Bo góc thanh kéo */
+}
+
+.products__hasBuy::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu của thanh kéo khi hover */
+}
+
+.products__hasBuy::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh cuộn */
+}
+.product__items {
+  display: flex;
+  margin: 10px 0;
+}
+.product__items:hover {
+  background-color: #f1f1f1;
+}
+.product__info {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+.product__info__name {
+  font-size: 0.8rem;
+  margin: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  font-weight: bold;
+}
+.product__info__detail {
+  font-size: 0.8rem;
+  margin: 2px;
+}
+.product__info__detail.price {
+  color: red;
+}
+.link-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: end;
+}
+.link-product {
+  font-size: 0.7rem;
+}
+
+.order__detail__products__bot {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.order__detail__products__bot_price,
+.order__detail__products__bot_count {
+  display: flex;
+}
+.product__info__totalPrice {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 5px;
+}
+.product__info__totalPrice.count {
+  color: rgb(22, 247, 74);
+}
+.product__info__totalPrice.price {
+  color: red;
+}
+/* order__detail__user */
+.order__detail .order__detail__user {
+  width: 60%;
+}

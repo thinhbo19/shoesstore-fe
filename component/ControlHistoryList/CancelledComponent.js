@@ -4,7 +4,12 @@ import { renderTextStatus } from "./SettingOrder";
 import { Button } from "@mui/material";
 import axios from "axios";
 
-const CancelledComponent = ({ accessToken, cancleOrder, fetchData }) => {
+const CancelledComponent = ({
+  accessToken,
+  cancleOrder,
+  fetchData,
+  handleOrderDetailPage,
+}) => {
   const Swal = require("sweetalert2");
 
   const handlePutStatus = async (orderId, newStatus) => {
@@ -55,6 +60,12 @@ const CancelledComponent = ({ accessToken, cancleOrder, fetchData }) => {
     <div className="item-list">
       {cancleOrder.slice(0, 30).map((order) => (
         <div className="item-order" key={order._id}>
+          <div
+            className="info__order__detail"
+            onClick={() => handleOrderDetailPage(order._id)}
+          >
+            <p className="p__info__order__detail">Xem chi tiết</p>
+          </div>
           <div className="orderleft">
             {(order.products || []).map((product) => (
               <div className="product-order" key={product._id}>
