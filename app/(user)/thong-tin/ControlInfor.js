@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { usePathname } from "next/navigation";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import Link from "next/link";
+import { apiUrlUser } from "@/services/config";
 
 const style = {
   position: "absolute",
@@ -51,7 +52,7 @@ const ControlInfor = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/user/current", {
+        const res = await axios.get(`${apiUrlUser}/current`, {
           headers: {
             token: `Bearer ${accessToken}`,
           },
@@ -78,16 +79,12 @@ const ControlInfor = () => {
       formData.append("Avatar", file);
 
       try {
-        const response = await axios.put(
-          "http://localhost:8000/user/update/",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              token: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.put(`${apiUrlUser}/update/`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: `Bearer ${accessToken}`,
+          },
+        });
 
         setNewAvartar(response.data.user.Avatar);
         handleOpenSnackbar("CẬP NHẬT ẢNH ĐẠI DIỆN THÀNH CÔNG", "info");

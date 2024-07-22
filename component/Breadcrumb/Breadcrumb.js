@@ -3,6 +3,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { apiUrlCategory, apiUrlProduct } from "@/services/config";
 
 const Breadcrumb = () => {
   const location = useLocation();
@@ -72,9 +73,7 @@ const Breadcrumb = () => {
 
   const fetchData = async (productId) => {
     try {
-      const res = await axios.get(
-        `http://localhost:8000/product?_id=${productId}`
-      );
+      const res = await axios.get(`${apiUrlProduct}?_id=${productId}`);
       setProduct(res.data.productDatas);
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -82,7 +81,7 @@ const Breadcrumb = () => {
   };
   const fetchDataCate = async (CatetId) => {
     try {
-      const res = await axios.get(`http://localhost:8000/Category/${CatetId}`);
+      const res = await axios.get(`${apiUrlCategory}/${CatetId}`);
       setCate(res.data.getOneCategory);
     } catch (error) {
       console.error("Error fetching product data:", error);

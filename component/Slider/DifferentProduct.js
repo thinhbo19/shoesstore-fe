@@ -9,6 +9,7 @@ import "./Sliders.css";
 import Link from "next/link";
 import { handleProductID } from "@/utils/hanleGet";
 import { useDispatch } from "react-redux";
+import { apiUrlProduct } from "@/services/config";
 
 const DifferentProduct = () => {
   const [productData, setProductData] = useState([]);
@@ -19,9 +20,7 @@ const DifferentProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allProductsResponse = await axios.get(
-          "http://localhost:8000/product"
-        );
+        const allProductsResponse = await axios.get(`${apiUrlProduct}`);
         const allProducts = allProductsResponse.data.productDatas;
         setProductData(allProducts);
       } catch (error) {

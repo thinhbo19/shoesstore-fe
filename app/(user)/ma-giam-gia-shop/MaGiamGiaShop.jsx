@@ -15,6 +15,7 @@ import DifferentProduct from "@/component/Slider/DifferentProduct";
 import Image from "next/image";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import { getAllVoucher } from "@/services/Redux/fetchData/useFetchData";
+import { apiUrlUser } from "@/services/config";
 
 const MaGiamGiaShop = () => {
   const [freeShipVoucher, setFreeShipVoucher] = useState([]);
@@ -90,7 +91,7 @@ const MaGiamGiaShop = () => {
     if (userConfirmed.isConfirmed) {
       try {
         await axios.put(
-          "http://localhost:8000/user/addCoupon",
+          `${apiUrlUser}/addCoupon`,
           {
             cpid: voucherID,
           },

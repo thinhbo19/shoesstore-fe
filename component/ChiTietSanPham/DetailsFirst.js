@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { useRouter } from "next/navigation";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
+import { apiUrlUser } from "@/services/config";
 
 const DetailsFirst = ({ product }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -25,12 +27,8 @@ const DetailsFirst = ({ product }) => {
 
   const fetchData = async () => {
     try {
-      const userRes = await axios.get("http://localhost:8000/user/current", {
-        headers: {
-          token: `Bearer ${accessToken}`,
-        },
-      });
-      const favorites = userRes.data.user.Favorites;
+      const userRes = await getUserCurrent(accessToken);
+      const favorites = userRes.Favorites;
       const isProductInFavorites = favorites.some(
         (favorite) => favorite === product._id
       );
@@ -92,7 +90,7 @@ const DetailsFirst = ({ product }) => {
     setIsFavorite(!isFavorite);
     try {
       const response = await axios.put(
-        `http://localhost:8000/user/favorites/${product._id}`,
+        `${apiUrlUser}/favorites/${product._id}`,
         null,
         {
           headers: {
@@ -157,7 +155,7 @@ const DetailsFirst = ({ product }) => {
       setIsCart(true);
       try {
         await axios.put(
-          "http://localhost:8000/user/Cart",
+          `${apiUrlUser}/Cart`,
           {
             pid: productId,
             name: product.productName,

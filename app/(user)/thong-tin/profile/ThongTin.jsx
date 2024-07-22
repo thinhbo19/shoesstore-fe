@@ -6,6 +6,7 @@ import axios from "axios";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import CustomSnackbar from "@/component/Snakbar/CustomSnackbar";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
+import { apiUrlUser } from "@/services/config";
 
 export const ThongTin = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ export const ThongTin = () => {
     formData.append("phoneNumber", phoneNumber);
     formData.append("Date", new Date(`${nam}-${thang}-${ngay}`));
     try {
-      await axios.put(`http://localhost:8000/user/update/${idUser}`, formData, {
+      await axios.put(`${apiUrlUser}/update/${idUser}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: `Bearer ${accessToken}`,

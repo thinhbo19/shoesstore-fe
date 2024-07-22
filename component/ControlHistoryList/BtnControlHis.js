@@ -13,6 +13,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { useRouter } from "next/navigation";
+import { apiUrlOrder } from "@/services/config";
 
 const BtnControlHis = () => {
   const [selectedOption, setSelectedOption] = useState("Tất Cả");
@@ -30,7 +31,7 @@ const BtnControlHis = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/order/", {
+      const res = await axios.get(`${apiUrlOrder}`, {
         headers: {
           token: `Bearer ${accessToken}`,
         },

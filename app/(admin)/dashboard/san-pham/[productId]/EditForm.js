@@ -9,6 +9,7 @@ import axios from "axios";
 import { usePathname } from "next/navigation";
 import Loading from "@/component/Loading/Loading";
 import { getOneProduct } from "@/services/Redux/handle/hanldeProduct";
+import { apiUrlProduct } from "@/services/config";
 
 const EditForm = () => {
   const accessToken = useSelector(selectAccessToken);
@@ -102,16 +103,12 @@ const EditForm = () => {
       formData.append("images", productEdit.images[i]);
     }
     try {
-      const res = await axios.put(
-        `http://localhost:8000/product/${productId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await axios.put(`${apiUrlProduct}/${productId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: `Bearer ${accessToken}`,
+        },
+      });
       Swal.fire({
         icon: "success",
         title: "Đã chỉnh sửa sản phẩm thành công",

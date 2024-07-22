@@ -18,6 +18,7 @@ import {
   setUID,
 } from "@/services/Redux/user/useSlice";
 import { useDispatch } from "react-redux";
+import { apiUrlUser } from "@/services/config";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -53,10 +54,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8000/user/login",
-        formData
-      );
+      const response = await axios.post(`${apiUrlUser}/login`, formData);
       const user = response.data.user;
       const accessToken = response.data.accessToken;
       dispatch(setAccessToken(accessToken));

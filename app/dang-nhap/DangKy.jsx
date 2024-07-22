@@ -14,6 +14,7 @@ import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { createChat } from "@/services/Redux/handle/handleChat";
+import { apiUrlUser } from "@/services/config";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -69,7 +70,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/user/register",
+        `${apiUrlUser}/register`,
         userDataToSend
       );
       if (response.data) {

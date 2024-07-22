@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import CustomSnackbar from "../Snakbar/CustomSnackbar";
 import CommentItem from "./CommentItem";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { apiUrlProduct, apiUrlUser } from "@/services/config";
 
 const DetailThird = ({ product }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,11 +52,11 @@ const DetailThird = ({ product }) => {
   const fetchData = async () => {
     try {
       const productResponse = await axios.get(
-        `http://localhost:8000/product?_id=${idProduct}`
+        `${apiUrlProduct}?_id=${idProduct}`
       );
 
       if (accessToken) {
-        const userResponse = await axios.get("http://localhost:8000/user", {
+        const userResponse = await axios.get(`${apiUrlUser}`, {
           headers: {
             token: `Bearer ${accessToken}`,
           },
@@ -131,16 +132,12 @@ const DetailThird = ({ product }) => {
     // Sử dụng console.log để hiển thị dữ liệu từ formDataObject
     console.log(formDataObject);
     try {
-      await axios.post(
-        `http://localhost:8000/product/rating/${idProduct}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      await axios.post(`${apiUrlProduct}/rating/${idProduct}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: `Bearer ${accessToken}`,
+        },
+      });
       setOpen(false);
       Swal.fire({
         icon: "success",

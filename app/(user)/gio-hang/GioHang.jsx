@@ -15,6 +15,7 @@ import {
   getDeleteAllCartUser,
   getUserCurrentCart,
 } from "@/services/Redux/handle/hanldeUser";
+import { apiUrlUser } from "@/services/config";
 
 const GioHang = () => {
   const accessToken = useSelector(selectAccessToken);
@@ -111,14 +112,11 @@ const GioHang = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(
-          `http://localhost:8000/user/Cart/${productID}/${size}`,
-          {
-            headers: {
-              token: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        await axios.delete(`${apiUrlUser}/Cart/${productID}/${size}`, {
+          headers: {
+            token: `Bearer ${accessToken}`,
+          },
+        });
         Swal.fire({
           title: "Đã Xóa Thành Công!!!",
           icon: "success",
@@ -143,7 +141,7 @@ const GioHang = () => {
   const updateCartQuantityOnServer = async (productID, size, newCount) => {
     try {
       await axios.put(
-        `http://localhost:8000/user/Cart/`,
+        `${apiUrlUser}/Cart/`,
         {
           pid: `${productID}`,
           size: `${size}`,

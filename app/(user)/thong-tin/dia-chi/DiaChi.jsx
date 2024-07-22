@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import ThemDiaChi from "@/component/ThongTinUser/ThemDiaChi";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { apiUrlUser } from "@/services/config";
 
 const DiaChi = () => {
   const [username, setUsername] = useState("");
@@ -25,7 +26,7 @@ const DiaChi = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/user/current", {
+      const res = await axios.get(`${apiUrlUser}/current`, {
         headers: {
           token: `Bearer ${accessToken}`,
         },
@@ -57,7 +58,7 @@ const DiaChi = () => {
     setIsDeletingAddress(true);
     event.preventDefault();
     try {
-      await axios.delete("http://localhost:8000/user/address", {
+      await axios.delete(`${apiUrlUser}/address`, {
         headers: {
           token: `Bearer ${accessToken}`,
         },

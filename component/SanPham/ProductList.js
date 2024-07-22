@@ -15,6 +15,7 @@ import Link from "next/link";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { slugify } from "@/utils/slugify";
 import { handleProductID } from "@/utils/hanleGet";
+import { apiUrlUser } from "@/services/config";
 
 const marks = [
   {
@@ -184,7 +185,7 @@ const ProductItem = ({ product, addFavorite }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/user/current", {
+        const res = await axios.get(`${apiUrlUser}/current`, {
           headers: {
             token: `Bearer ${accessToken}`,
           },

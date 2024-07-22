@@ -6,6 +6,7 @@ import MuiAlert from "@mui/material/Alert";
 import { useParams } from "react-router";
 import axios from "axios";
 import Loading from "../../../component/Loading/Loading";
+import { apiUrlUser } from "@/services/config";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -35,7 +36,7 @@ const ResetPass = () => {
     setLoading(true);
 
     try {
-      await axios.put("http://localhost:8000/user/resetpassword", {
+      await axios.put(`${apiUrlUser}/resetpassword`, {
         password,
         token,
       });

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import { selectAccessToken, setLogout } from "@/services/Redux/user/useSlice";
 import "../../../../Styles/user/ThongTinNguoiDung.css";
+import { apiUrlUser } from "@/services/config";
 
 const DoiMatKhau = () => {
   const accessToken = useSelector(selectAccessToken);
@@ -50,7 +51,7 @@ const DoiMatKhau = () => {
     formData.append("password", newPassword);
 
     try {
-      await axios.put(`http://localhost:8000/user/update/${idUser}`, formData, {
+      await axios.put(`${apiUrlUser}/update/${idUser}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: `Bearer ${accessToken}`,

@@ -12,6 +12,7 @@ import { getAllOrder } from "@/services/Redux/api";
 import { getAllUsers } from "@/services/Redux/fetchData/useFetchData";
 import List from "./List";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { apiUrlOrder } from "@/services/config";
 
 const returnValue = (status) => {
   switch (status) {
@@ -92,7 +93,7 @@ const HoaDon = ({ orderArrAll }) => {
 
       if (result.isConfirmed) {
         await axios.put(
-          `http://localhost:8000/order/status/${oid}`,
+          `${apiUrlOrder}/status/${oid}`,
           { status: "Shipping" },
           {
             headers: {

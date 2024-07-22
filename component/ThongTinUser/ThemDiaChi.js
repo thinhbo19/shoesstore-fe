@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../app/(user)/thong-tin/ControlInfor.css";
 import axios from "axios";
 import "./ThemDiaChi.css";
+import { apiUrlUser } from "@/services/config";
 
 const ThemDiaChi = ({ accessToken, setIsAddAddressOpen }) => {
   const [diachi, setDiachi] = useState("");
@@ -14,7 +15,7 @@ const ThemDiaChi = ({ accessToken, setIsAddAddressOpen }) => {
 
     try {
       await axios.put(
-        "http://localhost:8000/user/address",
+        `${apiUrlUser}/address`,
         {
           address: diachi,
         },

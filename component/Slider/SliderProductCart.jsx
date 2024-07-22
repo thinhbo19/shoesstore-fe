@@ -10,6 +10,7 @@ import Link from "next/link";
 import { handleProductID } from "@/utils/hanleGet";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProductID } from "@/services/Redux/product/productSlice";
+import { apiUrlProduct } from "@/services/config";
 
 const SliderProductCart = () => {
   const [productData, setProductData] = useState([]);
@@ -21,11 +22,9 @@ const SliderProductCart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allProductsResponse = await axios.get(
-          "http://localhost:8000/product"
-        );
+        const allProductsResponse = await axios.get(`${apiUrlProduct}`);
         const productResponse = await axios.get(
-          `http://localhost:8000/product/?_id=${productId}`
+          `${apiUrlProduct}/?_id=${productId}`
         );
 
         const allProducts = allProductsResponse.data.productDatas;

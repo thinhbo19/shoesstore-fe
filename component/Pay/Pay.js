@@ -1,3 +1,4 @@
+import { apiUrlOrder, apiUrlUser } from "@/services/config";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import {
   PayPalScriptProvider,
@@ -37,7 +38,7 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
   const handleSaveOrder = async (payload) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/order/copy",
+        `${apiUrlOrder}/copy`,
         {
           ...payload,
         },
@@ -51,7 +52,7 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
       const oid = res.data.response._id;
 
       await axios.put(
-        `http://localhost:8000/order/status/${oid}`,
+        `${apiUrlOrder}/status/${oid}`,
         {
           status: "Processing",
         },
@@ -64,7 +65,7 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
 
       for (const product of cartData) {
         await axios.delete(
-          `http://localhost:8000/user/Cart/${product.product}/${product.size}`,
+          `${apiUrlUser}/Cart/${product.product}/${product.size}`,
           {
             headers: {
               token: `Bearer ${accessToken}`,

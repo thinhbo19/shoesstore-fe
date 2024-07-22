@@ -3,6 +3,7 @@ import "./ControlHis.css";
 import { renderTextStatus } from "./SettingOrder";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { apiUrlOrder } from "@/services/config";
 
 const ShippingComponent = ({
   accessToken,
@@ -26,7 +27,7 @@ const ShippingComponent = ({
       });
       if (result.isConfirmed) {
         await axios.put(
-          `http://localhost:8000/order/status/${orderId}`,
+          `${apiUrlOrder}/status/${orderId}`,
           { status: newStatus },
           {
             headers: {

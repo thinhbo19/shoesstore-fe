@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Box, Button } from "@mui/material";
 import axios from "axios";
+import { apiUrlUser } from "@/services/config";
 
 const ForgotPass = () => {
   const [email, setEmail] = useState("");
@@ -30,9 +31,7 @@ const ForgotPass = () => {
     setSaving(true);
 
     try {
-      await axios.post(
-        `http://localhost:8000/user/forgotPassword?email=${email}`
-      );
+      await axios.post(`${apiUrlUser}/forgotPassword?email=${email}`);
       Swal.fire({
         icon: "success",
         title: "Yêu cầu đã được gửi thành công! Hãy kiểm tra lại email của bạn",

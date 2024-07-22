@@ -11,6 +11,7 @@ import MuiAlert from "@mui/material/Alert";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { selectCateID } from "@/services/Redux/product/productSlice";
 import { getProductByIdCate } from "@/services/Redux/fetchData/useFetchData";
+import { apiUrlBrand, apiUrlUser } from "@/services/config";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -91,7 +92,7 @@ const SanPhamDanhMuc = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/user/favorites/${productId}`,
+        `${apiUrlUser}/favorites/${productId}`,
         null,
         {
           headers: {
@@ -115,7 +116,7 @@ const SanPhamDanhMuc = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/brand");
+        const response = await axios.get(`${apiUrlBrand}`);
         setBrands(response.data.Brands);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách thương hiệu:", error);

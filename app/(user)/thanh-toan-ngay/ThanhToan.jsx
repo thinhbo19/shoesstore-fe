@@ -12,6 +12,7 @@ import { getVouchers } from "@/services/Redux/handle/hanldeVoucher";
 import { useRouter } from "next/navigation";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import Image from "next/image";
+import { apiUrlOrder, apiUrlUser } from "@/services/config";
 
 const ThanhToan = () => {
   const accessToken = useSelector(selectAccessToken);
@@ -175,7 +176,7 @@ const ThanhToan = () => {
     }
     try {
       const createOrderResponse = await axios.post(
-        "http://localhost:8000/order/copy",
+        `${apiUrlOrder}/copy`,
         {
           products: cartData.map((selectedProduct) => ({
             product: selectedProduct.product,
@@ -197,7 +198,7 @@ const ThanhToan = () => {
       );
       const orderId = createOrderResponse.data.response._id;
       await axios.put(
-        `http://localhost:8000/order/status/${orderId}`,
+        `${apiUrlOrder}/status/${orderId}`,
         {
           status: "Processing",
         },
@@ -210,7 +211,7 @@ const ThanhToan = () => {
       });
       for (const product of cartData) {
         await axios.delete(
-          `http://localhost:8000/user/Cart/${product.product}/${product.size}`,
+          `${apiUrlUser}/Cart/${product.product}/${product.size}`,
           {
             headers: {
               token: `Bearer ${accessToken}`,
@@ -243,14 +244,11 @@ const ThanhToan = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(
-          `http://localhost:8000/user/Cart/${productId}/${size}`,
-          {
-            headers: {
-              token: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        await axios.delete(`${apiUrlUser}/Cart/${productId}/${size}`, {
+          headers: {
+            token: `Bearer ${accessToken}`,
+          },
+        });
         Swal.fire({
           title: "Đã Xóa Thành Công!!!",
           icon: "success",

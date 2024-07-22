@@ -1,4 +1,4 @@
-import { apiUrlVocher } from "@/services/config";
+import { apiUrlUser, apiUrlVocher } from "@/services/config";
 import axios from "axios";
 import { getAllVoucher } from "../fetchData/useFetchData";
 
@@ -61,7 +61,7 @@ export const getVouchers = async () => {
 export const removeVoucher = async (accessToken, voucherID) => {
   try {
     const res = axios.put(
-      "http://localhost:8000/user/removeCoupon",
+      `${apiUrlUser}/removeCoupon`,
       {
         cpid: voucherID,
       },

@@ -3,6 +3,7 @@ import "./ControlHis.css";
 import { renderTextStatus } from "./SettingOrder";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { apiUrlOrder } from "@/services/config";
 
 const CancelledComponent = ({
   accessToken,
@@ -15,7 +16,7 @@ const CancelledComponent = ({
   const handlePutStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:8000/order/status/${orderId}`,
+        `${apiUrlOrder}/status/${orderId}`,
         { status: newStatus },
         {
           headers: {

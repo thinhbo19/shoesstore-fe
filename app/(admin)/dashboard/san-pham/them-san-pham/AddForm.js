@@ -8,6 +8,7 @@ import "./SanPhamAdmin.css";
 import axios from "axios";
 import Loading from "@/component/Loading/Loading";
 import { useRouter } from "next/navigation";
+import { apiUrlProduct } from "@/services/config";
 
 const AddForm = ({ brand, Category }) => {
   const accessToken = useSelector(selectAccessToken);
@@ -95,7 +96,7 @@ const AddForm = ({ brand, Category }) => {
       formData.append("img", selectedImages[i]);
     }
     try {
-      const res = await axios.post("http://localhost:8000/product", formData, {
+      const res = await axios.post(`${apiUrlProduct}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: `Bearer ${accessToken}`,
