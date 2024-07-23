@@ -38,18 +38,15 @@ export const getCart = async (accessToken) => {
   }
 };
 
-export const getAllOrder = async (accessToken) => {
+export const getAllOrder = async () => {
   try {
-    const res = await axios.get(`${apiUrlOrder}/admin`, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axios.get(`${apiUrlOrder}/admin`);
     return res.data.response;
   } catch (error) {
     console.error("Có lỗi xảy ra:", error);
   }
 };
+
 export const getOrderDetail = async (accessToken, oid) => {
   try {
     const res = await axios.get(`${apiUrlOrder}/${oid}`, {

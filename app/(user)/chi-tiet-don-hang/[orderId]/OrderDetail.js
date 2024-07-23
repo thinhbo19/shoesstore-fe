@@ -12,10 +12,10 @@ import {
   getUserCurrent,
 } from "@/services/Redux/handle/hanldeUser";
 
-const OrderDetail = () => {
+const OrderDetail = ({ orderId }) => {
   const pathName = usePathname();
+  // const orderId = pathName.split("/").pop();
   const accessToken = useSelector(selectAccessToken);
-  const orderId = pathName.split("/").pop();
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState("");
   const [user, setUser] = useState(null);
