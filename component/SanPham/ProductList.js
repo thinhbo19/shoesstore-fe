@@ -180,7 +180,7 @@ const ProductItem = ({ product, handleaddFavorite }) => {
   const handleAddFavorite = (e) => {
     e.stopPropagation();
     setIsFavorites(!IsFavorite);
-    handleaddFavorite(product._id);
+    handleaddFavorite(product._id, setIsFavorites);
   };
   return (
     <>

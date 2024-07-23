@@ -91,10 +91,11 @@ const SanPhamDanhMuc = ({ categoryName, brands }) => {
 
     return filteredProducts;
   };
-  const handleaddFavorite = async (productId) => {
+  const handleaddFavorite = async (productId, setIsFavorites) => {
     if (!accessToken) {
       setMessage("BẠN CHƯA ĐĂNG NHẬP TÀI KHOẢN!");
       setMessageServerity("warning");
+      setIsFavorites(false);
       handleClick();
       return;
     }
