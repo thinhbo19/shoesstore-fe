@@ -37,23 +37,10 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
 
   const handleSaveOrder = async (payload) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${apiUrlOrder}/copy`,
         {
           ...payload,
-        },
-        {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const oid = res.data.response._id;
-
-      await axios.put(
-        `${apiUrlOrder}/status/${oid}`,
-        {
           status: "Processing",
         },
         {
@@ -105,8 +92,6 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
         onApprove={(data, actions) =>
           actions.order.capture().then(async (response) => {
             if (response.status === "COMPLETED") {
-              console.log(response);
-              console.log(payload);
               handleSaveOrder(payload);
             }
           })
