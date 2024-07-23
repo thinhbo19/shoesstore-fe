@@ -16,7 +16,6 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
   const [{ isPending, options }, dispatch] = usePayPalScriptReducer();
   const accessToken = useSelector(selectAccessToken);
   const Swal = require("sweetalert2");
-
   const getCartData = () => {
     const cartData = localStorage.getItem("cartList");
     return cartData ? JSON.parse(cartData) : [];
