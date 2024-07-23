@@ -21,7 +21,7 @@
   font-style: italic;
 }
 
-.favoriteProductsMenu li {
+.favoriteProductsMenu .li {
   display: flex;
   justify-content: space-between;
   align-items: center;

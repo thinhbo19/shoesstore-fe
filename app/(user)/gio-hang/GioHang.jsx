@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import "../../../Styles/user/GioHang.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Button } from "@mui/material";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { removeCard, selectAccessToken } from "@/services/Redux/user/useSlice";
 import DifferentProduct from "@/component/Slider/DifferentProduct";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -26,6 +26,7 @@ const GioHang = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const isCartEmpty = cartList.length === 0;
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const fetchUserCurrent = async () => {
     try {
@@ -122,6 +123,7 @@ const GioHang = () => {
           icon: "success",
         });
         localStorage.removeItem("cartList");
+        dispatch(removeCard(productID));
         fetchUserCurrent();
       }
     } catch (error) {

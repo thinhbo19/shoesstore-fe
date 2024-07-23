@@ -122,3 +122,20 @@ export const getAvatar = async (accessToken) => {
     console.error("Có lỗi xảy ra:", error);
   }
 };
+
+export const addFavorites = async (accessToken, productId) => {
+  try {
+    const response = await axios.put(
+      `${apiUrlUser}/favorites/${productId}`,
+      null,
+      {
+        headers: {
+          token: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error("Có lỗi xảy ra:", error);
+  }
+};

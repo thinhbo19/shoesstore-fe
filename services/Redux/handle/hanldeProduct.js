@@ -1,4 +1,4 @@
-import { apiUrlBrand, apiUrlProduct } from "@/services/config";
+import { apiUrlProduct } from "@/services/config";
 import axios from "axios";
 import { getProduct } from "../fetchData/useFetchData";
 

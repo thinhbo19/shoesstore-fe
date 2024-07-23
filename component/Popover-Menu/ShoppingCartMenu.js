@@ -1,43 +1,19 @@
-"use client";
-import styles from "./ShoppingCartMenu.module.css"; // Import CSS module
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
-import { getCart } from "@/services/Redux/api";
+import styles from "./ShoppingCartMenu.module.css";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { handleProductID } from "@/utils/hanleGet";
 import { slugify } from "@/utils/slugify";
 
-const ShoppingCartMenu = () => {
-  const [shoppingCart, setShoppingCart] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const accessToken = useSelector(selectAccessToken);
+const ShoppingCartMenu = ({ shoppingCart }) => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const cartList = await getCart(accessToken);
-        setShoppingCart(cartList.reverse());
-      } catch (error) {
-        console.error("Có lỗi xảy ra:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (accessToken) {
-      fetchData();
-    }
-  }, [accessToken]);
+  console.log(shoppingCart);
 
   return (
     <div className={styles.shoppingProductsMenu}>
       {shoppingCart.length === 0 ? (
         <div className={styles.noFavorite}>
-          {isLoading ? <>Loading...</> : <span>Giỏ Hàng Trống.</span>}
+          <span>Giỏ Hàng Trống.</span>
         </div>
       ) : (
         <ul>

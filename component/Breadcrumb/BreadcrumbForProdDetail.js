@@ -2,8 +2,6 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "next/link";
 
 const BreadcrumbForProdDetail = ({ productName }) => {
-  console.log(productName);
-
   return (
     <div
       style={{ backgroundColor: "#f0f0f0", height: "100%" }}

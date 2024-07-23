@@ -3,16 +3,21 @@ import React, { useState, useEffect } from "react";
 import PageController from "@/component/SanPham/PageController";
 import ProductList from "@/component/SanPham/ProductList";
 import Loading from "@/component/Loading/Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../../../../../Styles/SanPham/SanPham.css";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import {
+  addFavorite,
+  removeFavorite,
+  selectAccessToken,
+} from "@/services/Redux/user/useSlice";
 import { selectCateID } from "@/services/Redux/product/productSlice";
 import { getProductByIdCate } from "@/services/Redux/fetchData/useFetchData";
 import { apiUrlBrand, apiUrlUser } from "@/services/config";
 import BreadcrumbForCate from "@/component/Breadcrumb/BreadcrumbForCate";
+import { addFavorites } from "@/services/Redux/handle/hanldeUser";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -35,6 +40,7 @@ const SanPhamDanhMuc = ({ categoryName }) => {
   const [messageServerity, setMessageServerity] = useState("");
   const [loadingPage, setLoadingPage] = useState(false);
   const [productCountsByBrand, setProductCountsByBrand] = useState({});
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     setOpenSnackbar(true);
@@ -83,7 +89,7 @@ const SanPhamDanhMuc = ({ categoryName }) => {
 
     return filteredProducts;
   };
-  const addFavorite = async (productId) => {
+  const handleaddFavorite = async (productId) => {
     if (!accessToken) {
       setMessage("BẠN CHƯA ĐĂNG NHẬP TÀI KHOẢN!");
       setMessageServerity("warning");
@@ -92,22 +98,15 @@ const SanPhamDanhMuc = ({ categoryName }) => {
     }
 
     try {
-      const response = await axios.put(
-        `${apiUrlUser}/favorites/${productId}`,
-        null,
-        {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(response.data);
+      const response = await addFavorites(accessToken, productId);
       if (response.data.success === true) {
         setMessage("ĐÃ THÊM VÀO YÊU THÍCH!");
         setMessageServerity("success");
+        dispatch(addFavorite(productId));
       } else if (response.data.success === false) {
         setMessage("ĐÃ BỎ YÊU THÍCH SẢN PHẨM!");
         setMessageServerity("info");
+        dispatch(removeFavorite(productId));
       }
       handleClick();
     } catch (error) {
@@ -214,7 +213,7 @@ const SanPhamDanhMuc = ({ categoryName }) => {
           checkBrand={checkBrand}
           FilterBrand={FilterBrand}
           FilterPrice={FilterPrice}
-          addFavorite={addFavorite}
+          handleaddFavorite={handleaddFavorite}
           loadingPage={loadingPage}
           productCountsByBrand={productCountsByBrand}
         />

@@ -48,7 +48,7 @@ const ProductList = ({
   checkBrand,
   FilterBrand,
   FilterPrice,
-  addFavorite,
+  handleaddFavorite,
   loadingPage,
   currentSort,
   showFilterOptions,
@@ -155,7 +155,7 @@ const ProductList = ({
                 <ProductItem
                   key={product._id}
                   product={product}
-                  addFavorite={addFavorite}
+                  handleaddFavorite={handleaddFavorite}
                 />
               ))
           ) : (
@@ -177,7 +177,7 @@ const ProductList = ({
   );
 };
 
-const ProductItem = ({ product, addFavorite }) => {
+const ProductItem = ({ product, handleaddFavorite }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
@@ -207,7 +207,7 @@ const ProductItem = ({ product, addFavorite }) => {
   const handleAddFavorite = (e) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
-    addFavorite(product._id);
+    handleaddFavorite(product._id);
   };
 
   return (

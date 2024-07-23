@@ -7,7 +7,12 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector, useDispatch } from "react-redux";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import {
+  addCard,
+  addFavorite,
+  removeFavorite,
+  selectAccessToken,
+} from "@/services/Redux/user/useSlice";
 import { useRouter } from "next/navigation";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
@@ -105,6 +110,7 @@ const DetailsFirst = ({ product }) => {
           icon: "success",
           showConfirmButton: false,
         });
+        dispatch(addFavorite(productId._id));
       } else if (response.data.success === false) {
         Swal.fire({
           position: "top-end",
@@ -112,6 +118,7 @@ const DetailsFirst = ({ product }) => {
           icon: "info",
           showConfirmButton: false,
         });
+        dispatch(removeFavorite(productId._id));
       }
     } catch (error) {
       console.error("Có lỗi xảy ra:", error);
@@ -166,6 +173,7 @@ const DetailsFirst = ({ product }) => {
           },
           { headers: { token: `Bearer ${accessToken}` } }
         );
+        dispatch(addCard(productId));
         Swal.fire({
           title: "Thêm vào giỏ hàng thành công!",
           icon: "success",

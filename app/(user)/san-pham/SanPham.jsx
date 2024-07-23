@@ -1,17 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../../../Styles/SanPham/SanPham.css";
-import axios from "axios";
 import MuiAlert from "@mui/material/Alert";
 import PageController from "@/component/SanPham/PageController";
 import ProductList from "@/component/SanPham/ProductList";
 import Loading from "@/component/Loading/Loading";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import {
+  addFavorite,
+  removeFavorite,
+  selectAccessToken,
+} from "@/services/Redux/user/useSlice";
 import { getBrand, getProduct } from "@/services/Redux/fetchData/useFetchData";
-import { apiUrlUser } from "@/services/config";
 import BreadcrumbForProd from "@/component/Breadcrumb/BreadcrumbForProd";
+import { addFavorites } from "@/services/Redux/handle/hanldeUser";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -33,6 +36,7 @@ const SanPham = () => {
   const [messageServerity, setMessageServerity] = useState("");
   const [loadingPage, setLoadingPage] = useState(false);
   const [productCountsByBrand, setProductCountsByBrand] = useState({});
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     setOpenSnackbar(true);
@@ -81,7 +85,7 @@ const SanPham = () => {
 
     return filteredProducts;
   };
-  const addFavorite = async (productId) => {
+  const handleaddFavorite = async (productId) => {
     if (!accessToken) {
       setMessage("BẠN CHƯA ĐĂNG NHẬP TÀI KHOẢN!");
       setMessageServerity("warning");
@@ -90,21 +94,15 @@ const SanPham = () => {
     }
 
     try {
-      const response = await axios.put(
-        `${apiUrlUser}/favorites/${productId}`,
-        null,
-        {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const response = await addFavorites(accessToken, productId);
       if (response.data.success === true) {
         setMessage("ĐÃ THÊM VÀO YÊU THÍCH!");
         setMessageServerity("success");
+        dispatch(addFavorite(productId));
       } else if (response.data.success === false) {
         setMessage("ĐÃ BỎ YÊU THÍCH SẢN PHẨM!");
         setMessageServerity("info");
+        dispatch(removeFavorite(productId));
       }
       handleClick();
     } catch (error) {
@@ -212,7 +210,7 @@ const SanPham = () => {
           checkBrand={checkBrand}
           FilterBrand={FilterBrand}
           FilterPrice={FilterPrice}
-          addFavorite={addFavorite}
+          handleaddFavorite={handleaddFavorite}
           loadingPage={loadingPage}
           productCountsByBrand={productCountsByBrand}
         />

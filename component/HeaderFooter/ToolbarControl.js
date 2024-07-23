@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import {
   Button,
   IconButton,
@@ -19,17 +18,8 @@ import Link from "next/link";
 import FavoriteProductsMenu from "../Popover-Menu/FavoriteProductsMenu";
 import ShoppingCartMenu from "../Popover-Menu/ShoppingCartMenu";
 import NoitificationMenu from "../Popover-Menu/NoitificationMenu";
-import {
-  selectAdmin,
-  selectIsLoggedIn,
-  setLogout,
-  selectAccessToken,
-} from "../../services/Redux/user/useSlice";
-import useForceUpdate from "../../services/forceUpdate";
-import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import "./Headers.css";
 
-// Styled Badge component
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     border: `1px solid ${theme.palette.background.paper}`,
@@ -39,45 +29,24 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const ToolbarControl = () => {
+const ToolbarControl = ({
+  accessToken,
+  avatar,
+  badgeCart,
+  favoritesLeng,
+  cartLength,
+  isLoggedIn,
+  isAdmin,
+  notificationCount,
+  handleLogout,
+  allProducts,
+  favoriteProducts,
+  shoppingCart,
+}) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [favoriteMenuOpen, setFavoriteMenuOpen] = useState(false);
   const [shoppingCartMenuOpen, setShoppingCartMenuOpen] = useState(false);
   const [noitifiMenuOpen, setNoitifiMenuOpen] = useState(false);
-  const [badgeFavorites, setBadgeFavorites] = useState([]);
-  const [badgeCart, setBadgeCart] = useState([]);
-  const [avatar, setAvatar] = useState(null);
-  const [notificationCount, setNotificationCount] = useState(0);
-
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isAdmin = useSelector(selectAdmin);
-  const accessToken = useSelector(selectAccessToken);
-  const forceUpdate = useForceUpdate();
-
-  useEffect(() => {
-    const savedNotificationCount = localStorage.getItem("notificationCount");
-    if (savedNotificationCount) {
-      setNotificationCount(parseInt(savedNotificationCount, 10));
-    }
-
-    const fetchData = async () => {
-      try {
-        const userCurr = await getUserCurrent(accessToken);
-
-        setAvatar(userCurr.Avatar);
-        setBadgeFavorites(userCurr.Favorites);
-        setBadgeCart(userCurr.Cart);
-        forceUpdate();
-      } catch (error) {
-        console.error("Có lỗi xảy ra:", error);
-      }
-    };
-
-    if (accessToken) {
-      fetchData();
-    }
-  }, [accessToken, forceUpdate]);
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
@@ -91,17 +60,12 @@ const ToolbarControl = () => {
   const handleNoitifiIconMouseEnter = () => setNoitifiMenuOpen(true);
   const handleNoitifiIconMouseLeave = () => setNoitifiMenuOpen(false);
 
-  const handleLogout = () => {
-    dispatch(setLogout());
-    window.location.pathname = "/dang-nhap";
-  };
-
   return (
     <div
       className="toolbar-control"
       style={{ flexGrow: 0, marginLeft: "10px" }}
     >
-      {/* Shopping Cart Icon */}
+      {/* Shopping Cart Icon*/}
       <Link
         className="shoppingcart-hover"
         href="/gio-hang"
@@ -109,11 +73,13 @@ const ToolbarControl = () => {
         onMouseLeave={handleShoppingCartIconMouseLeave}
       >
         <IconButton>
-          <StyledBadge badgeContent={badgeCart.length}>
+          <StyledBadge badgeContent={cartLength.length}>
             <ShoppingCartOutlinedIcon fontSize="medium" />
           </StyledBadge>
         </IconButton>
-        {shoppingCartMenuOpen && <ShoppingCartMenu />}
+        {shoppingCartMenuOpen && (
+          <ShoppingCartMenu shoppingCart={shoppingCart} />
+        )}
       </Link>
 
       {/* Notification Icon */}
@@ -139,11 +105,17 @@ const ToolbarControl = () => {
         onMouseLeave={handleFavoriteIconMouseLeave}
       >
         <IconButton>
-          <StyledBadge badgeContent={badgeFavorites.length}>
+          <StyledBadge badgeContent={favoritesLeng?.length}>
             <FavoriteBorderIcon fontSize="medium" />
           </StyledBadge>
         </IconButton>
-        {favoriteMenuOpen && <FavoriteProductsMenu />}
+        {favoriteMenuOpen && (
+          <FavoriteProductsMenu
+            allProducts={allProducts}
+            accessToken={accessToken}
+            favoriteProducts={favoriteProducts}
+          />
+        )}
       </Link>
 
       {/* User Avatar */}
