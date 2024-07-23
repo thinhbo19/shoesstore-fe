@@ -19,11 +19,12 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Headers.css";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
-import { getUserFavorites, getAvatar, getCart } from "../../services/Redux/api";
+import { getUserFavorites, getCart } from "../../services/Redux/api";
 import { selectAccessToken } from "../../services/Redux/user/useSlice";
 import useForceUpdate from "../../services/forceUpdate";
 import NoitificationMenu from "../Popover-Menu/NoitificationMenu";
 import Link from "next/link";
+import { getAvatar } from "@/services/Redux/handle/hanldeUser";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -48,7 +49,6 @@ const ToolbarControl = () => {
   const forceUpdate = useForceUpdate();
   const [avatar, setAvatar] = useState(null);
   const [notificationCount, setNotificationCount] = useState(0);
-  // const noitiCount = localStorage.getItem("notificationCount");\
 
   useEffect(() => {
     let isMounted = true;

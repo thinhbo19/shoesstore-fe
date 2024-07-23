@@ -26,18 +26,7 @@ export const getAllProducts = async () => {
     throw error;
   }
 };
-export const getAvatar = async (accessToken) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/user/current`, {
-      headers: {
-        token: `Bearer ${accessToken}`,
-      },
-    });
-    return response.data.user.Avatar;
-  } catch (error) {
-    console.error("Có lỗi xảy ra:", error);
-  }
-};
+
 export const getCart = async (accessToken) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/user/current`, {

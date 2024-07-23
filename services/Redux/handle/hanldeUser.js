@@ -109,3 +109,16 @@ export const getUserById = async (accessToken, uid) => {
     console.error("Có lỗi xảy ra:", error);
   }
 };
+
+export const getAvatar = async (accessToken) => {
+  try {
+    const response = await axios.get(`${apiUrlUser}/current`, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data.user.Avatar;
+  } catch (error) {
+    console.error("Có lỗi xảy ra:", error);
+  }
+};
