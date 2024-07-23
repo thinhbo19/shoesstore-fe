@@ -4,7 +4,7 @@ import SanPhamDanhMuc from "./SanPhamDanhMuc";
 export async function generateStaticParams() {
   const Data = await getCategory();
   return Data.map((cate) => ({
-    categoryName: cate.productName,
+    categoryName: cate.categoryName,
   }));
 }
 
