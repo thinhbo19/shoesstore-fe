@@ -25,9 +25,8 @@ import {
   setLogout,
   selectAccessToken,
 } from "../../services/Redux/user/useSlice";
-import { getUserFavorites, getCart } from "../../services/Redux/api";
 import useForceUpdate from "../../services/forceUpdate";
-import { getAvatar } from "@/services/Redux/handle/hanldeUser";
+import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import "./Headers.css";
 
 // Styled Badge component
@@ -57,9 +56,6 @@ const ToolbarControl = () => {
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
-    let isMounted = true;
-
-    // Retrieve saved notification count from localStorage
     const savedNotificationCount = localStorage.getItem("notificationCount");
     if (savedNotificationCount) {
       setNotificationCount(parseInt(savedNotificationCount, 10));
@@ -67,17 +63,12 @@ const ToolbarControl = () => {
 
     const fetchData = async () => {
       try {
-        const [favorites, userAvatar, shoppingCart] = await Promise.all([
-          getUserFavorites(accessToken),
-          getAvatar(accessToken),
-          getCart(accessToken),
-        ]);
-        if (isMounted) {
-          setAvatar(userAvatar);
-          setBadgeFavorites(favorites);
-          setBadgeCart(shoppingCart);
-          forceUpdate();
-        }
+        const userCurr = await getUserCurrent(accessToken);
+
+        setAvatar(userCurr.Avatar);
+        setBadgeFavorites(userCurr.Favorites);
+        setBadgeCart(userCurr.Cart);
+        forceUpdate();
       } catch (error) {
         console.error("Có lỗi xảy ra:", error);
       }
@@ -86,10 +77,6 @@ const ToolbarControl = () => {
     if (accessToken) {
       fetchData();
     }
-
-    return () => {
-      isMounted = false;
-    };
   }, [accessToken, forceUpdate]);
 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
