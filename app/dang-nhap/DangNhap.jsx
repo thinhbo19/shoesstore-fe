@@ -14,6 +14,8 @@ import Loading from "@/component/Loading/Loading";
 import {
   setAccessToken,
   setAdmin,
+  setCartList,
+  setFavorites,
   setLogin,
   setUID,
 } from "@/services/Redux/user/useSlice";
@@ -58,6 +60,8 @@ const Login = () => {
       const user = response.data.user;
       const accessToken = response.data.accessToken;
       dispatch(setAccessToken(accessToken));
+      dispatch(setFavorites(user.Favorites));
+      dispatch(setCartList(user.Cart));
       dispatch(setAdmin(user.role));
       dispatch(setLogin(true));
       dispatch(setUID(user._id));

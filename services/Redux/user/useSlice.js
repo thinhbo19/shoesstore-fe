@@ -31,6 +31,12 @@ const userSlice = createSlice({
       state.favorites = [];
       state.cartList = [];
     },
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
+    setCartList: (state, action) => {
+      state.cartList = action.payload;
+    },
     addFavorite: (state, action) => {
       if (!state.favorites.includes(action.payload)) {
         state.favorites.push(action.payload);
@@ -58,6 +64,8 @@ export const {
   setAccessToken,
   setLogin,
   setLogout,
+  setFavorites,
+  setCartList,
   addFavorite,
   removeFavorite,
   addCard,

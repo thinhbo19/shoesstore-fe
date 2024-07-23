@@ -7,7 +7,6 @@ import { slugify } from "@/utils/slugify";
 
 const ShoppingCartMenu = ({ shoppingCart }) => {
   const dispatch = useDispatch();
-  console.log(shoppingCart);
 
   return (
     <div className={styles.shoppingProductsMenu}>
