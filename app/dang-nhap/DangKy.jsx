@@ -107,11 +107,12 @@ const Signup = () => {
       >
         <h2>TẠO TÀI KHOẢN</h2>
         <form onSubmit={fetchUserData}>
-          <div className="input-box">
+          <div className="input-box register">
             <span className="icon">
               <FontAwesomeIcon icon={faUser} />
             </span>
             <input
+              className="input__register"
               type="text"
               name="username"
               required
@@ -120,11 +121,12 @@ const Signup = () => {
             />
             <label htmlFor="username">Họ và tên</label>
           </div>
-          <div className="input-box">
+          <div className="input-box register">
             <span className="icon">
               <FontAwesomeIcon icon={faPhone} />
             </span>
             <input
+              className="input__register"
               type="text"
               name="mobile"
               required
@@ -133,11 +135,12 @@ const Signup = () => {
             />
             <label htmlFor="username">Số điện thoại</label>
           </div>
-          <div className="input-box">
+          <div className="input-box register">
             <span className="icon">
               <FontAwesomeIcon icon={faEnvelope} />
             </span>
             <input
+              className="input__register"
               type="email"
               name="email"
               required
@@ -146,8 +149,9 @@ const Signup = () => {
             />
             <label htmlFor="email">Email</label>
           </div>
-          <div className="input-box">
+          <div className="input-box register">
             <input
+              className="input__register"
               type={showPassword ? "text" : "password"}
               name="password"
               required
@@ -179,21 +183,6 @@ const Signup = () => {
                 ĐĂNG NHẬP
               </button>
             </p>
-          </div>
-          <div className="signInwith">
-            <div className="signInwithGoogle">
-              <span className="icon-SignIn">
-                <FontAwesomeIcon icon={faGoogle} />
-              </span>
-              <p>Đăng nhập với Google</p>
-            </div>
-            <h5> - HOẶC - </h5>
-            <div className="signInwithGitHub">
-              <span className="icon-SignIn">
-                <FontAwesomeIcon icon={faFacebook} />
-              </span>
-              <p>Đăng nhập với Facebook</p>
-            </div>
           </div>
         </form>
       </Box>

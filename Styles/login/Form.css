@@ -76,7 +76,12 @@
   position: relative;
   width: 450px;
   height: 15px;
-  margin: 2.5rem;
+}
+.form-box .input-box.login {
+  margin: 2.5rem 0 3rem 2.5rem;
+}
+.form-box .input-box.register {
+  margin: 2.5rem 0 4rem 2.5rem;
 }
 
 .form-box .input-box label {
@@ -97,9 +102,19 @@
   background-color: #fff;
 }
 
-.form-box .input-box input {
+.form-box .input-box .input__register {
   width: 100%;
   height: 100%;
+  font-size: 1rem;
+  border: 1px solid #000000;
+  padding: 15px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.form-box .input-box .input__login {
+  width: 100%;
+  /* height: 100%; */
   font-size: 1rem;
   border: 1px solid #000000;
   padding: 15px;

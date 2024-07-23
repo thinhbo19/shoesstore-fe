@@ -113,11 +113,12 @@ const Login = () => {
       >
         <h2>ĐĂNG NHẬP</h2>
         <form onSubmit={handleLogin}>
-          <div className="input-box">
+          <div className="input-box login">
             <span className="icon">
               <FontAwesomeIcon icon={faEnvelope} />
             </span>
             <input
+              className="input__login"
               type="email"
               name="email"
               value={formData.email}
@@ -127,11 +128,12 @@ const Login = () => {
             <label htmlFor="email">Email</label>
           </div>
 
-          <div className="input-box">
+          <div className="input-box login">
             <span className="icon" onClick={togglePasswordVisibility}>
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </span>
             <input
+              className="input__login"
               type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
