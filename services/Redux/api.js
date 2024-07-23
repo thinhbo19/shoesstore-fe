@@ -1,11 +1,9 @@
 import axios from "axios";
-import { apiUrlOrder } from "../config";
-
-const API_BASE_URL = "http://localhost:8000";
+import { apiUrlOrder, apiUrlProduct, apiUrlUser } from "../config";
 
 export const getUserFavorites = async (accessToken) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/user/current`, {
+    const response = await axios.get(`${apiUrlUser}/current`, {
       headers: {
         token: `Bearer ${accessToken}`,
       },
@@ -19,7 +17,7 @@ export const getUserFavorites = async (accessToken) => {
 };
 export const getAllProducts = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/product`);
+    const response = await axios.get(`${apiUrlProduct}`);
     return response.data.productDatas;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy danh sách sản phẩm:", error);
@@ -29,7 +27,7 @@ export const getAllProducts = async () => {
 
 export const getCart = async (accessToken) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/user/current`, {
+    const response = await axios.get(`${apiUrlUser}/current`, {
       headers: {
         token: `Bearer ${accessToken}`,
       },
@@ -39,9 +37,10 @@ export const getCart = async (accessToken) => {
     console.error("Có lỗi xảy ra:", error);
   }
 };
+
 export const getAllOrder = async (accessToken) => {
   try {
-    const res = await axios.get(`${API_BASE_URL}/order/admin`, {
+    const res = await axios.get(`${apiUrlOrder}/admin`, {
       headers: {
         token: `Bearer ${accessToken}`,
       },

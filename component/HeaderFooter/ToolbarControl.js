@@ -72,7 +72,6 @@ const ToolbarControl = () => {
           getAvatar(accessToken),
           getCart(accessToken),
         ]);
-
         if (isMounted) {
           setAvatar(userAvatar);
           setBadgeFavorites(favorites);
