@@ -11,6 +11,7 @@ import Loading from "@/component/Loading/Loading";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { getBrand, getProduct } from "@/services/Redux/fetchData/useFetchData";
 import { apiUrlUser } from "@/services/config";
+import BreadcrumbForProd from "@/component/Breadcrumb/BreadcrumbForProd";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -199,6 +200,7 @@ const SanPham = () => {
 
   return (
     <div style={{ backgroundColor: "#f0f0f0", padding: "5px" }}>
+      <BreadcrumbForProd />
       <div className="content">
         <ProductList
           currentSort={currentSort}

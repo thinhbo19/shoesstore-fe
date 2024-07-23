@@ -11,6 +11,7 @@ import DetailSecond from "@/component/ChiTietSanPham/DetailSecond";
 import DetailThird from "@/component/ChiTietSanPham/DetailThird";
 import SliderProductCart from "@/component/Slider/SliderProductCart";
 import { getProductByIdProduct } from "@/services/Redux/fetchData/useFetchData";
+import BreadcrumbForProdDetail from "@/component/Breadcrumb/BreadcrumbForProdDetail";
 
 const ChiTietSanPham = ({ productName }) => {
   const productId = useSelector(selectProductID);
@@ -48,6 +49,7 @@ const ChiTietSanPham = ({ productName }) => {
       style={{ padding: "2rem 10rem", backgroundColor: "#f0f0f0" }}
       className="main-content-details"
     >
+      <BreadcrumbForProdDetail productName={product?.productName} />
       {product ? (
         <>
           <DetailsFirst product={product} />

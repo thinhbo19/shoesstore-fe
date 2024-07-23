@@ -1,5 +1,6 @@
 "use client";
 import Loading from "@/component/Loading/Loading";
+import DifferentProduct from "@/component/Slider/DifferentProduct";
 import ImageCollection from "@/component/Slider/ImageCollection";
 import Images from "@/component/Slider/Images";
 import ImageSlider from "@/component/Slider/Sliders";
@@ -31,7 +32,7 @@ const HomePage = () => {
       </div>
       <>
         <div className="different-product">
-          <h1
+          <h3
             style={{
               fontStyle: "bold",
               textAlign: "left",
@@ -40,8 +41,8 @@ const HomePage = () => {
             }}
           >
             CÓ THỂ BẠN SẼ THÍCH
-          </h1>
-          {/* <DifferentProduct /> */}
+          </h3>
+          <DifferentProduct />
         </div>
       </>
     </div>

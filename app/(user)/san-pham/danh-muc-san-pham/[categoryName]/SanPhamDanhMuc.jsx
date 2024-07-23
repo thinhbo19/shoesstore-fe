@@ -12,6 +12,7 @@ import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { selectCateID } from "@/services/Redux/product/productSlice";
 import { getProductByIdCate } from "@/services/Redux/fetchData/useFetchData";
 import { apiUrlBrand, apiUrlUser } from "@/services/config";
+import BreadcrumbForCate from "@/component/Breadcrumb/BreadcrumbForCate";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -201,6 +202,7 @@ const SanPhamDanhMuc = ({ categoryName }) => {
 
   return (
     <div style={{ backgroundColor: "#f0f0f0", padding: "5px" }}>
+      <BreadcrumbForCate categoryName={categoryName} />
       <div className="content">
         <ProductList
           currentSort={currentSort}
