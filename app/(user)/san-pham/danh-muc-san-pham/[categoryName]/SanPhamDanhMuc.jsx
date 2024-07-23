@@ -17,7 +17,7 @@ const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const SanPhamDanhMuc = () => {
+const SanPhamDanhMuc = ({ categoryName }) => {
   const categoryID = useSelector(selectCateID);
   const [initialProducts, setInitialProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);

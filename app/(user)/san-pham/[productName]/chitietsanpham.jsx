@@ -12,7 +12,7 @@ import DetailThird from "@/component/ChiTietSanPham/DetailThird";
 import SliderProductCart from "@/component/Slider/SliderProductCart";
 import { getProductByIdProduct } from "@/services/Redux/fetchData/useFetchData";
 
-const ChiTietSanPham = () => {
+const ChiTietSanPham = ({ productName }) => {
   const productId = useSelector(selectProductID);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
