@@ -14,7 +14,7 @@ import { selectUid } from "@/services/Redux/user/useSlice";
 import { getChat, getMess, postMess } from "@/services/Redux/handle/handleChat";
 import { Editor } from "@tinymce/tinymce-react";
 
-const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3001";
+const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
