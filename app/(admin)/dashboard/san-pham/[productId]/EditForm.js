@@ -11,11 +11,11 @@ import Loading from "@/component/Loading/Loading";
 import { getOneProduct } from "@/services/Redux/handle/hanldeProduct";
 import { apiUrlProduct } from "@/services/config";
 
-const EditForm = () => {
+const EditForm = ({ productId }) => {
   const accessToken = useSelector(selectAccessToken);
   const Swal = require("sweetalert2");
   const pathName = usePathname();
-  const productId = pathName.split("/").pop();
+  // const productId = pathName.split("/").pop();
   const [quantity, setQuantity] = useState([
     { size: 36, numberOfSize: 0 },
     { size: 37, numberOfSize: 0 },
