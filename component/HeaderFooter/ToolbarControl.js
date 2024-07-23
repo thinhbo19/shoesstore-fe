@@ -1,31 +1,36 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  IconButton,
+  Typography,
+  Tooltip,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import Avatar from "@mui/material/Avatar";
-import { Button, IconButton, Typography } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Link from "next/link";
 import FavoriteProductsMenu from "../Popover-Menu/FavoriteProductsMenu";
 import ShoppingCartMenu from "../Popover-Menu/ShoppingCartMenu";
+import NoitificationMenu from "../Popover-Menu/NoitificationMenu";
 import {
   selectAdmin,
   selectIsLoggedIn,
   setLogout,
+  selectAccessToken,
 } from "../../services/Redux/user/useSlice";
-import { useDispatch, useSelector } from "react-redux";
-import "./Headers.css";
-import Badge from "@mui/material/Badge";
-import { styled } from "@mui/material/styles";
 import { getUserFavorites, getCart } from "../../services/Redux/api";
-import { selectAccessToken } from "../../services/Redux/user/useSlice";
 import useForceUpdate from "../../services/forceUpdate";
-import NoitificationMenu from "../Popover-Menu/NoitificationMenu";
-import Link from "next/link";
 import { getAvatar } from "@/services/Redux/handle/hanldeUser";
+import "./Headers.css";
 
+// Styled Badge component
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     border: `1px solid ${theme.palette.background.paper}`,
@@ -40,30 +45,33 @@ const ToolbarControl = () => {
   const [favoriteMenuOpen, setFavoriteMenuOpen] = useState(false);
   const [shoppingCartMenuOpen, setShoppingCartMenuOpen] = useState(false);
   const [noitifiMenuOpen, setNoitifiMenuOpen] = useState(false);
+  const [badgeFavorites, setBadgeFavorites] = useState([]);
+  const [badgeCart, setBadgeCart] = useState([]);
+  const [avatar, setAvatar] = useState(null);
+  const [notificationCount, setNotificationCount] = useState(0);
+
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const isAdmin = useSelector(selectAdmin);
   const accessToken = useSelector(selectAccessToken);
-  const [badgeFavorites, setBadgeFavorites] = useState([]);
-  const [badgeCart, setBadgeCart] = useState([]);
   const forceUpdate = useForceUpdate();
-  const [avatar, setAvatar] = useState(null);
-  const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
 
+    // Retrieve saved notification count from localStorage
     const savedNotificationCount = localStorage.getItem("notificationCount");
-
     if (savedNotificationCount) {
-      setNotificationCount(parseInt(savedNotificationCount));
+      setNotificationCount(parseInt(savedNotificationCount, 10));
     }
 
     const fetchData = async () => {
       try {
-        const favorites = await getUserFavorites(accessToken);
-        const userAvatar = await getAvatar(accessToken);
-        const shoppingCart = await getCart(accessToken);
+        const [favorites, userAvatar, shoppingCart] = await Promise.all([
+          getUserFavorites(accessToken),
+          getAvatar(accessToken),
+          getCart(accessToken),
+        ]);
 
         if (isMounted) {
           setAvatar(userAvatar);
@@ -83,35 +91,19 @@ const ToolbarControl = () => {
     return () => {
       isMounted = false;
     };
-  }, [accessToken, dispatch, forceUpdate]);
+  }, [accessToken, forceUpdate]);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  const handleFavoriteIconMouseEnter = () => {
-    setFavoriteMenuOpen(true);
-  };
-  const handleFavoriteIconMouseLeave = () => {
-    setFavoriteMenuOpen(false);
-  };
-  const handleShoppingCartIconMouseEnter = () => {
-    setShoppingCartMenuOpen(true);
-  };
+  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const handleShoppingCartIconMouseLeave = () => {
-    setShoppingCartMenuOpen(false);
-  };
+  const handleFavoriteIconMouseEnter = () => setFavoriteMenuOpen(true);
+  const handleFavoriteIconMouseLeave = () => setFavoriteMenuOpen(false);
 
-  const handleNoitifiIconMouseEnter = () => {
-    setNoitifiMenuOpen(true);
-  };
+  const handleShoppingCartIconMouseEnter = () => setShoppingCartMenuOpen(true);
+  const handleShoppingCartIconMouseLeave = () => setShoppingCartMenuOpen(false);
 
-  const handleNoitifiIconMouseLeave = () => {
-    setNoitifiMenuOpen(false);
-  };
+  const handleNoitifiIconMouseEnter = () => setNoitifiMenuOpen(true);
+  const handleNoitifiIconMouseLeave = () => setNoitifiMenuOpen(false);
 
   const handleLogout = () => {
     dispatch(setLogout());
@@ -123,6 +115,7 @@ const ToolbarControl = () => {
       className="toolbar-control"
       style={{ flexGrow: 0, marginLeft: "10px" }}
     >
+      {/* Shopping Cart Icon */}
       <Link
         className="shoppingcart-hover"
         href="/gio-hang"
@@ -130,16 +123,17 @@ const ToolbarControl = () => {
         onMouseLeave={handleShoppingCartIconMouseLeave}
       >
         <IconButton>
-          <StyledBadge badgeContent={badgeCart?.length}>
+          <StyledBadge badgeContent={badgeCart.length}>
             <ShoppingCartOutlinedIcon fontSize="medium" />
           </StyledBadge>
         </IconButton>
         {shoppingCartMenuOpen && <ShoppingCartMenu />}
       </Link>
 
+      {/* Notification Icon */}
       <Link
         className="noiti-hover"
-        href="thong-tin/thong-bao"
+        href="/thong-tin/thong-bao"
         onMouseEnter={handleNoitifiIconMouseEnter}
         onMouseLeave={handleNoitifiIconMouseLeave}
       >
@@ -147,10 +141,11 @@ const ToolbarControl = () => {
           <StyledBadge badgeContent={notificationCount}>
             <NotificationsNoneOutlinedIcon fontSize="medium" />
           </StyledBadge>
-          {noitifiMenuOpen && <NoitificationMenu />}
         </IconButton>
+        {noitifiMenuOpen && <NoitificationMenu />}
       </Link>
 
+      {/* Favorite Icon */}
       <Link
         className="heart-hover"
         href="/thong-tin/yeu-thich"
@@ -165,6 +160,7 @@ const ToolbarControl = () => {
         {favoriteMenuOpen && <FavoriteProductsMenu />}
       </Link>
 
+      {/* User Avatar */}
       <Tooltip title="Tài khoản">
         <IconButton
           onClick={handleOpenUserMenu}
@@ -173,19 +169,15 @@ const ToolbarControl = () => {
           <Avatar alt="" src={avatar} sx={{ border: "2px solid black" }} />
         </IconButton>
       </Tooltip>
+
+      {/* User Menu */}
       <Menu
         sx={{ mt: "45px" }}
         id="menu-appbar"
         anchorEl={anchorElUser}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
