@@ -17,18 +17,20 @@ import { selectCateID } from "@/services/Redux/product/productSlice";
 import { getProductByIdCate } from "@/services/Redux/fetchData/useFetchData";
 import { apiUrlBrand, apiUrlUser } from "@/services/config";
 import BreadcrumbForCate from "@/component/Breadcrumb/BreadcrumbForCate";
-import { addFavorites } from "@/services/Redux/handle/hanldeUser";
+import {
+  addFavorites,
+  getUserCurrent,
+} from "@/services/Redux/handle/hanldeUser";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const SanPhamDanhMuc = ({ categoryName }) => {
+const SanPhamDanhMuc = ({ categoryName, brands }) => {
   const categoryID = useSelector(selectCateID);
   const [initialProducts, setInitialProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [trangHienTai, setTrangHienTai] = useState(1);
-  const [brands, setBrands] = useState([]);
   const sanPhamTrenMotTrang = 12;
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -113,42 +115,40 @@ const SanPhamDanhMuc = ({ categoryName }) => {
       console.error("Có lỗi xảy ra:", error);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrlBrand}`);
-        setBrands(response.data.Brands);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách thương hiệu:", error);
-      }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingPage(true);
-        const response = await getProductByIdCate(categoryID);
-        if (
-          response.data.success &&
-          Array.isArray(response.data.productDatas)
-        ) {
-          const uniqueProducts = response.data.productDatas.filter(
-            (product, index, self) =>
-              index === self.findIndex((p) => p._id === product._id)
-          );
-          setInitialProducts(uniqueProducts);
-          setFilteredProducts(uniqueProducts);
-          const productCounts = {};
-          uniqueProducts.forEach((product) => {
-            const brandId = product.brand;
-            productCounts[brandId] = (productCounts[brandId] || 0) + 1;
+        const products = await getProductByIdCate(categoryID);
+        const uniqueProducts = products.data.productDatas.reverse();
+
+        const productCounts = {};
+        uniqueProducts.forEach((product) => {
+          const brandId = product.brand;
+          productCounts[brandId] = (productCounts[brandId] || 0) + 1;
+        });
+        setProductCountsByBrand(productCounts);
+
+        if (accessToken) {
+          const res = await getUserCurrent(accessToken);
+          const favorites = res.Favorites;
+
+          const isProductInFavorites = uniqueProducts.map((prod) => {
+            const isFavorite = favorites.some(
+              (favorite) => favorite === prod._id
+            );
+            return { ...prod, isFavorite };
           });
-          setProductCountsByBrand(productCounts);
+
+          setInitialProducts(isProductInFavorites);
+          setFilteredProducts(isProductInFavorites);
         } else {
-          console.error(
-            "Dữ liệu từ API không phải là mảng hoặc không thành công."
-          );
+          const isProductInFavorites = uniqueProducts.map((prod) => ({
+            ...prod,
+            isFavorite: false,
+          }));
+          setInitialProducts(isProductInFavorites);
+          setFilteredProducts(isProductInFavorites);
         }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
@@ -158,7 +158,7 @@ const SanPhamDanhMuc = ({ categoryName }) => {
     };
 
     fetchData();
-  }, [categoryID]);
+  }, [accessToken, categoryID]);
 
   const toggleFilterOptions = () => {
     setShowFilterOptions(!showFilterOptions);

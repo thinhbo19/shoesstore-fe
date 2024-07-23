@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   faHeart,
   faHeart as faHeartSolid,
@@ -8,14 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import SortMain from "./SortMain";
 import Link from "next/link";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { slugify } from "@/utils/slugify";
 import { handleProductID } from "@/utils/hanleGet";
-import { apiUrlUser } from "@/services/config";
+import { useDispatch } from "react-redux";
 
 const marks = [
   {
@@ -178,38 +174,14 @@ const ProductList = ({
 };
 
 const ProductItem = ({ product, handleaddFavorite }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [IsFavorite, setIsFavorites] = useState(product.isFavorite);
   const dispatch = useDispatch();
-  const accessToken = useSelector(selectAccessToken);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${apiUrlUser}/current`, {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        });
-        const favorites = res.data.user.Favorites;
-        const isProductInFavorites = favorites.some(
-          (favorite) => favorite === product._id
-        );
-        setIsFavorite(isProductInFavorites);
-      } catch (error) {
-        console.error("Có lỗi xảy ra:", error);
-      }
-    };
-    if (accessToken) {
-      fetchData();
-    }
-  }, [accessToken, dispatch, product._id]);
 
   const handleAddFavorite = (e) => {
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
+    setIsFavorites(!IsFavorite);
     handleaddFavorite(product._id);
   };
-
   return (
     <>
       <li className="product-item" onClick={(e) => e.stopPropagation()}>
@@ -239,8 +211,8 @@ const ProductItem = ({ product, handleaddFavorite }) => {
         </Link>
         <button className="icon-favorite" onClick={handleAddFavorite}>
           <FontAwesomeIcon
-            icon={isFavorite ? faHeartSolid : faHeart}
-            style={{ color: isFavorite ? "red" : "#d8d8d8" }}
+            icon={IsFavorite ? faHeartSolid : faHeart}
+            style={{ color: IsFavorite ? "red" : "#d8d8d8" }}
           />
         </button>
       </li>

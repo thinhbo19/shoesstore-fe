@@ -1,4 +1,4 @@
-import { getCategory } from "@/services/Redux/fetchData/useFetchData";
+import { getBrand, getCategory } from "@/services/Redux/fetchData/useFetchData";
 import SanPhamDanhMuc from "./SanPhamDanhMuc";
 
 export async function generateStaticParams() {
@@ -8,8 +8,10 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CategoryPage({ params }) {
+export default async function CategoryPage({ params }) {
+  const brands = await getBrand();
+
   const { categoryName } = params;
 
-  return <SanPhamDanhMuc categoryName={categoryName} />;
+  return <SanPhamDanhMuc brands={brands} categoryName={categoryName} />;
 }

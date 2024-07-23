@@ -12,19 +12,20 @@ import {
   removeFavorite,
   selectAccessToken,
 } from "@/services/Redux/user/useSlice";
-import { getBrand, getProduct } from "@/services/Redux/fetchData/useFetchData";
 import BreadcrumbForProd from "@/component/Breadcrumb/BreadcrumbForProd";
-import { addFavorites } from "@/services/Redux/handle/hanldeUser";
+import {
+  addFavorites,
+  getUserCurrent,
+} from "@/services/Redux/handle/hanldeUser";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const SanPham = () => {
+const SanPham = ({ brands, products }) => {
   const [initialProducts, setInitialProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [trangHienTai, setTrangHienTai] = useState(1);
-  const [brands, setBrands] = useState([]);
   const sanPhamTrenMotTrang = 16;
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -113,42 +114,35 @@ const SanPham = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getBrand();
-        setBrands(response);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách thương hiệu:", error);
-      }
-    };
-    fetchData();
-  }, []);
+        const uniqueProducts = products.reverse();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoadingPage(true);
-        const response = await getProduct();
-        if (
-          response.data.success &&
-          Array.isArray(response.data.productDatas)
-        ) {
-          const uniqueProducts = response.data.productDatas
-            .reverse()
-            .filter(
-              (product, index, self) =>
-                index === self.findIndex((p) => p._id === product._id)
+        const productCounts = {};
+        uniqueProducts.forEach((product) => {
+          const brandId = product.brand;
+          productCounts[brandId] = (productCounts[brandId] || 0) + 1;
+        });
+        setProductCountsByBrand(productCounts);
+
+        if (accessToken) {
+          const res = await getUserCurrent(accessToken);
+          const favorites = res.Favorites;
+
+          const isProductInFavorites = uniqueProducts.map((prod) => {
+            const isFavorite = favorites.some(
+              (favorite) => favorite === prod._id
             );
-          setInitialProducts(uniqueProducts);
-          setFilteredProducts(uniqueProducts);
-          const productCounts = {};
-          uniqueProducts.forEach((product) => {
-            const brandId = product.brand;
-            productCounts[brandId] = (productCounts[brandId] || 0) + 1;
+            return { ...prod, isFavorite };
           });
-          setProductCountsByBrand(productCounts);
+
+          setInitialProducts(isProductInFavorites);
+          setFilteredProducts(isProductInFavorites);
         } else {
-          console.error(
-            "Dữ liệu từ API không phải là mảng hoặc không thành công."
-          );
+          const isProductInFavorites = uniqueProducts.map((prod) => ({
+            ...prod,
+            isFavorite: false,
+          }));
+          setInitialProducts(isProductInFavorites);
+          setFilteredProducts(isProductInFavorites);
         }
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ API:", error);
@@ -158,7 +152,7 @@ const SanPham = () => {
     };
 
     fetchData();
-  }, []);
+  }, [accessToken, products]);
 
   const toggleFilterOptions = () => {
     setShowFilterOptions(!showFilterOptions);
