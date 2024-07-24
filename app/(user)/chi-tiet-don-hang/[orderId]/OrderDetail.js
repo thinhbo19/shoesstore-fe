@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "../../../../Styles/user/OrderDetail.css";
-import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { getOrderDetail } from "@/services/Redux/api";
@@ -13,8 +12,6 @@ import {
 } from "@/services/Redux/handle/hanldeUser";
 
 const OrderDetail = ({ orderId }) => {
-  const pathName = usePathname();
-  // const orderId = pathName.split("/").pop();
   const accessToken = useSelector(selectAccessToken);
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState("");
@@ -25,6 +22,7 @@ const OrderDetail = ({ orderId }) => {
     const fetchData = async () => {
       try {
         const res = await getOrderDetail(accessToken, orderId);
+        console.log(res);
         const userCur = await getUserById(accessToken, res.OrderBy);
         setProducts(res.products);
         setTotalPrice(res.totalPrice.toLocaleString());

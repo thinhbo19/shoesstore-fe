@@ -12,7 +12,13 @@ import { useSelector } from "react-redux";
 
 const style = { layout: "horizontal" };
 
-const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
+const ButtonWrapper = ({
+  showSpinner,
+  currency,
+  amount,
+  payload,
+  isEnabled,
+}) => {
   const [{ isPending, options }, dispatch] = usePayPalScriptReducer();
   const accessToken = useSelector(selectAccessToken);
   const Swal = require("sweetalert2");
@@ -74,33 +80,34 @@ const ButtonWrapper = ({ showSpinner, currency, amount, payload }) => {
   return (
     <>
       {showSpinner && isPending && <div className="spinner" />}
-      <PayPalButtons
-        style={style}
-        disabled={false}
-        forceReRender={[style, currency, amount]}
-        fundingSource={undefined}
-        createOrder={(data, actions) =>
-          actions.order
-            .create({
-              purchase_units: [
-                { amount: { currency_code: currency, value: amount } },
-              ],
+      {isEnabled && (
+        <PayPalButtons
+          style={style}
+          forceReRender={[style, currency, amount]}
+          fundingSource={undefined}
+          createOrder={(data, actions) =>
+            actions.order
+              .create({
+                purchase_units: [
+                  { amount: { currency_code: currency, value: amount } },
+                ],
+              })
+              .then((orderId) => orderId)
+          }
+          onApprove={(data, actions) =>
+            actions.order.capture().then(async (response) => {
+              if (response.status === "COMPLETED") {
+                handleSaveOrder(payload);
+              }
             })
-            .then((orderId) => orderId)
-        }
-        onApprove={(data, actions) =>
-          actions.order.capture().then(async (response) => {
-            if (response.status === "COMPLETED") {
-              handleSaveOrder(payload);
-            }
-          })
-        }
-      />
+          }
+        />
+      )}
     </>
   );
 };
 
-export default function Pay({ amount, payload }) {
+export default function Pay({ amount, payload, isElectronicEnabled }) {
   return (
     <div>
       <PayPalScriptProvider
@@ -111,6 +118,7 @@ export default function Pay({ amount, payload }) {
           currency={"USD"}
           amount={amount}
           showSpinner={false}
+          isEnabled={isElectronicEnabled}
         />
       </PayPalScriptProvider>
     </div>

@@ -15,10 +15,9 @@ import {
 } from "@/services/Redux/user/useSlice";
 import { useRouter } from "next/navigation";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import { apiUrlUser } from "@/services/config";
 
-const DetailsFirst = ({ product }) => {
+const DetailsFirst = ({ product, userRes }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const Swal = require("sweetalert2");
   const [selectedSize, setSelectedSize] = useState(null);
@@ -32,7 +31,6 @@ const DetailsFirst = ({ product }) => {
 
   const fetchData = async () => {
     try {
-      const userRes = await getUserCurrent(accessToken);
       const favorites = userRes.Favorites;
       const isProductInFavorites = favorites.some(
         (favorite) => favorite === product._id
@@ -47,11 +45,12 @@ const DetailsFirst = ({ product }) => {
     if (accessToken) {
       fetchData();
     }
-  }, [accessToken, dispatch, product._id]);
+  }, [accessToken, product._id]);
 
   const changeImage = (newIndex) => {
     setCurrentImageIndex(newIndex);
   };
+
   const increaseQuantity = () => {
     const maxQuantity = selectedSize ? selectedSize.numberOfSize : 0;
     if (quantity < maxQuantity) {
@@ -93,6 +92,7 @@ const DetailsFirst = ({ product }) => {
       return;
     }
     setIsFavorite(!isFavorite);
+
     try {
       const response = await axios.put(
         `${apiUrlUser}/favorites/${product._id}`,
@@ -103,22 +103,23 @@ const DetailsFirst = ({ product }) => {
           },
         }
       );
+
       if (response.data.success === true) {
+        dispatch(addFavorite(productId._id));
         Swal.fire({
           position: "top-end",
           text: "Đã Thêm Vào Yêu Thích",
           icon: "success",
           showConfirmButton: false,
         });
-        dispatch(addFavorite(productId._id));
       } else if (response.data.success === false) {
+        dispatch(removeFavorite(productId._id));
         Swal.fire({
           position: "top-end",
           text: "Đã Bỏ Yêu Thích",
           icon: "info",
           showConfirmButton: false,
         });
-        dispatch(removeFavorite(productId._id));
       }
     } catch (error) {
       console.error("Có lỗi xảy ra:", error);
@@ -224,11 +225,9 @@ const DetailsFirst = ({ product }) => {
 
         localStorage.setItem("cart", JSON.stringify([data]));
 
-        setIsCart(true);
         router.push(`/thanh-toan-ngay`);
         setSelectedSize(null);
         setQuantity(0);
-        setIsCart(false);
       }
     } catch (error) {
       console.error("Error:", error.message);

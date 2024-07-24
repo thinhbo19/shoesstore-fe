@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import "../../../Styles/user/ThanhToan.css";
+import "../../../Styles/user/ThanhToanNgay.css";
 import Pay from "../../../component/Pay/Pay";
 import voucherSV from "../../../assets/voucher.png";
 import axios from "axios";
@@ -13,6 +13,40 @@ import { useRouter } from "next/navigation";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 import Image from "next/image";
 import { apiUrlOrder, apiUrlUser } from "@/services/config";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { Button, Checkbox, FormControlLabel } from "@mui/material";
+import { styled } from "@mui/system";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+const CustomButton = styled(Button)({
+  backgroundColor: "#ee4d2d",
+  color: "#fff",
+  "&:hover": {
+    backgroundColor: "#f28e7a",
+  },
+  padding: "10px 20px",
+  borderRadius: "8px",
+  textTransform: "none",
+  fontSize: "16px",
+  height: "50px",
+});
+
+const CustomButtonCod = styled(Button)({
+  backgroundColor: "#ee4d2d",
+  color: "#fff",
+  "&:hover": {
+    backgroundColor: "#f28e7a",
+  },
+  padding: "10px 20px",
+  borderRadius: "8px",
+  textTransform: "none",
+  fontSize: "16px",
+  height: "50px",
+  margin: "10px 0",
+  width: "100%",
+});
 
 const ThanhToan = () => {
   const accessToken = useSelector(selectAccessToken);
@@ -25,10 +59,13 @@ const ThanhToan = () => {
   const [totalPriceVoucher, setTotalVoucher] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [voucher, setVoucher] = useState([]);
-  const [selectedVoucher, setSelectedVoucher] = useState(null);
+  const [selectedVoucher, setSelectedVoucher] = useState("");
   const [note, setNote] = useState("");
   const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [isCodEnabled, setIsCodEnabled] = useState(false);
+  const [isElectronicEnabled, setIsElectronicEnabled] = useState(false);
+
   const getCartData = () => {
     const cartData = localStorage.getItem("cart");
     return cartData ? JSON.parse(cartData) : [];
@@ -67,6 +104,19 @@ const ThanhToan = () => {
       fetchDataUser();
     }, 1500);
   }, [accessToken]);
+
+  const handleSelectVoucher = (event) => {
+    const voucherId = event.target.value;
+    const selectedVoucher = voucher.find(
+      (voucher) => voucher._id === voucherId
+    );
+
+    if (selectedVoucher) {
+      const discountAmount = (totalAmount * selectedVoucher.discount) / 100;
+      setTotalVoucher(totalAmount - discountAmount);
+      setSelectedVoucher(voucherId);
+    }
+  };
 
   const handleSelectDiaChi = () => {
     if (addressList.length === 0) {
@@ -110,60 +160,16 @@ const ThanhToan = () => {
     });
   };
 
-  const handleCashOnDeliveryChange = () => {
-    setPaymentMethod("cashOnDelivery");
-  };
-
-  const handlePayWithCardChange = () => {
-    setPaymentMethod("payWithCard");
-  };
-
-  const handleSelectVoucher = () => {
-    const eligibleVouchers = voucher.filter(
-      (voucher) =>
-        voucher.exclusive !== null && voucher.exclusive <= totalAmount
-    );
-
-    if (eligibleVouchers.length === 0) {
-      Swal.fire({
-        title: "Không có voucher phù hợp",
-        icon: "info",
-      });
-      return;
+  const handlePaymentMethodChange = (method) => {
+    setPaymentMethod(method);
+    // Enable or disable buttons based on the selected payment method
+    if (method === "cod") {
+      setIsCodEnabled(true);
+      setIsElectronicEnabled(false);
+    } else if (method === "electronic") {
+      setIsCodEnabled(false);
+      setIsElectronicEnabled(true);
     }
-
-    Swal.fire({
-      title: "Chọn Voucher",
-      html:
-        '<select id="voucherSelect" className="swal2-input">' +
-        '<option value="">-- Chọn Voucher --</option>' +
-        eligibleVouchers
-          .map(
-            (voucher) =>
-              `<option value="${voucher._id}">${voucher.name} - ${voucher.discount}% Giảm giá</option>`
-          )
-          .join("") +
-        "</select>",
-      showCancelButton: true,
-      confirmButtonText: "Chọn",
-      cancelButtonText: "Hủy bỏ",
-      preConfirm: () => {
-        const voucherId = document.getElementById("voucherSelect").value;
-        const selectedVoucher = voucher.find(
-          (voucher) => voucher._id === voucherId
-        );
-
-        if (selectedVoucher) {
-          setTotalVoucher(
-            totalAmount -
-              (totalAmount - (totalAmount * selectedVoucher.discount) / 100)
-          );
-          setSelectedVoucher(selectedVoucher);
-        }
-
-        return selectedVoucher;
-      },
-    });
   };
 
   const handleThanhToan = async () => {
@@ -268,203 +274,138 @@ const ThanhToan = () => {
   }
 
   return (
-    <div className="thanhtoan">
-      <div className="thanhtoansecond">
-        <div className="thanhtoanleft">
-          <div className="thanhtoanleft-main">
-            <div className="main-1">
-              <h3 style={{ color: "#ee4d2d", fontWeight: "bold" }}>
-                THANH TOÁN
-              </h3>
-            </div>
-            <div className="main-2">
-              <div className="choseAddress">
-                <button
-                  className="btnchoseAddress"
-                  onClick={handleSelectDiaChi}
-                >
-                  Chọn Địa Chỉ
-                </button>
-              </div>
-              {selectedAddress ? (
-                <div className="addressField">
-                  <div className="addressFieldRight">
-                    <div className="infoaddress">
-                      <p className="address-left">Họ tên: </p>
-                      <p className="address">{username}</p>
-                    </div>
-                    <div className="infoaddress">
-                      <p className="address-left">Điện Thoại: </p>
-                      <p className="address"> {phoneNumber}</p>
-                    </div>
-                    <div className="infoaddress">
-                      <p className="address-left">Địa chỉ: </p>
-                      <p className="address">{selectedAddress}</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="addressField">
-                  <p className="noaddress">Bạn chưa chọn địa chỉ</p>
-                </div>
-              )}
-            </div>
-            <div className="main-3">
-              <div className="large-input-container">
-                <label htmlFor="largeInput">Ghi chú:</label>
-                <textarea
-                  id="largeInput"
-                  placeholder="Ghi ở đây..."
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
+    <div className="thanhtoan__container">
+      <div className="thanhtoan__main">
+        <div className="thanhtoan__productlist">
+          <div className="thanhtoan__productlist__header">
+            <p className="thanhtoan__p">
+              SỐ LƯỢNG SẢN PHẨM: {cartData.length} đôi{" "}
+            </p>
+          </div>
+          <div className="thanhtoan__productitem">
+            {cartData.map((item) => (
+              <div key={item._id} className="item__product">
+                <Image
+                  className="img__product"
+                  src={item.img}
+                  alt={item.name}
+                  width={80}
+                  height={80}
                 />
-              </div>
-            </div>
-            <div className="main-5">
-              <button className="payCart" onClick={handleSelectVoucher}>
-                Chọn Voucher
-              </button>
-              {selectedVoucher ? (
-                <div className="voucherischoose">
-                  <div
-                    key={selectedVoucher._id}
-                    className="voucher-list-container"
-                  >
-                    <Image src={voucherSV} alt="voucher" />
-                    <div className="voucher-list-container-information">
-                      <label>Giảm tối thiểu {selectedVoucher.discount}%</label>
-                      <br />
-                      <label>Đơn tối thiểu {selectedVoucher.exclusive}Đ</label>
-                      <br />
-                      <label style={{ color: "red" }}>
-                        Hết hạn:{" "}
-                        {new Date(selectedVoucher.expiry).toLocaleDateString()}
-                      </label>{" "}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="voucherischoose">
-                  <p className="noaddress">Chưa chọn Voucher</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="thanhtoanright">
-          <div className="thanhtoanright-top">
-            <p
-              style={{ width: "55%", textAlign: "center", fontSize: "1.2rem" }}
-            >
-              Sản Phẩm ({cartData.length === 0 ? "0" : cartData.length} sản
-              phẩm)
-            </p>
-            <p
-              style={{ width: "25%", textAlign: "center", fontSize: "1.2rem" }}
-            >
-              Số Lượng
-            </p>
-            <p
-              style={{ width: "20%", textAlign: "center", fontSize: "1.2rem" }}
-            >
-              Giá
-            </p>
-          </div>
-          <div className="thanhtoanright-bottom">
-            {cartData.map((item, index) => (
-              <div key={index} className="itemProductOrder">
-                <div key={item._id} className="bottom1">
-                  <DeleteIcon
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignContent: "center",
-                      height: "100%",
-                      cursor: "pointer",
-                    }}
-                    onClick={() =>
-                      handleDeleteCartItem(item.product, item.size)
-                    }
-                  />
-                  <img src={item.img} alt="" />
-                  <div className="bottom1Right">
-                    <p
-                      className="item__payment"
-                      style={{ fontSize: "1rem", fontWeight: "bold" }}
-                    >
-                      {item.name}
-                    </p>
-                    <p style={{ fontSize: "1rem" }}>Size: {item.size}</p>
-                  </div>
-                </div>
-                <div className="bottom2">
-                  <p style={{ fontSize: "1rem" }}>{item.count} Đôi</p>
-                </div>
-                <div className="bottom3">
-                  <p style={{ fontSize: "1.1rem", color: "#ee4d2d" }}>
+                <div className="item__product__info">
+                  <p className="item_name">{item.name}</p>
+                  <p className="item_price">
                     {item.price.toLocaleString()} VNĐ
                   </p>
+                  <p className="item_count">{item.count} đôi</p>
                 </div>
+                <DeleteIcon className="icon_item" />
               </div>
             ))}
           </div>
-          <div className="thanhtoanrightLast">
-            <div className="thanhtoanrightLast-1">
-              <div className="cost1">
-                <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-                  Tổng tiền:{" "}
-                </p>
-                <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>Giảm: </p>
-                <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-                  Tổng cộng:{" "}
-                </p>
-              </div>
-              <div className="cost2">
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: "bold",
-                    color: "#ee4d2d",
-                  }}
-                >
+          <div className="thanhtoan__price">
+            <div className="voucher__item">
+              <Select
+                value={selectedVoucher}
+                onChange={handleSelectVoucher}
+                displayEmpty
+                inputProps={{ "aria-label": "Select Voucher" }}
+                style={{ width: "200px", marginLeft: "10px" }}
+              >
+                <MenuItem value="">
+                  <em>Chọn Voucher</em>
+                </MenuItem>
+                {voucher.map((item) => (
+                  <MenuItem key={item._id} value={item._id}>
+                    {item.name} - {item.discount}% Giảm giá
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            <div className="price__item">
+              <p className="price__item__p">
+                Tổng tiền:{" "}
+                <p className="priceAnount">
                   {totalAmount.toLocaleString()} VNĐ
                 </p>
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: "bold",
-                    color: "#ee4d2d",
-                  }}
-                >
-                  {totalPriceVoucher.toLocaleString()} VNĐ
-                </p>
-                <p
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: "bold",
-                    color: "#ee4d2d",
-                  }}
-                >
+              </p>
+              <p className="price__item__p">
+                Giảm:
+                <p className="priceAnount">
                   {(totalAmount - totalPriceVoucher).toLocaleString()} VNĐ
                 </p>
-              </div>
+              </p>
+              <p className="price__item__p">
+                Tổng cộng:
+                <p className="priceAnount">
+                  {totalPriceVoucher.toLocaleString()} VNĐ{" "}
+                </p>
+              </p>
             </div>
-            <div className="thanhtoanrightLast-2">
-              <div style={{ margin: "10px" }}>
-                <Pay
-                  payload={{
-                    products: cartData,
-                    address: selectedAddress,
-                    Note: note,
-                    coupon: selectedVoucher,
-                    totalPrice: { money },
-                  }}
-                  amount={money}
-                />
+          </div>
+        </div>
+        <div className="thanhtoan__info">
+          <div className="thanhtoan__diachi">
+            <CustomButton onClick={handleSelectDiaChi}>
+              Chọn địa chỉ
+            </CustomButton>
+            {selectedAddress ? (
+              <div className="addressField">
+                <p className="address">Tên: {username}</p>
+                <p className="address">Số điện thoại: {phoneNumber}</p>
+                <p className="address">Địa chỉ: {selectedAddress}</p>
               </div>
-              <button className="btnPayment" onClick={handleThanhToan}>
-                Thanh Toán Khi Nhận Hàng
-              </button>
+            ) : (
+              <div className="addressField">
+                <p className="noaddress">Bạn chưa chọn địa chỉ</p>
+              </div>
+            )}
+          </div>
+          <div className="thanhtoan__note">
+            <p className="title__note">Lưu ý: </p>
+            <textarea
+              className="note__area"
+              id="largeInput"
+              placeholder="Ghi ở đây..."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+          </div>
+          <div className="thanhtoan__pay">
+            <p className="thanhtoan__pay__title">PHƯƠNG THỨC THANH TOÁN</p>
+            <div className="thanhtoan__pay__method">
+              <div className="thanhtoan__pay__method__left">
+                <div className="method__item">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={paymentMethod === "cod"}
+                        onChange={() => handlePaymentMethodChange("cod")}
+                        {...label}
+                      />
+                    }
+                    label="Thanh toán khi nhận hàng"
+                  />
+                </div>
+                <div className="method__item">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={paymentMethod === "electronic"}
+                        onChange={() => handlePaymentMethodChange("electronic")}
+                        {...label}
+                      />
+                    }
+                    label="Thanh toán điện tử"
+                  />
+                </div>
+              </div>
+              <div className="thanhtoan__pay__method__right">
+                {isCodEnabled && (
+                  <CustomButtonCod>Thanh Toán Khi Giao Hàng</CustomButtonCod>
+                )}
+                <Pay isElectronicEnabled={isElectronicEnabled} />
+              </div>
             </div>
           </div>
         </div>

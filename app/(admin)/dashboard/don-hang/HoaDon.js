@@ -11,6 +11,7 @@ import { getAllUsers } from "@/services/Redux/fetchData/useFetchData";
 import List from "./List";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { apiUrlOrder } from "@/services/config";
+import { deleteOrder } from "@/services/Redux/handle/hanldeOrder";
 
 const returnValue = (status) => {
   switch (status) {
@@ -107,7 +108,6 @@ const HoaDon = ({ orderArrAll }) => {
       console.error("Error while updating order status:", error);
     }
   };
-
   const handleSelect = (event) => {
     const id = event.target.getAttribute("data-id");
     const isChecked = event.target.checked;
@@ -132,6 +132,28 @@ const HoaDon = ({ orderArrAll }) => {
       ids.push(checkbox.getAttribute("data-id"));
     });
     setSelectedIds(isChecked ? ids : []);
+  };
+  const deleteItem = async (id) => {
+    const confirmResult = await Swal.fire({
+      text: "You want to delete?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
+    if (!confirmResult.isConfirmed) {
+      return;
+    }
+    try {
+      await deleteOrder(accessToken, id);
+      Swal.fire({
+        icon: "success",
+        text: "Delete successfully",
+      });
+      reloadCate(setFilteredList);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const startIndex = (currentPage - 1) * PerPage;
@@ -180,7 +202,7 @@ const HoaDon = ({ orderArrAll }) => {
           selectAll={selectAll}
           handleSelect={handleSelect}
           handleSelectAll={handleSelectAll}
-          // deleteItem={deleteItem}
+          deleteItem={deleteItem}
           returnValue={returnValue}
           selectedOption={selectedOption}
         />

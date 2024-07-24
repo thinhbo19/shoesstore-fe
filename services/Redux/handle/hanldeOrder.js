@@ -37,3 +37,17 @@ export const postOrder = async (
     throw error;
   }
 };
+
+export const deleteOrder = async (accessToken, oid) => {
+  try {
+    const res = await axios.delete(`${apiUrlOrder}/${oid}`, {
+      headers: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    throw error;
+  }
+};

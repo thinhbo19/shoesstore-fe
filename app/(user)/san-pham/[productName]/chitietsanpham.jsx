@@ -12,15 +12,21 @@ import DetailThird from "@/component/ChiTietSanPham/DetailThird";
 import SliderProductCart from "@/component/Slider/SliderProductCart";
 import { getProductByIdProduct } from "@/services/Redux/fetchData/useFetchData";
 import BreadcrumbForProdDetail from "@/component/Breadcrumb/BreadcrumbForProdDetail";
+import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 
 const ChiTietSanPham = ({ productName }) => {
   const productId = useSelector(selectProductID);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const accessToken = useSelector(selectAccessToken);
+  const [userRes, setUserRes] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
       const response = await getProductByIdProduct(productId);
+      const userRes = await getUserCurrent(accessToken);
+      setUserRes(userRes);
       setProduct(response.data.productData);
       setLoading(false);
     } catch (error) {
@@ -52,7 +58,7 @@ const ChiTietSanPham = ({ productName }) => {
       <BreadcrumbForProdDetail productName={product?.productName} />
       {product ? (
         <>
-          <DetailsFirst product={product} />
+          <DetailsFirst product={product} userRes={userRes} />
           <DetailSecond product={product} />
           <DetailThird product={product} />
           <div className="different-product">
