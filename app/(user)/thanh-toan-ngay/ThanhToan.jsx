@@ -200,20 +200,19 @@ const ThanhToan = () => {
         },
         { headers: { token: `Bearer ${accessToken}` } }
       );
-      Swal.fire({ title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG", icon: "success" });
       for (const product of cartData) {
         await axios.delete(
           `${apiUrlUser}/Cart/${product.product}/${product.size}`,
           { headers: { token: `Bearer ${accessToken}` } }
         );
       }
-      Swal.fire({ title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG", icon: "success" });
       localStorage.removeItem("cartList");
       router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+      Swal.fire({ title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG", icon: "success" });
     }
   };
 
@@ -222,6 +221,7 @@ const ThanhToan = () => {
       Swal.fire({ title: "BẠN CHƯA CHỌN ĐỊA CHỈ", icon: "warning" });
       return;
     }
+    setLoading(true);
     try {
       await axios.post(
         `${apiUrlOrder}/copy`,
@@ -257,15 +257,18 @@ const ThanhToan = () => {
           }
         );
       }
-      Swal.fire({
-        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
-        icon: "success",
-      });
+
       localStorage.removeItem("cart");
       localStorage.removeItem("cartList");
       router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {
       console.log(error);
+    } finally {
+      Swal.fire({
+        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
+        icon: "success",
+      });
+      setLoading(false);
     }
   };
 
@@ -330,7 +333,10 @@ const ThanhToan = () => {
                   </p>
                   <p className="item_count">{item.count} đôi</p>
                 </div>
-                <DeleteIcon className="icon_item" />
+                <DeleteIcon
+                  className="icon_item"
+                  onClick={() => handleDeleteCartItem(item.product, item.size)}
+                />
               </div>
             ))}
           </div>

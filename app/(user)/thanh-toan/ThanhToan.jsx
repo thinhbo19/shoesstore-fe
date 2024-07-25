@@ -65,6 +65,7 @@ const ThanhToan = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isCodEnabled, setIsCodEnabled] = useState(false);
   const [isElectronicEnabled, setIsElectronicEnabled] = useState(false);
+  const money = selectedVoucher ? totalPriceVoucher : totalAmount;
 
   const getCartData = () => {
     const cartData = localStorage.getItem("cartList");
@@ -173,14 +174,12 @@ const ThanhToan = () => {
 
   const handleThanhToan = async () => {
     if (!selectedAddress) {
-      Swal.fire({
-        title: "BẠN CHƯA CHỌN ĐỊA CHỈ",
-        icon: "warning",
-      });
+      Swal.fire({ title: "BẠN CHƯA CHỌN ĐỊA CHỈ", icon: "warning" });
       return;
     }
+    setLoading(true);
     try {
-      const createOrderResponse = await axios.post(
+      await axios.post(
         `${apiUrlOrder}/copy`,
         {
           products: cartData.map((selectedProduct) => ({
@@ -194,6 +193,52 @@ const ThanhToan = () => {
           Note: note,
           address: selectedAddress,
           coupon: selectedVoucher ? selectedVoucher._id : null,
+          status: "Processing",
+          paymentMethod: "PaymentDelivery",
+          paymentStatus: "UnPaid",
+        },
+        { headers: { token: `Bearer ${accessToken}` } }
+      );
+      for (const product of cartData) {
+        await axios.delete(
+          `${apiUrlUser}/Cart/${product.product}/${product.size}`,
+          { headers: { token: `Bearer ${accessToken}` } }
+        );
+      }
+      localStorage.removeItem("cartList");
+      router.push("/thong-tin/lich-su-mua-hang");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      Swal.fire({ title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG", icon: "success" });
+    }
+  };
+
+  const handleThanhToanPayPal = async () => {
+    if (!selectedAddress) {
+      Swal.fire({ title: "BẠN CHƯA CHỌN ĐỊA CHỈ", icon: "warning" });
+      return;
+    }
+    setLoading(true);
+    try {
+      await axios.post(
+        `${apiUrlOrder}/copy`,
+        {
+          products: cartData.map((selectedProduct) => ({
+            product: selectedProduct.product,
+            size: selectedProduct.size,
+            count: selectedProduct.count,
+            price: selectedProduct.price,
+            img: selectedProduct.img,
+            name: selectedProduct.name,
+          })),
+          Note: note,
+          address: selectedAddress,
+          coupon: selectedVoucher ? selectedVoucher._id : null,
+          status: "Processing",
+          paymentMethod: "PayPal",
+          paymentStatus: "Paid",
         },
         {
           headers: {
@@ -201,19 +246,6 @@ const ThanhToan = () => {
           },
         }
       );
-      const orderId = createOrderResponse.data.response._id;
-      await axios.put(
-        `${apiUrlOrder}/status/${orderId}`,
-        {
-          status: "Processing",
-        },
-        { headers: { token: `Bearer ${accessToken}` } }
-      );
-
-      Swal.fire({
-        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
-        icon: "success",
-      });
       for (const product of cartData) {
         await axios.delete(
           `${apiUrlUser}/Cart/${product.product}/${product.size}`,
@@ -224,17 +256,20 @@ const ThanhToan = () => {
           }
         );
       }
-      Swal.fire({
-        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
-        icon: "success",
-      });
+
+      localStorage.removeItem("cart");
       localStorage.removeItem("cartList");
       router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {
       console.log(error);
+    } finally {
+      Swal.fire({
+        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
+        icon: "success",
+      });
+      setLoading(false);
     }
   };
-
   const handleDeleteCartItem = async (productId, size) => {
     try {
       const result = await Swal.fire({
@@ -266,8 +301,6 @@ const ThanhToan = () => {
     }
   };
 
-  const money = ((totalAmount - totalPriceVoucher) / 24250).toFixed(2);
-
   if (loading) {
     return <Loading />;
   }
@@ -298,7 +331,10 @@ const ThanhToan = () => {
                   </p>
                   <p className="item_count">{item.count} đôi</p>
                 </div>
-                <DeleteIcon className="icon_item" />
+                <DeleteIcon
+                  className="icon_item"
+                  onClick={() => handleDeleteCartItem(item.product, item.size)}
+                />
               </div>
             ))}
           </div>
@@ -401,9 +437,16 @@ const ThanhToan = () => {
               </div>
               <div className="thanhtoan__pay__method__right">
                 {isCodEnabled && (
-                  <CustomButtonCod>Thanh Toán Khi Giao Hàng</CustomButtonCod>
+                  <CustomButtonCod onClick={() => handleThanhToan()}>
+                    Thanh Toán Khi Giao Hàng
+                  </CustomButtonCod>
                 )}
-                <Pay isElectronicEnabled={isElectronicEnabled} />
+                <Pay
+                  isElectronicEnabled={isElectronicEnabled}
+                  paymentSuccess={handleThanhToanPayPal}
+                  amount={Math.round(money / 25000)}
+                  currency={"USD"}
+                />{" "}
               </div>
             </div>
           </div>

@@ -4,9 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import axios from "axios";
 import "./Headers.css";
-import Loading from "../Loading/Loading";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import Link from "next/link";
 import debounce from "lodash.debounce";
@@ -62,15 +60,8 @@ function SearchBar() {
   const [hasInput, setHasInput] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [productData, setProductData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const searchInputRef = useRef(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,10 +138,6 @@ function SearchBar() {
       return;
     }
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <Search ref={searchInputRef}>
