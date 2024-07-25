@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Loading from "@/component/Loading/Loading";
 import { apiUrlUser } from "@/services/config";
 
@@ -14,13 +14,12 @@ const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const ResetPass = ({ tokenPass }) => {
+const ResetPass = () => {
   const [password, setNewPassword] = useState("");
+  const [token, setToken] = useState("");
   const [open, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
   const [messageSeverity, setMessageSeverity] = useState("");
-  const pathName = usePathname();
-  const token = pathName.split("/").pop();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -40,7 +39,7 @@ const ResetPass = ({ tokenPass }) => {
     setLoading(true);
 
     try {
-      const res = await axios.put(`${apiUrlUser}/resetpassword`, {
+      await axios.put(`${apiUrlUser}/resetpassword`, {
         password,
         token,
       });
@@ -79,6 +78,16 @@ const ResetPass = ({ tokenPass }) => {
                 required
               />
               <label htmlFor="newPassword">Mật khẩu mới</label>
+            </div>
+            <div className="input-box-forgotpass">
+              <input
+                type="text"
+                name="token"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                required
+              />
+              <label htmlFor="newPassword">Token</label>
             </div>
             <div className="btnOTP">
               <button onClick={handleSubmit} type="submit" className="Btn-otp">
