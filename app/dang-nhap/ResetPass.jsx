@@ -14,7 +14,7 @@ const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-const ResetPass = () => {
+const ResetPass = ({ tokenPass }) => {
   const [password, setNewPassword] = useState("");
   const [open, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");

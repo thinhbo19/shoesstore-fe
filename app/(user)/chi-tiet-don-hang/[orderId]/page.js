@@ -8,7 +8,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function OrderDetailPage({params}) {
+export default async function OrderDetailPage({ params }) {
   const { orderId } = params;
+
   return <OrderDetail orderId={orderId} />;
 }

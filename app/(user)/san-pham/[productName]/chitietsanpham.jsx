@@ -27,7 +27,7 @@ const ChiTietSanPham = ({ productName }) => {
       const response = await getProductByIdProduct(productId);
       const userRes = await getUserCurrent(accessToken);
       setUserRes(userRes);
-      setProduct(response.data.productData);
+      setProduct(response);
       setLoading(false);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);

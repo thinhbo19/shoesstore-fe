@@ -46,7 +46,7 @@ export const getProductByIdCate = async (categoryID) => {
 export const getProductByIdProduct = async (productID) => {
   try {
     const res = await axios.get(`${apiUrlProduct}/${productID}`);
-    return res;
+    return res.data.productData;
   } catch (error) {
     console.error("Error fetching:", error);
     throw error;

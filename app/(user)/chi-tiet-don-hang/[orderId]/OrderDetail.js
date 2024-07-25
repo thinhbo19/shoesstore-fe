@@ -6,10 +6,7 @@ import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { getOrderDetail } from "@/services/Redux/api";
 import OrderDetailProd from "@/component/OrderDetailComp/OrderDetailProd";
 import OrderDetailUser from "@/component/OrderDetailComp/OrderDetailUser";
-import {
-  getUserById,
-  getUserCurrent,
-} from "@/services/Redux/handle/hanldeUser";
+import { getUserById } from "@/services/Redux/handle/hanldeUser";
 
 const OrderDetail = ({ orderId }) => {
   const accessToken = useSelector(selectAccessToken);
@@ -22,7 +19,7 @@ const OrderDetail = ({ orderId }) => {
     const fetchData = async () => {
       try {
         const res = await getOrderDetail(accessToken, orderId);
-        console.log(res);
+
         const userCur = await getUserById(accessToken, res.OrderBy);
         setProducts(res.products);
         setTotalPrice(res.totalPrice.toLocaleString());
