@@ -1,34 +1,20 @@
-import { apiUrlOrder, apiUrlUser } from "@/services/config";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import {
   PayPalScriptProvider,
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const style = { layout: "horizontal" };
 
 const ButtonWrapper = ({
   showSpinner,
-  currency,
   amount,
-  payload,
   isEnabled,
+  paymentSuccess,
+  currency,
 }) => {
   const [{ isPending, options }, dispatch] = usePayPalScriptReducer();
-  const accessToken = useSelector(selectAccessToken);
-  const Swal = require("sweetalert2");
-  const getCartData = () => {
-    const cartData = localStorage.getItem("cartList");
-    return cartData ? JSON.parse(cartData) : [];
-  };
-  const cartData = getCartData();
-
-  const router = useRouter();
 
   useEffect(() => {
     dispatch({
@@ -39,43 +25,6 @@ const ButtonWrapper = ({
       },
     });
   }, [currency, showSpinner]);
-
-  const handleSaveOrder = async (payload) => {
-    try {
-      await axios.post(
-        `${apiUrlOrder}/copy`,
-        {
-          ...payload,
-          status: "Processing",
-        },
-        {
-          headers: {
-            token: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      for (const product of cartData) {
-        await axios.delete(
-          `${apiUrlUser}/Cart/${product.product}/${product.size}`,
-          {
-            headers: {
-              token: `Bearer ${accessToken}`,
-            },
-          }
-        );
-      }
-      Swal.fire({
-        title: "BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG",
-        icon: "success",
-      });
-      localStorage.removeItem("cart");
-      localStorage.removeItem("cartList");
-      router.push("/thong-tin/lich-su-mua-hang");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -97,7 +46,7 @@ const ButtonWrapper = ({
           onApprove={(data, actions) =>
             actions.order.capture().then(async (response) => {
               if (response.status === "COMPLETED") {
-                handleSaveOrder(payload);
+                paymentSuccess();
               }
             })
           }
@@ -107,18 +56,23 @@ const ButtonWrapper = ({
   );
 };
 
-export default function Pay({ amount, payload, isElectronicEnabled }) {
+export default function Pay({
+  amount,
+  isElectronicEnabled,
+  paymentSuccess,
+  currency,
+}) {
   return (
     <div>
       <PayPalScriptProvider
         options={{ clientId: "test", components: "buttons", currency: "USD" }}
       >
         <ButtonWrapper
-          payload={payload}
-          currency={"USD"}
+          currency={currency}
           amount={amount}
           showSpinner={false}
           isEnabled={isElectronicEnabled}
+          paymentSuccess={paymentSuccess}
         />
       </PayPalScriptProvider>
     </div>
