@@ -1,11 +1,13 @@
+"use client";
 import React, { useState } from "react";
 import "../../Styles/login/reset.css";
+import "../../Styles/login/Form.css";
 import { Box } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useParams } from "react-router";
 import axios from "axios";
-import Loading from "../../../component/Loading/Loading";
+import { usePathname, useRouter } from "next/navigation";
+import Loading from "@/component/Loading/Loading";
 import { apiUrlUser } from "@/services/config";
 
 const Alert = React.forwardRef((props, ref) => (
@@ -17,8 +19,10 @@ const ResetPass = () => {
   const [open, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
   const [messageSeverity, setMessageSeverity] = useState("");
-  const { token } = useParams();
+  const pathName = usePathname();
+  const token = pathName.split("/").pop();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     setOpenSnackbar(true);
@@ -36,15 +40,17 @@ const ResetPass = () => {
     setLoading(true);
 
     try {
-      await axios.put(`${apiUrlUser}/resetpassword`, {
+      const res = await axios.put(`${apiUrlUser}/resetpassword`, {
         password,
         token,
       });
 
+      router.push("/dang-nhap");
       setMessage("Đã thay đổi mật khẩu thành công.");
       setMessageSeverity("success");
       handleClick();
     } catch (error) {
+      console.log(error);
       setMessage("Có lỗi xảy ra khi đặt lại mật khẩu. Vui lòng thử lại.");
       setMessageSeverity("error");
       handleClick();
