@@ -18,7 +18,7 @@ import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
 const ChiTietSanPham = ({ productName }) => {
   const productId = useSelector(selectProductID);
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const accessToken = useSelector(selectAccessToken);
   const [userRes, setUserRes] = useState(null);
 
@@ -28,28 +28,21 @@ const ChiTietSanPham = ({ productName }) => {
       const userRes = await getUserCurrent(accessToken);
       setUserRes(userRes);
       setProduct(response);
-      setLoading(false);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     }
   }, [productId]);
 
   useEffect(() => {
-    const fetchDataAndSetLoading = async () => {
-      setLoading(false);
-      localStorage.removeItem("cart");
-      localStorage.removeItem("cartList");
-      await fetchData();
-    };
-
-    const timeoutId = setTimeout(fetchDataAndSetLoading, 1200);
-
-    return () => clearTimeout(timeoutId);
+    localStorage.removeItem("cart");
+    localStorage.removeItem("cartList");
+    fetchData();
   }, [fetchData]);
 
   if (loading) {
     return <Loading />;
   }
+
   return (
     <div
       style={{ padding: "2rem 10rem", backgroundColor: "#f0f0f0" }}
@@ -75,7 +68,7 @@ const ChiTietSanPham = ({ productName }) => {
           </div>
         </>
       ) : (
-        <p>Sản phẩm không tồn tại</p>
+        <p>Đang tải....</p>
       )}
     </div>
   );
