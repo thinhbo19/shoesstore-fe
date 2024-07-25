@@ -89,6 +89,7 @@ const AllComponent = ({
               "&:hover": {
                 backgroundColor: "red",
               },
+              fontSize: "1rem",
             }}
             variant="contained"
           >
@@ -100,7 +101,8 @@ const AllComponent = ({
           <Button
             onClick={() => handlePutShipping(oid, "Success")}
             sx={{
-              width: "150px",
+              fontSize: "1rem",
+              width: "250px",
               backgroundColor: "#ee8d2d",
               "&:hover": {
                 backgroundColor: "#ee8d2d",

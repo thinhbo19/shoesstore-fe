@@ -10,6 +10,9 @@ const List = ({
   deleteItem,
   returnValue,
   selectedOption,
+  hanldePaymentStatus,
+  hanldePaymentMethod,
+  hanleSetShipping,
 }) => {
   return (
     <table>
@@ -26,10 +29,11 @@ const List = ({
           <th>Người đặt</th>
           <th>Số lượng sản phẩm</th>
           <th>Tổng tiền</th>
+          <th>Thanh toán</th>
+          <th>Phương thức</th>
           <th>Ngày tạo</th>
           <th>Trạng thái</th>
           {selectedOption === "Success" ? null : <th>Hành động</th>}
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -46,25 +50,18 @@ const List = ({
             <td>{order.username}</td>
             <td>{order.products.length} đôi</td>
             <td>{order.totalPrice.toLocaleString()} VNĐ</td>
+            <td>{hanldePaymentStatus(order.paymentStatus)}</td>
+            <td>{hanldePaymentMethod(order.paymentMethod)}</td>
             <td>{formatDate(order.createdAt)}</td>
             <td>{returnValue(order.status)}</td>
             {selectedOption === "Processing" ? (
               <td>
-                <button className="btn__orderAdmin processing">
+                <button
+                  onClick={() => hanleSetShipping(order._id)}
+                  className="btn__orderAdmin processing"
+                >
                   Xác nhận giao
                 </button>
-              </td>
-            ) : null}
-            {selectedOption === "Shipping" ? (
-              <td>
-                <button className="btn__orderAdmin processing">
-                  Giao hàng
-                </button>
-              </td>
-            ) : null}
-            {selectedOption === "Cancelled" ? (
-              <td>
-                <button className="btn__orderAdmin processing">Hủy</button>
               </td>
             ) : null}
 

@@ -28,6 +28,30 @@ const returnValue = (status) => {
   }
 };
 
+const hanldePaymentStatus = (paymentStatus) => {
+  switch (paymentStatus) {
+    case "Paid":
+      return "Đã thanh toán";
+    case "UnPaid":
+      return "Chưa thanh toán";
+    default:
+      return paymentStatus;
+  }
+};
+
+const hanldePaymentMethod = (paymentMethod) => {
+  switch (paymentMethod) {
+    case "PayPal":
+      return "PayPal";
+    case "ZaloPay":
+      return "ZaloPay";
+    case "PaymentDelivery":
+      return "COD";
+    default:
+      return paymentMethod;
+  }
+};
+
 const updateOrders = (ordersData, userArr) => {
   return ordersData.map((order) => {
     const correspondingUser = userArr.find(
@@ -45,7 +69,6 @@ const updateOrders = (ordersData, userArr) => {
 
 const HoaDon = ({ orderArrAll }) => {
   const [hoaDonData, setHoaDonData] = useState([]);
-  const [userArr, setUserArr] = useState([]);
   const accessToken = useSelector(selectAccessToken);
   const Swal = require("sweetalert2");
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,7 +84,6 @@ const HoaDon = ({ orderArrAll }) => {
   const fetchData = async (selectedOption) => {
     try {
       const userArr = await getAllUsers();
-      setUserArr(userArr);
       const ordersData = orderArrAll.filter(
         (order) => order.status === selectedOption
       );
@@ -104,7 +126,6 @@ const HoaDon = ({ orderArrAll }) => {
         fetchData(accessToken, selectedOption);
       }
     } catch (error) {
-      // Handle error if needed
       console.error("Error while updating order status:", error);
     }
   };
@@ -166,7 +187,7 @@ const HoaDon = ({ orderArrAll }) => {
       <div className="categories__container">
         <h2 className="section_title">Quản lý hóa đơn</h2>
         <div className="action__from">
-          <Box sx={{ "& > :not(style)": { m: 2, minWidth: 120 } }}>
+          <Box sx={{ "& > :not(style)": { m: 1, minWidth: 120 } }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Option</InputLabel>
               <Select
@@ -205,6 +226,9 @@ const HoaDon = ({ orderArrAll }) => {
           deleteItem={deleteItem}
           returnValue={returnValue}
           selectedOption={selectedOption}
+          hanldePaymentStatus={hanldePaymentStatus}
+          hanldePaymentMethod={hanldePaymentMethod}
+          hanleSetShipping={hanleSetShipping}
         />
 
         <div className="pagination">

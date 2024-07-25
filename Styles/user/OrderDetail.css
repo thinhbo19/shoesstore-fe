@@ -107,3 +107,40 @@
 .order__detail .order__detail__user {
   width: 60%;
 }
+
+.order__detail__user__header {
+  border-bottom: 5px solid #f1f1f1;
+}
+
+.order__detail__user__info {
+  padding: 10px 45px;
+  display: flex;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.order__detail__user__location {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #ee4d2d;
+  width: 40%;
+  display: flex;
+}
+.icon__order__detail {
+  width: 30px;
+  height: 30px;
+}
+
+.p__order__detail {
+  width: 80%;
+  text-align: left;
+  margin-left: 15px;
+}
+
+.order__detail__user__info__right {
+  margin: 2px 20px;
+  width: 50%;
+}
+.order__detail__user__info__right p {
+  margin: 2px;
+  font-weight: bold;
+}

@@ -7,11 +7,50 @@ import { getOrderDetail } from "@/services/Redux/api";
 import OrderDetailProd from "@/component/OrderDetailComp/OrderDetailProd";
 import OrderDetailUser from "@/component/OrderDetailComp/OrderDetailUser";
 import { getUserById } from "@/services/Redux/handle/hanldeUser";
+import Loading from "@/component/Loading/Loading";
+
+const returnValue = (status) => {
+  switch (status) {
+    case "Processing":
+      return "Đang xử lý";
+    case "Shipping":
+      return "Đang vận chuyển";
+    case "Success":
+      return "Thành công";
+    case "Cancelled":
+      return "Đã hủy";
+    default:
+      return status;
+  }
+};
+
+const hanldePaymentStatus = (paymentStatus) => {
+  switch (paymentStatus) {
+    case "Paid":
+      return "Đã thanh toán";
+    case "UnPaid":
+      return "Chưa thanh toán";
+    default:
+      return paymentStatus;
+  }
+};
+
+const hanldePaymentMethod = (paymentMethod) => {
+  switch (paymentMethod) {
+    case "PayPal":
+      return "PayPal";
+    case "ZaloPay":
+      return "ZaloPay";
+    case "PaymentDelivery":
+      return "COD";
+    default:
+      return paymentMethod;
+  }
+};
 
 const OrderDetail = ({ orderId }) => {
   const accessToken = useSelector(selectAccessToken);
-  const [products, setProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState("");
+  const [orderData, setOrderData] = useState(null);
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
 
@@ -19,29 +58,42 @@ const OrderDetail = ({ orderId }) => {
     const fetchData = async () => {
       try {
         const res = await getOrderDetail(accessToken, orderId);
-
+        setOrderData(res);
         const userCur = await getUserById(accessToken, res.OrderBy);
-        setProducts(res.products);
-        setTotalPrice(res.totalPrice.toLocaleString());
         setUser(userCur);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchData();
+    if (accessToken && orderId) {
+      fetchData();
+    }
   }, [accessToken, orderId]);
 
   const calculateTotalCount = (products) => {
-    return products.reduce((total, prod) => total + prod.count, 0);
+    return products?.reduce((total, prod) => total + prod.count, 0);
   };
+
+  if (!orderData || !user) {
+    return <Loading />;
+  }
 
   return (
     <div className="order__detail">
-      <OrderDetailUser user={user} />
+      <OrderDetailUser
+        user={user}
+        address={orderData?.address}
+        paymentStatus={hanldePaymentStatus(orderData?.paymentStatus)}
+        paymentMethod={hanldePaymentMethod(orderData?.paymentMethod)}
+        status={orderData?.status}
+        returnValue={returnValue}
+        createdAt={orderData?.createdAt}
+        updatedAt={orderData?.updatedAt}
+      />
       <OrderDetailProd
-        products={products}
+        products={orderData?.products}
         dispatch={dispatch}
-        totalPrice={totalPrice}
+        totalPrice={orderData?.totalPrice.toLocaleString()}
         calculateTotalCount={calculateTotalCount}
       />
     </div>

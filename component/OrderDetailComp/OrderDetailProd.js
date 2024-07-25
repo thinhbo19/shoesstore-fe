@@ -16,7 +16,7 @@ const OrderDetailProd = ({
       <div className="order__detail__products__top">
         <p className="order__detail__h3">Sản phẩm đã mua</p>
         <div className="products__hasBuy">
-          {products.map((prod, index) => (
+          {products?.map((prod, index) => (
             <div key={index} className="product__items">
               <Image
                 src={prod.img}

@@ -53,7 +53,7 @@ const ShippingComponent = ({
           <Button
             onClick={() => handlePutStatus(oid, "Success")}
             sx={{
-              width: "150px",
+              width: "250px",
               backgroundColor: "#ee8d2d",
               "&:hover": {
                 backgroundColor: "#ee8d2d",
