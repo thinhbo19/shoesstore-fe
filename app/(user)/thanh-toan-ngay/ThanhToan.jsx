@@ -366,18 +366,22 @@ const ThanhToan = () => {
                   {totalAmount.toLocaleString()} VNĐ
                 </p>
               </p>
-              <p className="price__item__p">
-                Giảm:
-                <p className="priceAnount">
-                  {(totalAmount - totalPriceVoucher).toLocaleString()} VNĐ
-                </p>
-              </p>
-              <p className="price__item__p">
-                Tổng cộng:
-                <p className="priceAnount">
-                  {totalPriceVoucher.toLocaleString()} VNĐ{" "}
-                </p>
-              </p>
+              {selectedVoucher ? (
+                <>
+                  <p className="price__item__p">
+                    Giảm:
+                    <p className="priceAnount">
+                      {(totalAmount - totalPriceVoucher).toLocaleString()} VNĐ
+                    </p>
+                  </p>
+                  <p className="price__item__p">
+                    Tổng cộng:
+                    <p className="priceAnount">
+                      {totalPriceVoucher.toLocaleString()}
+                    </p>
+                  </p>
+                </>
+              ) : null}
             </div>
           </div>
         </div>

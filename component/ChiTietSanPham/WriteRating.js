@@ -68,7 +68,7 @@ const WriteRating = ({
       >
         <Typography
           className="text-rating"
-          variant="h4"
+          variant="h6"
           sx={{
             textAlign: "center",
             textTransform: "uppercase",
@@ -78,7 +78,7 @@ const WriteRating = ({
           BẠN CÓ THÍCH SẢN PHẨM CỦA CHÚNG TÔI?
         </Typography>
         <div className="rating-product-quality">
-          <Typography className="text-rating" variant="h6">
+          <Typography className="text-rating" variant="h7">
             Chất Lượng Sản Phẩm
           </Typography>
           <Rating
@@ -89,7 +89,7 @@ const WriteRating = ({
             onChange={(event, newValue) => {
               setValue(newValue);
             }}
-            sx={{ fontSize: "3.5rem", margin: "10px" }}
+            sx={{ fontSize: "2.5rem", margin: "10px" }}
             emptyIcon={
               <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
             }
