@@ -2,14 +2,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./ChatBox.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import Logo from "../../public/logo.svg";
+import {
+  faCircleXmark,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import ChatBoxMess from "./ChatBoxMess";
 import Swal from "sweetalert2";
 import { unreadNotificationFunc } from "../../utils/NotificationFunc";
-import Image from "next/image";
 import { selectUid } from "@/services/Redux/user/useSlice";
 import { getChat, getMess, postMess } from "@/services/Redux/handle/handleChat";
 import { Editor } from "@tinymce/tinymce-react";
@@ -172,8 +173,8 @@ const ChatBox = () => {
     <div className="chatbox__container">
       {!isOpen && (
         <div className="chatbox__icon__container">
-          <Image
-            src={Logo}
+          <FontAwesomeIcon
+            icon={faCommentDots}
             className="chatbox__icon"
             alt=""
             onClick={toggleChatBox}
