@@ -7,6 +7,7 @@ import {
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Script from "next/script";
 
 const Footer = () => {
   return (
@@ -73,6 +74,11 @@ const Footer = () => {
           <p>@2023.Hello</p>
         </div>
       </div>
+      <Script
+        id="mcjs"
+        async
+        src="https://chimpstatic.com/mcjs-connected/js/users/4dc2a22df3ca83f49da4e2089/741429fac8a1b806bc1801956.js"
+      ></Script>
     </footer>
   );
 };

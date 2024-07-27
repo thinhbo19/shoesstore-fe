@@ -9,13 +9,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <script
-          id="mcjs"
-          async
-          src="https://chimpstatic.com/mcjs-connected/js/users/4dc2a22df3ca83f49da4e2089/741429fac8a1b806bc1801956.js"
-        ></script>
-      </head>
       <body>
         <ReduxProvider>{children}</ReduxProvider>
       </body>
