@@ -7,7 +7,7 @@ import voucherSV from "../../../assets/voucher.png";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loading from "../../../component/Loading/Loading";
-import { selectAccessToken } from "@/services/Redux/user/useSlice";
+import { selectAccessToken, selectUid } from "@/services/Redux/user/useSlice";
 import { getVouchers } from "@/services/Redux/handle/hanldeVoucher";
 import { useRouter } from "next/navigation";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
@@ -50,6 +50,7 @@ const CustomButtonCod = styled(Button)({
 
 const ThanhToan = () => {
   const accessToken = useSelector(selectAccessToken);
+  const uid = useSelector(selectUid);
   const [loading, setLoading] = useState(true);
   const Swal = require("sweetalert2");
   const [addressList, setAddressList] = useState([]);
@@ -272,6 +273,60 @@ const ThanhToan = () => {
     }
   };
 
+  const handleThanhToanVNPay = async () => {
+    if (!selectedAddress) {
+      Swal.fire({ title: "BẠN CHƯA CHỌN ĐỊA CHỈ", icon: "warning" });
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${apiUrlOrder}/createUrl`,
+        {
+          userId: uid,
+          products: cartData.map((selectedProduct) => ({
+            product: selectedProduct.product,
+            size: selectedProduct.size,
+            count: selectedProduct.count,
+            price: selectedProduct.price,
+            img: selectedProduct.img,
+            name: selectedProduct.name,
+          })),
+          Note: note,
+          address: selectedAddress,
+          coupon: selectedVoucher ? selectedVoucher._id : null,
+          status: "Processing",
+          paymentMethod: "VNPay",
+          bankCode: "NCB",
+          language: "vn",
+          totalPrice: money,
+        }
+        // {
+        //   headers: {
+        //     token: `Bearer ${accessToken}`,
+        //   },
+        // }
+      );
+      if (res.data.success) {
+        window.location.href = res.data.paymentUrl;
+      } else {
+        Swal.fire({
+          title: "ĐẶT HÀNG THẤT BẠI",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error during payment:", error);
+      Swal.fire({
+        title: "ĐẶT HÀNG THẤT BẠI",
+        icon: "error",
+        text: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDeleteCartItem = async (productId, size) => {
     try {
       const result = await Swal.fire({
@@ -453,6 +508,11 @@ const ThanhToan = () => {
                   amount={Math.round(money / 25000)}
                   currency={"USD"}
                 />
+                {isElectronicEnabled && (
+                  <CustomButtonCod onClick={() => handleThanhToanVNPay()}>
+                    Thanh Toán Bằng VNPAY
+                  </CustomButtonCod>
+                )}
               </div>
             </div>
           </div>

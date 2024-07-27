@@ -76,7 +76,8 @@ const Signup = () => {
       if (response.data) {
         Swal.fire({
           icon: "success",
-          title: "Bạn đã đăng ký tài khoản thành công",
+          title:
+            "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
         });
         await createChat();
         clearFields();
