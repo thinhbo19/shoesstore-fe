@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import List from "./List";
@@ -62,6 +62,7 @@ const Categories = ({ cateData }) => {
     }
     setSelectedIds(newSelectedIds);
   };
+
   const handleSelectAll = (event) => {
     const isChecked = event.target.checked;
     setSelectAll(isChecked);

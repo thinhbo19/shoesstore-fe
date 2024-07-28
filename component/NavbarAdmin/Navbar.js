@@ -95,12 +95,14 @@ const Navbar = () => {
               </li>
               <li className="nav__item">
                 <Link
-                  href="/dashboard/News"
+                  href="/dashboard/danh-sach-dang-ky"
                   className={`nav__link__admin ${
-                    currentPath === "/dashboard/News" ? "active" : ""
+                    currentPath === "/dashboard/danh-sach-dang-ky"
+                      ? "active"
+                      : ""
                   }`}
                 >
-                  Tin Tức
+                  Subscribe
                 </Link>
               </li>
               <li className="nav__item">
