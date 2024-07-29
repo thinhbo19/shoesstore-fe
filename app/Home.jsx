@@ -5,15 +5,23 @@ import ImageCollection from "@/component/Slider/ImageCollection";
 import Images from "@/component/Slider/Images";
 import ImageSlider from "@/component/Slider/Sliders";
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const mcPopupValue = Cookies.get("MCPopupSubscribed");
+    const mcPopupClose = Cookies.get("MCPopupClosed");
+
     setTimeout(() => {
       setLoading(false);
       localStorage.removeItem("cart");
       localStorage.removeItem("cartList");
+      if (mcPopupClose === "yes" || mcPopupValue === "yes") {
+        Cookies.remove("MCPopupClosed");
+        Cookies.remove("MCPopupSubscribed");
+      }
     }, 500);
   }, []);
 
