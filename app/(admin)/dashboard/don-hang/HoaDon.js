@@ -81,7 +81,7 @@ const HoaDon = ({ orderArrAll }) => {
     setSelectedOption(event.target.value);
   };
 
-  const fetchData = async (selectedOption) => {
+  const fetchData = async () => {
     try {
       const userArr = await getAllUsers();
       const ordersData = orderArrAll.filter(
@@ -97,8 +97,8 @@ const HoaDon = ({ orderArrAll }) => {
   };
 
   useEffect(() => {
-    fetchData(selectedOption);
-  }, [accessToken, selectedOption]);
+    fetchData();
+  }, [accessToken, selectedOption, hoaDonData]);
 
   const hanleSetShipping = async (oid) => {
     try {
@@ -123,12 +123,13 @@ const HoaDon = ({ orderArrAll }) => {
           }
         );
         Swal.fire("Đã xác nhận đơn hàng!", "", "success");
-        fetchData(accessToken, selectedOption);
       }
+      fetchData();
     } catch (error) {
       console.error("Error while updating order status:", error);
     }
   };
+
   const handleSelect = (event) => {
     const id = event.target.getAttribute("data-id");
     const isChecked = event.target.checked;

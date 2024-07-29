@@ -35,15 +35,7 @@ const OrderDetailUser = ({
           <p>Địa Chỉ: {address}</p>
         </div>
       </div>
-      <div className="order__detail__user__info">
-        <div className="order__detail__user__location">
-          <FontAwesomeIcon className="icon__order__detail" icon={faFileAlt} />
-          <p className="p__order__detail">Trạng thái đơn hàng</p>
-        </div>
-        <div className="order__detail__user__info__right">
-          <p>{paymentStatus}</p>
-        </div>
-      </div>
+
       <div className="order__detail__user__info">
         <div className="order__detail__user__location">
           <FontAwesomeIcon className="icon__order__detail" icon={faMoneyBill} />{" "}
