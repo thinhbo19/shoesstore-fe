@@ -1,0 +1,71 @@
+.PopupMailChimp__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Nền tối để làm nổi bật popup */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.popup__wrapper {
+  display: flex;
+  position: relative;
+  width: 50%;
+  height: 70%;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.icon__popup {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.icon__popup:hover {
+  background-color: black;
+  color: white;
+}
+
+.PopupMailChimp__img,
+.PopupMailChimp__form {
+  height: 100%;
+}
+.PopupMailChimp__img {
+  width: 50%;
+}
+.PopupMailChimp__form {
+  width: 50%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+}
+.imgpop {
+  width: 100%;
+  height: 100%;
+}
+.popup__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.popup__text {
+  color: #9f9f9f;
+}
+
+.text__popup {
+  width: 100%;
+}
+
+.btn__popup {
+}

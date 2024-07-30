@@ -7,7 +7,7 @@ mailchimp.setConfig({
 });
 
 export async function POST(req) {
-  const { email } = await req.json();
+  const { email, full_name } = await req.json();
 
   if (!email) {
     return new NextResponse(JSON.stringify({ message: "Email is required" }), {
@@ -15,12 +15,12 @@ export async function POST(req) {
       status: 400,
     });
   }
-
   try {
     const response = await mailchimp.lists.addListMember(
       process.env.NEXT_PUBLIC_MAILCHIMP_AUDIENCE_ID,
       {
         email_address: email,
+        full_name: full_name,
         status: "subscribed",
       }
     );
