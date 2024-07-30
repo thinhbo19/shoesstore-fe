@@ -6,17 +6,23 @@ import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@mui/material";
+import axios from "axios";
+import Loading from "@/component/Loading/Loading";
 
 const Subscribe = () => {
   const accessToken = useSelector(selectAccessToken);
   const [subscribersData, setSubscribers] = useState([]);
-  const [PerPage] = useState(5);
+  const [PerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedEmail, setSelectedEmail] = useState("");
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [selectAll, setSelectAll] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const Swal = require("sweetalert2");
 
   useEffect(() => {
     if (accessToken) {
@@ -69,18 +75,66 @@ const Subscribe = () => {
     setSelectedEmail(isChecked ? ids : []);
   };
 
-  const handleDELETE = async (email) => {
+  const handleExport = async () => {
     try {
-      await fetch("/api/email", {
+      const response = await fetch("/api/exportSub", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "subscribers.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error exporting subscribers:", error);
+    }
+  };
+
+  const handleDelete = async (email) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/email", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
       });
-      fetchGET();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          text: "Xóa thành công",
+        });
+        fetchGET();
+      } else {
+        console.error("Error deleting subscriber:", await response.json());
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error deleting subscriber:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    const confirmResult = await Swal.fire({
+      text: "Bạn muốn xóa những người dùng này?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
+
+    if (!confirmResult.isConfirmed) {
+      return;
     }
   };
 
@@ -89,19 +143,30 @@ const Subscribe = () => {
   const current = subscribersData.slice(indexOfFirst, indexOfLast);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <section className="Categories maincontainer section" id="Categories">
       <div className="categories__container">
         <h2 className="section_title">Danh Sách Subscribe</h2>
         <div className="action__from">
           <Box sx={{ "& > :not(style)": { m: 1 } }}>
-            <Fab
-              color="primary"
-              aria-label="delete"
-              onClick={() => deleteManyItem()}
+            {selectedEmail.length >= 2 && (
+              <Fab color="primary" aria-label="delete">
+                <DeleteIcon onClick={handleDeleteAll} />
+              </Fab>
+            )}
+
+            <Button
+              startIcon={<SystemUpdateAltIcon />}
+              variant="contained"
+              className="btn_export"
+              onClick={handleExport}
             >
-              <DeleteIcon />
-            </Fab>
+              Export
+            </Button>
           </Box>
         </div>
         <table>
@@ -137,7 +202,7 @@ const Subscribe = () => {
                       <FontAwesomeIcon
                         className="admin__icon"
                         icon={faTrash}
-                        onClick={() => handleDELETE(sub.email_address)}
+                        onClick={() => handleDelete(sub.email_address)}
                       />
                     </td>
                   </tr>

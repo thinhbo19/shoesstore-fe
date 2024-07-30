@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 mailchimp.setConfig({
   apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
-  server: "us13",
+  server: "us14",
 });
 
 export async function POST(req) {
@@ -67,10 +67,9 @@ export async function DELETE(req) {
   }
 
   try {
-    const subscriberHash = mailchimp.utils.md5(email);
     const response = await mailchimp.lists.deleteListMember(
       process.env.NEXT_PUBLIC_MAILCHIMP_AUDIENCE_ID,
-      subscriberHash
+      email
     );
 
     return new NextResponse(JSON.stringify(response), {
@@ -78,9 +77,13 @@ export async function DELETE(req) {
       status: 200,
     });
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: error.message }), {
-      headers: { "Content-Type": "application/json" },
-      status: 500,
-    });
+    console.error("Error deleting subscriber:", error);
+    return new NextResponse(
+      JSON.stringify({ error: "Failed to delete subscriber" }),
+      {
+        headers: { "Content-Type": "application/json" },
+        status: 500,
+      }
+    );
   }
 }

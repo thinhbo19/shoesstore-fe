@@ -74,11 +74,17 @@ const Footer = () => {
           <p>@2023.Hello</p>
         </div>
       </div>
-      <Script
-        id="mcjs"
-        async
-        src="https://chimpstatic.com/mcjs-connected/js/users/4dc2a22df3ca83f49da4e2089/741429fac8a1b806bc1801956.js"
-      ></Script>
+      <Script id="mcjs">
+        !function(c,h,i,m,p)
+        {
+          ((m = c.createElement(h)),
+          (p = c.getElementsByTagName(h)[0]),
+          (m.async = 1),
+          (m.src = i),
+          p.parentNode.insertBefore(m, p))
+        }
+        (document,"script","https://chimpstatic.com/mcjs-connected/js/users/fec924f00947bba359f746e97/dd0007c3c3d6207b27607b935.js");
+      </Script>
     </footer>
   );
 };

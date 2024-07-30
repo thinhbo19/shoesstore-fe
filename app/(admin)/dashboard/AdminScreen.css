@@ -120,3 +120,9 @@ tr:hover {
   min-height: 100vh;
   position: relative;
 }
+
+.btn_export {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
