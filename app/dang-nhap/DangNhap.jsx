@@ -8,7 +8,7 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Loading from "@/component/Loading/Loading";
 import {
@@ -116,35 +116,37 @@ const Login = () => {
         className="form-box login"
       >
         <h2>ĐĂNG NHẬP</h2>
-        <form onSubmit={handleLogin}>
-          <div className="input-box login">
-            <span className="icon">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </span>
-            <input
+        <div className="from__login">
+          <div className="input__login__field">
+            <FontAwesomeIcon className="icon_email" icon={faEnvelope} />
+            <TextField
               className="input__login"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleFormChange}
               required
+              label="Nhập email của bạn"
+              variant="filled"
             />
-            <label htmlFor="email">Email</label>
           </div>
 
-          <div className="input-box login">
-            <span className="icon" onClick={togglePasswordVisibility}>
-              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-            </span>
-            <input
+          <div className="input__login__field">
+            <FontAwesomeIcon
+              className="icon_pass"
+              icon={showPassword ? faEyeSlash : faEye}
+              onClick={togglePasswordVisibility}
+            />
+            <TextField
               className="input__login"
               type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleFormChange}
               required
+              label="Nhập mật khẩu của bạn"
+              variant="filled"
             />
-            <label htmlFor="password">Mật khẩu</label>
           </div>
 
           <div className="remember-forgot">
@@ -159,7 +161,13 @@ const Login = () => {
               Bạn quên mật khẩu?
             </button>
           </div>
-          <button type="submit" name="login" className="Btn">
+
+          <button
+            onClick={handleLogin}
+            type="submit"
+            name="login"
+            className="Btn"
+          >
             ĐĂNG NHẬP
           </button>
 
@@ -191,7 +199,7 @@ const Login = () => {
               <p>Đăng nhập với Facebook</p>
             </div>
           </div>
-        </form>
+        </div>
       </Box>
     </>
   );

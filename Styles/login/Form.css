@@ -24,7 +24,7 @@
 }
 .wrapper .form-box.forgotpass {
   position: absolute;
-  left: 25%;
+  left: 20%;
   top: 15%;
   transition: 0.8s;
   transform: scale(0);
@@ -72,236 +72,158 @@
   color: #f2d335;
 }
 
-.form-box .input-box {
-  position: relative;
-  width: 450px;
-  height: 15px;
-}
-.form-box .input-box.login {
-  margin: 2.5rem 0 3rem 2.5rem;
-}
-.form-box .input-box.register {
-  margin: 2.5rem 0 4rem 2.5rem;
-}
-
-.form-box .input-box label {
-  position: absolute;
-  left: 10px;
-  top: 140%;
-  transform: translateY(-50%);
-  font-size: 1em;
-  font-weight: bold;
-  pointer-events: none;
-  transition: 0.2s;
-}
-
-.form-box .input-box input:focus ~ label,
-.form-box .input-box input:valid ~ label {
-  top: 0px;
-  font-size: 0.6rem;
-  background-color: #fff;
-}
-
-.form-box .input-box .input__register {
-  width: 100%;
-  height: 100%;
-  font-size: 1rem;
-  border: 1px solid #000000;
-  padding: 15px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-
-.form-box .input-box .input__login {
-  width: 100%;
-  /* height: 100%; */
-  font-size: 1rem;
-  border: 1px solid #000000;
-  padding: 15px;
-  border-radius: 20px;
-  font-weight: 600;
-}
-
-.form-box .input-box .icon {
-  position: absolute;
-  right: 0;
-  top: -5px;
-  line-height: 57px;
-  font-size: 1.3rem;
-}
-
-.form-box .remember-forgot {
-  font-size: 0.9em;
-  color: #fff;
-  margin: 15px 0 15px 0;
+.form-box.login .from__login {
   display: flex;
-  justify-content: space-around;
-  font-weight: 600;
-  color: black;
-}
-
-.form-box .remember-forgot .forgot-pass {
-  color: #142251;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-}
-
-.form-box .remember-forgot .forgot-pass:hover {
-  text-decoration: underline;
-}
-
-.form-box .Btn {
-  width: 50%;
-  height: 2.5rem;
-  border: unset;
-  border-radius: 15px;
-  z-index: 1;
-  background: #f2d335;
-  position: relative;
-  left: 25%;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 250ms;
-  z-index: 100;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.form-box .Btn:hover {
-  border: 3px solid black;
-}
-
-.form-box .login-register {
-  margin: 25px 0 10px;
-  text-align: center;
-  color: black;
-}
-
-.form-box .login-register button {
-  color: #142251;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.form-box .login-register button:hover {
-  text-decoration: underline;
-}
-
-.form-box .signInwith {
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-top: 10px;
-}
-
-.form-box .signInwithGoogle,
-.form-box .signInwithGitHub {
-  display: block;
-  text-align: center;
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.form-box .signInwithGoogle:hover,
-.form-box .signInwithGitHub:hover {
-  background-color: #d2cfcf;
-}
-
-.form-box .icon-SignIn {
-  font-size: 1.4rem;
-  margin-right: 10px;
-}
-
-.form-box .signInwith p {
-  font-size: 1rem;
-  text-align: center;
-}
-
-.form-box.forgotpass h2 {
-  font-size: 2em;
-  text-align: center;
-  color: #f2d335;
-}
-
-.form-box.forgotpass {
-  width: 500px;
-}
-.form-box.forgotpass .input-box-forgotpass {
-  position: relative;
-  width: 90%;
-  height: 15px;
-  margin-top: 3rem;
-}
-
-.btnOTP {
-  margin: 3rem;
-  display: flex;
   justify-content: center;
-  align-self: center;
 }
 
-.btnOTP .Btn-otp {
-  width: 50%;
-  height: 4rem;
-  border-radius: 20px;
-  font-size: 1.2rem;
-  background: #f2d335;
-  font-weight: bold;
-}
-.form-box.forgotpass .input-box-forgotpass label {
-  position: absolute;
-  left: 10px;
-  top: 150%;
-  transform: translateY(-50%);
-  font-size: 1em;
-  font-weight: bold;
-  pointer-events: none;
-  transition: 0.2s;
+.form-box.signup .from__register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-box.forgotpass .input-box-forgotpass input:focus ~ label,
-.form-box.forgotpass .input-box-forgotpass input:valid ~ label {
-  top: -10px;
+.form-box.forgotpass .from__forgotpass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
-.form-box.forgotpass .input-box-forgotpass input {
+.input__forgotpass__field {
+  margin: 10px;
+  width: 86%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.input__forgotpass {
   width: 100%;
-  height: 100%;
-  font-size: 1.2rem;
-  border: 1px solid black;
-  padding: 15px;
-  border-radius: 20px;
-  font-weight: 600;
+}
+.input__forgotpass__field .icon {
+  position: absolute;
+  right: 10px;
+  z-index: 1000000;
+  cursor: pointer;
 }
 
-.form-box.forgotpass .login-forgotpass {
-  margin: 25px 0 10px;
-  text-align: center;
-  color: black;
+.from__login .input__login__field {
+  margin: 10px;
+  width: 86%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.from__login .input__login__field .icon_email,
+.from__login .input__login__field .icon_pass {
+  position: absolute;
+  right: 10px;
+  z-index: 1000000;
+  cursor: pointer;
+}
+.from__login .input__login__field .input__login {
+  width: 100%;
+}
+
+.from__register .input__register__field {
+  margin: 10px;
+  width: 86%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.from__register .input__register__field .icon {
+  position: absolute;
+  right: 10px;
+  z-index: 1000000;
+  cursor: pointer;
+}
+.from__register .input__register__field .input__register {
+  width: 100%;
+}
+
+.remember-forgot {
+  width: 80%;
+  margin: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
-.forgotpass-link {
-  font-size: 1.4rem;
-  color: #142251;
-  font-weight: 600;
-  text-decoration: none;
+.remember-forgot .forgot-pass {
   border: none;
-  background: none;
+  text-decoration: underline;
+}
+.remember-forgot .forgot-pass:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.Btn {
+  width: 200px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+  background-color: #f2d335;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: all ease-in-out 0.5s;
+}
+.Btn:hover {
+  transform: scale(1.1);
+}
+
+.login-register {
+  display: flex;
+  margin: 10px;
+}
+.register-link {
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.register-link:hover {
+  color: #f2d335;
+}
+
+.signInwith {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 10px;
+}
+.signInwithGoogle,
+.signInwithGitHub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #797777;
+  border-radius: 20px;
+}
+
+.login-forgotpass {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  width: 100%;
+  color: black;
+}
+.forgotpass-link {
+  color: black;
+  margin: 10px 15px;
+  text-decoration: underline;
   cursor: pointer;
 }
 .forgotpass-link:hover {
-  text-decoration: underline;
+  color: #f2d335;
 }
 /* THÔNG BÁO KHI ĐĂNG KÝ----------------------------------------- */
 .user-data {

@@ -2,13 +2,15 @@
 import React, { useState } from "react";
 import "../../Styles/login/reset.css";
 import "../../Styles/login/Form.css";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Loading from "@/component/Loading/Loading";
 import { apiUrlUser } from "@/services/config";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -66,35 +68,43 @@ const ResetPass = () => {
   return (
     <div className="mainReset">
       <div className="imageBack">
-        <Box className="form-box forgotpass">
+        <Box
+          className="form-box forgotpass"
+          maxWidth="100%"
+          sx={{
+            width: "60%",
+            height: "50%",
+          }}
+        >
           <h2>THAY ĐỔI MẬT KHẨU</h2>
-          <form>
-            <div className="input-box-forgotpass">
-              <input
+          <div className="from__forgotpass">
+            <div className="input__forgotpass__field">
+              <FontAwesomeIcon className="icon" icon={faEye} />
+              <TextField
                 type="password"
                 name="newPassword"
+                className="input__forgotpass"
                 value={password}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
+                label="Nhập mật khẩu mới của bạn"
               />
-              <label htmlFor="newPassword">Mật khẩu mới</label>
             </div>
-            <div className="input-box-forgotpass">
-              <input
+            <div className="input__forgotpass__field">
+              <TextField
                 type="text"
+                className="input__forgotpass"
                 name="token"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
                 required
+                label="Nhập Token mà bạn đã nhận"
               />
-              <label htmlFor="newPassword">Token</label>
             </div>
-            <div className="btnOTP">
-              <button onClick={handleSubmit} type="submit" className="Btn-otp">
-                Xác Nhận
-              </button>
-            </div>
-          </form>
+            <button onClick={handleSubmit} type="submit" className="Btn">
+              Xác Nhận
+            </button>
+          </div>
         </Box>
       </div>
       <Snackbar

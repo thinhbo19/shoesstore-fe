@@ -9,7 +9,7 @@ import {
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { Box } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -60,6 +60,20 @@ const Signup = () => {
 
   const fetchUserData = async (event) => {
     event.preventDefault();
+
+    if (
+      email === "" ||
+      username === "" ||
+      password === "" ||
+      phoneNumber === ""
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Vui lòng nhập đầy đủ các thông tin",
+      });
+      return;
+    }
+
     setIsSigningUp(true);
     const userDataToSend = {
       username: username,
@@ -100,6 +114,7 @@ const Signup = () => {
     <>
       {" "}
       <Box
+        maxWidth="100%"
         sx={{
           width: "60%",
           height: "100%",
@@ -107,73 +122,70 @@ const Signup = () => {
         className="form-box signup"
       >
         <h2>TẠO TÀI KHOẢN</h2>
-        <form onSubmit={fetchUserData}>
-          <div className="input-box register">
-            <span className="icon">
-              <FontAwesomeIcon icon={faUser} />
-            </span>
-            <input
+        <div className="from__register">
+          <div className="input__register__field">
+            <FontAwesomeIcon className="icon" icon={faUser} />
+            <TextField
               className="input__register"
               type="text"
               name="username"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              label="Nhập họ tên của bạn"
             />
-            <label htmlFor="username">Họ và tên</label>
           </div>
-          <div className="input-box register">
-            <span className="icon">
-              <FontAwesomeIcon icon={faPhone} />
-            </span>
-            <input
+          <div className="input__register__field">
+            <FontAwesomeIcon className="icon" icon={faPhone} />
+            <TextField
               className="input__register"
               type="text"
               name="mobile"
               required
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              label="Nhập số điện thoại của bạn"
             />
-            <label htmlFor="username">Số điện thoại</label>
           </div>
-          <div className="input-box register">
-            <span className="icon">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </span>
-            <input
+          <div className="input__register__field">
+            <FontAwesomeIcon className="icon" icon={faEnvelope} />
+            <TextField
               className="input__register"
               type="email"
               name="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              label="Nhập email của bạn"
             />
-            <label htmlFor="email">Email</label>
           </div>
-          <div className="input-box register">
-            <input
+          <div className="input__register__field">
+            <FontAwesomeIcon
+              onClick={togglePasswordVisibility}
+              className="icon"
+              icon={showPassword ? faEyeSlash : faEye}
+            />
+            <TextField
               className="input__register"
               type={showPassword ? "text" : "password"}
               name="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              label="Nhập mật khẩu  của bạn"
             />
-            <span className="icon" onClick={togglePasswordVisibility}>
-              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-            </span>
-            <label htmlFor="password">Mật khẩu</label>
           </div>
           <button
             type="submit"
             name="signup"
             className="Btn"
             disabled={isSigningUp}
+            onClick={(e) => fetchUserData(e)}
           >
             {isSigningUp ? "ĐANG ĐĂNG KÝ..." : "ĐĂNG KÝ"}
           </button>
 
-          <div className="login-register">
+          <div className="register-register">
             <p>
               Bạn chưa có tài khoản?{" "}
               <button
@@ -185,7 +197,7 @@ const Signup = () => {
               </button>
             </p>
           </div>
-        </form>
+        </div>
       </Box>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}

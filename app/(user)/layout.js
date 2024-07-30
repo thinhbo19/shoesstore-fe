@@ -10,7 +10,7 @@ export default async function UserLayout({ children }) {
     <>
       <Header allProducts={allProducts} />
       {children}
-      <ChatBox />
+      {/* <ChatBox /> */}
       <Footer />
     </>
   );

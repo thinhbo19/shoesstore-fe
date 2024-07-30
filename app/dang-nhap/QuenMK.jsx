@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
-import { Box, Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import { apiUrlUser } from "@/services/config";
 
@@ -49,48 +50,48 @@ const ForgotPass = () => {
 
   return (
     <>
-      <Box className="form-box forgotpass">
+      <Box
+        className="form-box forgotpass"
+        maxWidth="100%"
+        sx={{
+          width: "60%",
+          height: "60%",
+        }}
+      >
         <h2>QUÊN MẬT KHẨU</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="input-box-forgotpass">
-            <input
+        <div className="from__forgotpass">
+          <div className="input__forgotpass__field">
+            <FontAwesomeIcon className="icon" icon={faEnvelope} />
+            <TextField
               type="email"
+              className="input__forgotpass"
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              label="Nhập email của bạn"
               required
             />
-            <label htmlFor="email">Email</label>
           </div>
-          <div className="btnOTP">
-            <button type="submit" className="Btn-otp" disabled={saving}>
-              {saving ? "ĐANG GỬI..." : "XÁC NHẬN"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="Btn"
+            disabled={saving}
+            onClick={handleSubmit}
+          >
+            {saving ? "ĐANG GỬI..." : "XÁC NHẬN"}
+          </button>
           <div className="login-forgotpass">
-            <p>
-              <Button
-                className="forgotpass-link"
-                onClick={toggleWrapperRemoveForgotPass}
-              >
-                {" "}
-                <FontAwesomeIcon
-                  icon={faArrowAltCircleLeft}
-                ></FontAwesomeIcon>{" "}
-                Đăng Nhập
-              </Button>
+            <p
+              className="forgotpass-link"
+              onClick={toggleWrapperRemoveForgotPass}
+            >
+              Đăng Nhập
             </p>
-            <p>
-              <Button
-                className="forgotpass-link"
-                onClick={toggleWrapperAddForgotPass}
-              >
-                Tạo Tài Khoản{" "}
-                <FontAwesomeIcon icon={faArrowAltCircleRight}></FontAwesomeIcon>{" "}
-              </Button>
+            <p className="forgotpass-link" onClick={toggleWrapperAddForgotPass}>
+              Tạo Tài Khoản
             </p>
           </div>
-        </form>
+        </div>
       </Box>
     </>
   );
