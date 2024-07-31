@@ -138,8 +138,7 @@ const Signup = () => {
       });
   };
 
-  const fetchUserData = async (event) => {
-    event.preventDefault();
+  const fetchUserData = async () => {
     setLoading(true);
 
     if (
