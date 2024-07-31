@@ -102,6 +102,7 @@ const Signup = () => {
   };
 
   const sendOtp = async () => {
+    setLoading(true);
     if (email && username && password && phoneNumber) {
       configureRecaptcha();
       try {
@@ -117,6 +118,8 @@ const Signup = () => {
           });
       } catch (error) {
         console.error("Error during OTP send:", error);
+      } finally {
+        setLoading(false);
       }
     } else {
       Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
