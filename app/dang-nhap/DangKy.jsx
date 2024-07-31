@@ -13,10 +13,11 @@ import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { apiUrlUser } from "@/services/config";
-import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import OtpInput from "react-otp-input";
 import { auth } from "../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import Loading from "@/component/Loading/Loading";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -30,9 +31,27 @@ const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [OTP, setOTP] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const handleNextStep1 = () => {
+    setStep(1);
+  };
+
+  const handleNextStep2 = () => {
+    if (email && username && password) {
+      setStep(2);
+    } else {
+      Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
+    }
+  };
+
+  const handleNextStep3 = () => {
+    sendOtp();
+  };
 
   const toggleWrapperRemove = () => {
     const wrapper = document.querySelector(".wrapper");
@@ -87,24 +106,41 @@ const Signup = () => {
   };
 
   const sendOtp = async () => {
-    configureRecaptcha();
-    try {
-      const appVerifier = window.recaptchaVerifier;
-      const formatPhone = formatPhoneNumber(phoneNumber);
-      signInWithPhoneNumber(auth, formatPhone, appVerifier)
-        .then((confirmationResult) => {
-          window.confirmationResult = confirmationResult;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.error("Error during OTP send:", error);
+    if (email && username && password && phoneNumber) {
+      configureRecaptcha();
+      try {
+        const appVerifier = window.recaptchaVerifier;
+        const formatPhone = formatPhoneNumber(phoneNumber);
+        signInWithPhoneNumber(auth, formatPhone, appVerifier)
+          .then((confirmationResult) => {
+            window.confirmationResult = confirmationResult;
+            setStep(3);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (error) {
+        console.error("Error during OTP send:", error);
+      }
+    } else {
+      Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
     }
+  };
+
+  const verifyOTP = () => {
+    confirmationResult
+      .confirm(OTP)
+      .then(async (res) => {
+        fetchUserData();
+      })
+      .className((err) => {
+        console.log(err);
+      });
   };
 
   const fetchUserData = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     if (
       email === "" ||
@@ -135,14 +171,11 @@ const Signup = () => {
       if (response.data) {
         Swal.fire({
           icon: "success",
-          title:
-            "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
+          title: "Đăng ký thành công.",
         });
-        sendOtp();
-        // await createChat();
-        // clearFields();
-        // toggleWrapperRemove();
-        // router.push(`/dang-nhap/verify-otp/${response.data.CreateUser._id}`);
+        await createChat();
+        clearFields();
+        toggleWrapperRemove();
       } else {
         setMessage("Email hoặc tên đăng nhập đã được sử dụng");
         setMessageServerity("error");
@@ -154,8 +187,13 @@ const Signup = () => {
       handleClick();
     } finally {
       setIsSigningUp(false);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -170,80 +208,132 @@ const Signup = () => {
         <div id="recaptcha-container"></div>
         <h2>TẠO TÀI KHOẢN</h2>
         <div className="from__register">
-          <div className="input__register__field">
-            <FontAwesomeIcon className="icon" icon={faUser} />
-            <TextField
-              className="input__register"
-              type="text"
-              name="username"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              label="Nhập họ tên của bạn"
-            />
-          </div>
-          <div className="input__register__field">
-            <FontAwesomeIcon className="icon" icon={faPhone} />
-            <TextField
-              className="input__register"
-              type="text"
-              name="mobile"
-              required
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              label="Nhập số điện thoại của bạn"
-            />
-          </div>
-          <div className="input__register__field">
-            <FontAwesomeIcon className="icon" icon={faEnvelope} />
-            <TextField
-              className="input__register"
-              type="email"
-              name="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Nhập email của bạn"
-            />
-          </div>
-          <div className="input__register__field">
-            <FontAwesomeIcon
-              onClick={togglePasswordVisibility}
-              className="icon"
-              icon={showPassword ? faEyeSlash : faEye}
-            />
-            <TextField
-              className="input__register"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              label="Nhập mật khẩu của bạn"
-            />
-          </div>
-          <button
-            type="submit"
-            name="signup"
-            className="Btn"
-            disabled={isSigningUp}
-            onClick={(e) => fetchUserData(e)}
-          >
-            {isSigningUp ? "ĐANG ĐĂNG KÝ..." : "ĐĂNG KÝ"}
-          </button>
-
-          <div className="register-register">
-            <p>
-              Bạn chưa có tài khoản?{" "}
+          {step === 1 && (
+            <>
+              <div className="input__register__field">
+                <FontAwesomeIcon className="icon" icon={faUser} />
+                <TextField
+                  className="input__register"
+                  type="text"
+                  name="username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  label="Nhập họ tên của bạn"
+                />
+              </div>
+              <div className="input__register__field">
+                <FontAwesomeIcon className="icon" icon={faEnvelope} />
+                <TextField
+                  className="input__register"
+                  type="email"
+                  name="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  label="Nhập email của bạn"
+                />
+              </div>
+              <div className="input__register__field">
+                <FontAwesomeIcon
+                  onClick={togglePasswordVisibility}
+                  className="icon"
+                  icon={showPassword ? faEyeSlash : faEye}
+                />
+                <TextField
+                  className="input__register"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  label="Nhập mật khẩu của bạn"
+                />
+              </div>
               <button
-                type="button"
-                className="register-link"
-                onClick={toggleWrapperRemove}
+                type="submit"
+                name="signup"
+                className="Btn"
+                onClick={() => handleNextStep2()}
               >
-                ĐĂNG NHẬP
+                TIẾP TỤC
               </button>
-            </p>
-          </div>
+
+              <div className="register-register">
+                <p>
+                  Bạn chưa có tài khoản?{" "}
+                  <button
+                    type="button"
+                    className="register-link"
+                    onClick={toggleWrapperRemove}
+                  >
+                    ĐĂNG NHẬP
+                  </button>
+                </p>
+              </div>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <div className="input__register__field">
+                <FontAwesomeIcon className="icon" icon={faPhone} />
+                <TextField
+                  className="input__register"
+                  type="text"
+                  name="mobile"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  label="Nhập số điện thoại của bạn"
+                />
+              </div>
+
+              <button
+                type="submit"
+                name="signup"
+                className="Btn"
+                onClick={() => handleNextStep3()}
+              >
+                GỬI OTP
+              </button>
+
+              <div className="register-register">
+                <p>
+                  Trở về?
+                  <button
+                    type="button"
+                    className="register-link"
+                    onClick={handleNextStep1}
+                  >
+                    back
+                  </button>
+                </p>
+              </div>
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <div className="input__register__field">
+                <OtpInput
+                  value={OTP}
+                  onChange={setOTP}
+                  numInputs={6}
+                  className="input__forgotpass"
+                  renderSeparator={<span>-</span>}
+                  renderInput={(props) => <input {...props} />}
+                />
+              </div>
+
+              <button
+                type="submit"
+                name="signup"
+                className="Btn"
+                onClick={() => verifyOTP()}
+              >
+                ĐĂNG KÝ
+              </button>
+            </>
+          )}
         </div>
       </Box>
       <Snackbar
