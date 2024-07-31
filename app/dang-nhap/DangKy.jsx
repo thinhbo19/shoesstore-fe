@@ -290,13 +290,26 @@ const Signup = () => {
           {step === 3 && (
             <>
               <div className="input__register__field">
+                <p>NHẬP OTP MÀ BẠN ĐÃ NHẬN</p>
                 <OtpInput
                   value={OTP}
                   onChange={setOTP}
                   numInputs={6}
-                  className="input__forgotpass"
                   renderSeparator={<span>-</span>}
-                  renderInput={(props) => <input {...props} />}
+                  renderInput={(props) => (
+                    <input
+                      {...props}
+                      style={{
+                        width: "35px",
+                        height: "35px",
+                        fontSize: "1.5rem",
+                        margin: "0 5px",
+                        textAlign: "center",
+                        borderRadius: "8px",
+                        border: "2px solid #ccc",
+                      }}
+                    />
+                  )}
                 />
               </div>
 

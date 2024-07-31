@@ -84,6 +84,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 80%;
 }
 
 .form-box.forgotpass .from__forgotpass {
@@ -133,6 +134,7 @@
   margin: 10px;
   width: 86%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -225,6 +227,11 @@
 .forgotpass-link:hover {
   color: #f2d335;
 }
+.input__register__field p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 /* THÔNG BÁO KHI ĐĂNG KÝ----------------------------------------- */
 .user-data {
   text-align: center;
