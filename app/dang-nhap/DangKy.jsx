@@ -133,8 +133,8 @@ const Signup = () => {
       .then(async (res) => {
         fetchUserData();
       })
-      .className((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   };
 
