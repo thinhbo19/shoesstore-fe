@@ -18,6 +18,7 @@ import OtpInput from "react-otp-input";
 import { auth } from "../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Loading from "@/component/Loading/Loading";
+import { createChat } from "@/services/Redux/handle/handleChat";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -33,7 +34,6 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [OTP, setOTP] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -47,10 +47,6 @@ const Signup = () => {
     } else {
       Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
     }
-  };
-
-  const handleNextStep3 = () => {
-    sendOtp();
   };
 
   const toggleWrapperRemove = () => {
@@ -127,40 +123,27 @@ const Signup = () => {
     }
   };
 
-  const verifyOTP = () => {
-    confirmationResult
-      .confirm(OTP)
-      .then(async (res) => {
-        fetchUserData();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const verifyOTP = async () => {
+    setLoading(true);
+    try {
+      const confirmationResult = window.confirmationResult;
+      const result = await confirmationResult.confirm(OTP);
+      if (result.user) {
+        await fetchUserData();
+        await createChat();
+        toggleWrapperRemove();
+        clearFields();
+      }
+    } catch (error) {
+      console.error("OTP verification failed:", error);
+      Swal.fire("Lỗi", "Mã OTP không chính xác, vui lòng thử lại", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchUserData = async () => {
-    setLoading(true);
-
-    if (
-      email === "" ||
-      username === "" ||
-      password === "" ||
-      phoneNumber === ""
-    ) {
-      Swal.fire({
-        icon: "error",
-        title: "Vui lòng nhập đầy đủ các thông tin",
-      });
-      return;
-    }
-
-    setIsSigningUp(true);
-    const userDataToSend = {
-      username: username,
-      phoneNumber: phoneNumber,
-      email: email,
-      password: password,
-    };
+    const userDataToSend = { username, phoneNumber, email, password };
 
     try {
       const response = await axios.post(
@@ -168,25 +151,16 @@ const Signup = () => {
         userDataToSend
       );
       if (response.data) {
-        Swal.fire({
-          icon: "success",
-          title: "Đăng ký thành công.",
-        });
-        await createChat();
-        clearFields();
-        toggleWrapperRemove();
+        Swal.fire("Thành công", "Đăng ký thành công.", "success");
       } else {
         setMessage("Email hoặc tên đăng nhập đã được sử dụng");
         setMessageServerity("error");
-        handleClick();
+        setOpenSnackbar(true);
       }
     } catch (error) {
       setMessage("Email hoặc tên đăng nhập đã được sử dụng");
       setMessageServerity("error");
-      handleClick();
-    } finally {
-      setIsSigningUp(false);
-      setLoading(false);
+      setOpenSnackbar(true);
     }
   };
 
@@ -291,7 +265,7 @@ const Signup = () => {
                 type="submit"
                 name="signup"
                 className="Btn"
-                onClick={() => handleNextStep3()}
+                onClick={() => sendOtp()}
               >
                 GỬI OTP
               </button>
