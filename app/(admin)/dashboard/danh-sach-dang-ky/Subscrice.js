@@ -10,12 +10,12 @@ import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@mui/material";
-import axios from "axios";
 import Loading from "@/component/Loading/Loading";
 
 const Subscribe = () => {
   const accessToken = useSelector(selectAccessToken);
   const [subscribersData, setSubscribers] = useState([]);
+  const [campaigns, setCampaigns] = useState([]);
   const [PerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedEmail, setSelectedEmail] = useState([]);
@@ -27,6 +27,7 @@ const Subscribe = () => {
   useEffect(() => {
     if (accessToken) {
       fetchGET();
+      fetchCampaigns();
     }
   }, [accessToken]);
 
@@ -41,6 +42,17 @@ const Subscribe = () => {
 
       const data = await response.json();
       setSubscribers(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const fetchCampaigns = async () => {
+    try {
+      const response = await fetch("/api/campaigns");
+      const data = await response.json();
+
+      setCampaigns(data.campaigns);
     } catch (error) {
       console.error("Error:", error);
     }

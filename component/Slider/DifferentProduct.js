@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./Sliders.css";
 import Link from "next/link";
@@ -14,7 +12,6 @@ import { apiUrlProduct } from "@/services/config";
 const DifferentProduct = () => {
   const [productData, setProductData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sliderRef, setSliderRef] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,19 +29,11 @@ const DifferentProduct = () => {
 
     fetchData();
   }, []);
-  const goToNext = () => {
-    sliderRef.slickNext();
-  };
-
-  const goToPrev = () => {
-    sliderRef.slickPrev();
-  };
 
   const handleProductClick = () => {
     window.location.reload();
   };
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
@@ -79,7 +68,7 @@ const DifferentProduct = () => {
       {loading ? (
         <p>Đang tải sản phẩm...</p>
       ) : productData.length > 0 ? (
-        <Slider {...settings} ref={(slider) => setSliderRef(slider)}>
+        <Slider {...settings}>
           {productData.map((product) => (
             <div
               key={product._id}
@@ -101,15 +90,6 @@ const DifferentProduct = () => {
       ) : (
         <p>Không có sản phẩm để hiển thị</p>
       )}
-      <div className="slider-product-cart-move">
-        <button className="btn-left" onClick={goToPrev}>
-          <FontAwesomeIcon icon={faAngleLeft} size="lg" color="black" />
-        </button>
-
-        <button className="btn-right" onClick={goToNext}>
-          <FontAwesomeIcon icon={faAngleRight} size="lg" color="black" />
-        </button>
-      </div>
     </div>
   );
 };

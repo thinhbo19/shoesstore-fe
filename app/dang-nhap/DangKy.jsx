@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../Styles/login/Form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,13 +8,15 @@ import {
   faEyeSlash,
   faPhone,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { Box, TextField } from "@mui/material";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { createChat } from "@/services/Redux/handle/handleChat";
 import { apiUrlUser } from "@/services/config";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { auth } from "../firebase.config";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const Alert = React.forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
@@ -29,17 +31,20 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const Swal = require("sweetalert2");
   const [isSigningUp, setIsSigningUp] = useState(false);
+  const router = useRouter();
 
   const toggleWrapperRemove = () => {
     const wrapper = document.querySelector(".wrapper");
-    wrapper.classList.remove("active");
+    if (wrapper) {
+      wrapper.classList.remove("active");
+    }
   };
 
   const handleClick = () => {
     setOpenSnackbar(true);
   };
+
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -56,6 +61,46 @@ const Signup = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const formatPhoneNumber = (number) => {
+    if (number.startsWith("0")) {
+      return `+84${number.substring(1)}`;
+    }
+    return number;
+  };
+
+  const configureRecaptcha = () => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            sendOtp();
+          },
+          "expired-callback": () => {},
+        }
+      );
+    }
+  };
+
+  const sendOtp = async () => {
+    configureRecaptcha();
+    try {
+      const appVerifier = window.recaptchaVerifier;
+      const formatPhone = formatPhoneNumber(phoneNumber);
+      signInWithPhoneNumber(auth, formatPhone, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.error("Error during OTP send:", error);
+    }
   };
 
   const fetchUserData = async (event) => {
@@ -93,16 +138,18 @@ const Signup = () => {
           title:
             "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
         });
-        await createChat();
-        clearFields();
-        toggleWrapperRemove();
+        sendOtp();
+        // await createChat();
+        // clearFields();
+        // toggleWrapperRemove();
+        // router.push(`/dang-nhap/verify-otp/${response.data.CreateUser._id}`);
       } else {
-        setMessage("Email hoặt tên đăng nhập đã được sử dụng");
+        setMessage("Email hoặc tên đăng nhập đã được sử dụng");
         setMessageServerity("error");
         handleClick();
       }
     } catch (error) {
-      setMessage("Email hoặt tên đăng nhập đã được sử dụng");
+      setMessage("Email hoặc tên đăng nhập đã được sử dụng");
       setMessageServerity("error");
       handleClick();
     } finally {
@@ -112,7 +159,6 @@ const Signup = () => {
 
   return (
     <>
-      {" "}
       <Box
         maxWidth="100%"
         sx={{
@@ -121,6 +167,7 @@ const Signup = () => {
         }}
         className="form-box signup"
       >
+        <div id="recaptcha-container"></div>
         <h2>TẠO TÀI KHOẢN</h2>
         <div className="from__register">
           <div className="input__register__field">
@@ -172,7 +219,7 @@ const Signup = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              label="Nhập mật khẩu  của bạn"
+              label="Nhập mật khẩu của bạn"
             />
           </div>
           <button
