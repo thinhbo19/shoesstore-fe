@@ -5,8 +5,15 @@
   z-index: 1000;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
+  background-color: #000000;
+  border-radius: 50%;
 }
 
+.chatbox__icon__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .chatbox__icon {
   cursor: pointer;
   font-size: 3rem;

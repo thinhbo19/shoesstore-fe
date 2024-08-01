@@ -178,6 +178,7 @@ const ChatBox = () => {
             className="chatbox__icon"
             alt=""
             onClick={toggleChatBox}
+            style={{ color: "white" }}
           />
           {unreadNotifications.length > 0 && (
             <div className="chatbox__notifi__count">
