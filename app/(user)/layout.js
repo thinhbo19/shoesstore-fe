@@ -1,3 +1,4 @@
+import ChatBotMessenger from "@/component/ChatBotMessenger/ChatBotMessenger";
 import ChatBox from "@/component/ChatBox/ChatBox";
 import Footer from "@/component/HeaderFooter/Footers";
 import Header from "@/component/HeaderFooter/Headers";
@@ -10,7 +11,8 @@ export default async function UserLayout({ children }) {
     <>
       <Header allProducts={allProducts} />
       {children}
-      {/* <ChatBox /> */}
+      <ChatBox />
+      <ChatBotMessenger />
       <Footer />
     </>
   );
