@@ -16,8 +16,8 @@ const ChatBotMessenger = () => {
         onClick={handlePush}
         src={Mess}
         alt="chatbot_mess"
-        width={65}
-        height={65}
+        width={55}
+        height={55}
       />
     </div>
   );
