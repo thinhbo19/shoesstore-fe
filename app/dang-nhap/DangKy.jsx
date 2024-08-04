@@ -102,9 +102,9 @@ const Signup = () => {
   };
 
   const sendOtp = async () => {
-    setLoading(true);
     if (email && username && password && phoneNumber) {
       configureRecaptcha();
+      setLoading(true);
       try {
         const appVerifier = window.recaptchaVerifier;
         const formatPhone = formatPhoneNumber(phoneNumber);
@@ -118,11 +118,10 @@ const Signup = () => {
           });
       } catch (error) {
         console.error("Error during OTP send:", error);
-      } finally {
-        setLoading(false);
       }
     } else {
       Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
+      setLoading(false);
     }
   };
 
@@ -159,6 +158,8 @@ const Signup = () => {
         setMessage("Email hoặc tên đăng nhập đã được sử dụng");
         setMessageServerity("error");
         setOpenSnackbar(true);
+        setStep(1);
+        setOTP("");
       }
     } catch (error) {
       setMessage("Email hoặc tên đăng nhập đã được sử dụng");
@@ -270,7 +271,7 @@ const Signup = () => {
                 className="Btn"
                 onClick={() => sendOtp()}
               >
-                GỬI OTP
+                {loading ? "ĐANG GỬI....." : "GỬI OTP"}
               </button>
 
               <div className="register-register">
