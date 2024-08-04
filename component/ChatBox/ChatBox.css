@@ -5,14 +5,13 @@
   z-index: 1000;
   overflow: hidden;
   transition: transform 0.3s ease-in-out;
-  background-color: #000000;
-  border-radius: 50%;
+  background-color: transparent;
 }
 
 .chatbot_mess {
   position: fixed;
-  bottom: 100px;
-  left: 20px;
+  bottom: 25px;
+  right: 20px;
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
   background-color: #ffffff;
