@@ -161,8 +161,8 @@ const ProductList = ({
                   Đang tải......
                 </h3>
               ) : (
-                <h3 style={{ textAlign: "center", fontSize: "1.5rem" }}>
-                  Không có sản phẩm nào
+                <h3 style={{ textAlign: "center", fontSize: "3rem" }}>
+                  Đang tải......
                 </h3>
               )}
             </div>

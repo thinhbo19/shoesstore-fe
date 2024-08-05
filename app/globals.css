@@ -1,3 +1,21 @@
 body {
   position: relative;
 }
+
+html::-webkit-scrollbar {
+  width: 4px; /* Chiều rộng của thanh cuộn dọc */
+  height: 4px; /* Chiều cao của thanh cuộn ngang */
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #888; /* Màu của thanh kéo */
+  border-radius: 4px; /* Bo góc thanh kéo */
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Màu của thanh kéo khi hover */
+}
+
+html::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của thanh cuộn */
+}

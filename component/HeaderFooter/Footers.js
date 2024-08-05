@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import "./Footers.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +8,8 @@ import {
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Script from "next/script";
+import Map from "react-map-gl";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -26,44 +28,43 @@ const Footer = () => {
           <div className="footer-center">
             <h2>Kết nối</h2>
             <ul className="footer-links">
-              {/* <li>
-                <a href="#">
+              <li>
+                <Link href="#">
                   <FontAwesomeIcon className="icon__footer" icon={faFacebook} />{" "}
                   Facebook
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#">
+                <Link href="#">
                   <FontAwesomeIcon
                     className="icon__footer"
                     icon={faSquareInstagram}
                   />{" "}
                   Instagram
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#">
+                <Link href="#">
                   <FontAwesomeIcon className="icon__footer" icon={faLinkedin} />{" "}
                   Linkedin
-                </a>
-              </li> */}
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="footer-right">
             <h2>Hỗ trợ</h2>
             <div className="Support">
               <div className="column">
-                <a href="#">
-                  <p>Trung tâm trợ giúp</p>
-                </a>
-                <a href="#">
+                <Link href="/about-us">
+                  <p>Về chúng tôi</p>
+                </Link>
+
+                <Link href="#">
                   <p>Chăm sóc khách hàng</p>
-                </a>
-              </div>
-              <div className="column">
-                <a href="#">
+                </Link>
+                <Link href="#">
                   <p>Hướng dẫn mua và bán hàng</p>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -74,11 +75,6 @@ const Footer = () => {
           <p>@2023.Hello</p>
         </div>
       </div>
-      <Script
-        id="mcjs"
-        async
-        src="https://chimpstatic.com/mcjs-connected/js/users/fec924f00947bba359f746e97/dd0007c3c3d6207b27607b935.js"
-      ></Script>
     </footer>
   );
 };

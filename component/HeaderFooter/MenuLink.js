@@ -1,9 +1,5 @@
 "use client";
-import { Typography, Box } from "@mui/material";
-import Menu from "@mui/material/Menu";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+import { Typography, Box, Button, Menu, MenuItem } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
 import { slugify } from "@/utils/slugify";
@@ -11,6 +7,7 @@ import { handleCateID } from "@/utils/hanleGet";
 import { useDispatch } from "react-redux";
 
 const MenuLink = ({ categories }) => {
+  const [anchor, setAnchor] = useState(null);
   const [anchorCollection, setAnchorCollection] = useState(null);
   const dispatch = useDispatch();
 
@@ -22,18 +19,29 @@ const MenuLink = ({ categories }) => {
     setAnchorCollection(null);
   };
 
+  const handleOpenMenu = (event) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchor(null);
+  };
+
   return (
     <Box
       className="menu-link"
       sx={{
         flexGrow: 1,
         display: { xs: "none", md: "flex" },
+        position: "relative",
       }}
     >
       <Link
         sx={{ my: 2, display: "block", width: "12rem" }}
         className="buttonPage"
         href="/"
+        onMouseEnter={handleOpenMenu}
+        onMouseLeave={handleCloseMenu}
       >
         <p className="linkPage">TRANG CHỦ</p>
       </Link>
@@ -51,8 +59,13 @@ const MenuLink = ({ categories }) => {
       >
         <p className="linkPage">MÃ GIẢM GIÁ</p>
       </Link>
-      <Tooltip>
-        <Button onClick={handleOpenCollectionMenu} className="buttonPage">
+      <Box
+        className="buttonPage"
+        sx={{ my: 2, display: "block", position: "relative" }}
+        onMouseEnter={handleOpenCollectionMenu}
+        onMouseLeave={handleCloseCollectionMenu}
+      >
+        <Button className="buttonPage" sx={{ width: "100%" }}>
           <p
             style={{ margin: "0 0 0 5px", textAlign: "center" }}
             className="linkPage"
@@ -61,25 +74,24 @@ const MenuLink = ({ categories }) => {
           </p>
         </Button>
         <Menu
-          sx={{ mt: "45px" }}
+          sx={{ mt: "0px" }}
           id="menu-appbar"
           anchorEl={anchorCollection}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
+            vertical: "bottom",
+            horizontal: "center",
           }}
           keepMounted
           transformOrigin={{
             vertical: "top",
-            horizontal: "right",
+            horizontal: "center",
           }}
           open={Boolean(anchorCollection)}
           onClose={handleCloseCollectionMenu}
         >
-          <MenuItem onClick={handleCloseCollectionMenu} className="menu-item">
-            {categories?.map((category) => (
+          {categories?.map((category) => (
+            <MenuItem key={category._id} onClick={handleCloseCollectionMenu}>
               <Link
-                key={category.categoryName}
                 className="link-item"
                 href={`/san-pham/danh-muc-san-pham/${slugify(
                   category.categoryName
@@ -87,23 +99,22 @@ const MenuLink = ({ categories }) => {
                 onClick={() => handleCateID(dispatch, category._id)}
               >
                 <Typography
-                  key={category._id}
                   className="setting-item"
                   sx={{
                     textDecoration: "none",
                     textTransform: "uppercase",
                     fontWeight: "bold",
                     color: "black",
+                    textAlign: "center",
                   }}
-                  textAlign="center"
                 >
                   {category.categoryName}
                 </Typography>
               </Link>
-            ))}
-          </MenuItem>
+            </MenuItem>
+          ))}
         </Menu>
-      </Tooltip>
+      </Box>
     </Box>
   );
 };
