@@ -109,28 +109,30 @@ const Subscribe = () => {
     }
   };
 
-  const handleDelete = async (email) => {
+  const handlePUT = async (email) => {
     setLoading(true);
     try {
       const response = await fetch("/api/email", {
-        method: "DELETE",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          email: email,
+        }),
       });
 
       if (response.ok) {
         Swal.fire({
           icon: "success",
-          text: "Xóa thành công",
+          text: "Unsubscribe thành công",
         });
         fetchGET();
       } else {
-        console.error("Error deleting subscriber:", await response.json());
+        console.error("Error unsubscribing:", await response.json());
       }
     } catch (error) {
-      console.error("Error deleting subscriber:", error);
+      console.error("Error unsubscribing:", error);
     } finally {
       setLoading(false);
     }
@@ -138,7 +140,7 @@ const Subscribe = () => {
 
   const handleDeleteAll = async () => {
     const confirmResult = await Swal.fire({
-      text: "Bạn muốn xóa những người dùng này?",
+      text: "Bạn muốn hủy đăng ký những người dùng này?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes",
@@ -147,6 +149,29 @@ const Subscribe = () => {
 
     if (!confirmResult.isConfirmed) {
       return;
+    }
+
+    try {
+      await Promise.all(
+        selectedEmail.map(async (email) => {
+          await fetch("/api/email", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+            }),
+          });
+        })
+      );
+      Swal.fire({
+        icon: "success",
+        text: "Thành công",
+      });
+      fetchGET();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -214,7 +239,7 @@ const Subscribe = () => {
                       <FontAwesomeIcon
                         className="admin__icon"
                         icon={faTrash}
-                        onClick={() => handleDelete(sub.email_address)}
+                        onClick={() => handlePUT(sub)}
                       />
                     </td>
                   </tr>
