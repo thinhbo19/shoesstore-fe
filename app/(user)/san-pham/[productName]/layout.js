@@ -35,13 +35,13 @@ export async function generateMetadata({ params, searchParams }, parent) {
     title: `${matchedName} - Shoes Store`,
     description: `${descriptionProduct}`,
     alternates: {
-      canonical: `${baseUrl}/san-pham/${matchedName}`,
+      canonical: `${baseUrl}/san-pham/${removeVietnameseTones(matchedName)}`,
     },
     metadataBase: baseUrl,
     openGraph: {
       title: `${matchedName} - Shoes Store`,
       description: descriptionProduct,
-      url: `${baseUrl}/san-pham/${matchedName}`,
+      url: `${baseUrl}/san-pham/${removeVietnameseTones(matchedName)}`,
       siteName: "Cửa hàng bán giày",
       images: [
         {
