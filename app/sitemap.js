@@ -7,6 +7,17 @@ export default async function sitemap() {
   const categories = await getCategory();
   const products = await getAllProducts();
 
+  function removeVietnameseTones(str) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .replace(/\s+/g, "-")
+      .replace(/\//g, "-")
+      .toLowerCase();
+  }
+
   const categoryUrls = categories.map((category) => ({
     url: `${vercelUrl}/san-pham/danh-muc-san-pham/${category.categoryName}`,
     lastModified: new Date(),
@@ -14,7 +25,7 @@ export default async function sitemap() {
   }));
 
   const productUrls = products.map((product) => ({
-    url: `${vercelUrl}/san-pham/${product.productName}`,
+    url: `${vercelUrl}/san-pham/${removeVietnameseTones(product.productName)}`,
     lastModified: new Date(),
     priority: 0.8,
   }));
