@@ -15,10 +15,9 @@ export async function generateMetadata({ params, searchParams }) {
       .toLowerCase();
   }
 
+  let name = removeVietnameseTones(productData?.productName);
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
-  const productUrl = `${baseUrl}/san-pham/${removeVietnameseTones(
-    productData?.productName
-  )}`;
+  const productUrl = `${baseUrl}/san-pham/${name}`;
 
   return {
     title: `${productData?.productName} - Shoes Store`,
