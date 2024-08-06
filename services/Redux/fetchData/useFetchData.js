@@ -52,7 +52,6 @@ export const getProductByIdProduct = async (productID) => {
     throw error;
   }
 };
-
 export const getAllVoucher = async () => {
   try {
     const res = await axios.get(`${apiUrlVocher}`);
@@ -62,7 +61,6 @@ export const getAllVoucher = async () => {
     throw error;
   }
 };
-
 export const getAllUsers = async () => {
   try {
     const res = await axios.get(`${apiUrlUser}`);

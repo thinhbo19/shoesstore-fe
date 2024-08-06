@@ -1,5 +1,4 @@
 import { getAllProducts } from "@/services/Redux/api";
-import { headers } from "next/headers";
 
 export async function generateMetadata({ params, searchParams }, parent) {
   const { productName } = params;
@@ -29,21 +28,21 @@ export async function generateMetadata({ params, searchParams }, parent) {
       imageProduct = item.images[0];
     }
   });
-  const headersList = headers();
-  const header_url = headersList.get("x-url") || "";
-  const domain = headersList.get("host") || "";
+
+  const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
+
   return {
     title: `${matchedName} - Shoes Store`,
     description: `${descriptionProduct}`,
     alternates: {
-      canonical: "./",
+      canonical: `${baseUrl}/san-pham/${matchedName}`,
     },
-    metadataBase: `https://shoesstore-thinhbo19s-projects.vercel.app/san-pham/${productName}`,
+    metadataBase: baseUrl,
     openGraph: {
       title: `${matchedName} - Shoes Store`,
       description: descriptionProduct,
-      url: header_url,
-      siteName: domain,
+      url: `${baseUrl}/san-pham/${matchedName}`,
+      siteName: "Cửa hàng bán giày",
       images: [
         {
           url: imageProduct,

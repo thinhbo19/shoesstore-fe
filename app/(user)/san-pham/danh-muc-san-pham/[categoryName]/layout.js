@@ -1,7 +1,6 @@
 import { getCategory } from "@/services/Redux/fetchData/useFetchData";
-import { headers } from "next/headers";
 
-export async function generateMetadata({ params, searchParams }, parent) {
+export async function generateMetadata({ params, searchParams }) {
   const { categoryName } = params;
   const data = await getCategory();
 
@@ -11,37 +10,42 @@ export async function generateMetadata({ params, searchParams }, parent) {
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/đ/g, "d")
       .replace(/Đ/g, "D")
+      .replace(/\s+/g, "-")
+      .replace(/\//g, "-")
       .toLowerCase();
   }
+
   let matchedCategoryName = categoryName;
+  let description =
+    "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.";
 
   data.forEach((item) => {
     const normalizedItemName = removeVietnameseTones(
       item.categoryName.toLowerCase()
     );
     if (categoryName === normalizedItemName) {
-      matchedCategoryName = item.categoryName.toLowerCase();
+      matchedCategoryName = item.categoryName;
     }
   });
 
-  const headersList = headers();
-  const header_url = headersList.get("x-url") || "";
-  const domain = headersList.get("host") || "";
+  const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
+
   return {
     title: `Danh mục ${matchedCategoryName} - Shoes Store`,
-    description:
-      "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
+    description,
     alternates: {
-      canonical: "./",
+      canonical: `${baseUrl}/danh-muc-san-pham/${removeVietnameseTones(
+        matchedCategoryName
+      )}`,
     },
-    metadataBase:
-      "https://shoesstore-thinhbo19s-projects.vercel.app/danh-muc-san-pham/",
+    metadataBase: baseUrl,
     openGraph: {
       title: `Danh mục ${matchedCategoryName} - Shoes Store`,
-      description:
-        "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
-      url: header_url,
-      siteName: domain,
+      description,
+      url: `${baseUrl}/danh-muc-san-pham/${removeVietnameseTones(
+        matchedCategoryName
+      )}`,
+      siteName: "Cửa hàng bán giày",
       images: [
         {
           url: "https://res.cloudinary.com/dq1bmcdyc/image/upload/v1722946177/imageLogin_ktbiup.png",
