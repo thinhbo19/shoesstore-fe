@@ -4,20 +4,8 @@ export async function generateMetadata({ params, searchParams }) {
   const { productName } = params;
   const productData = await getOneProductByName(productName);
 
-  function removeVietnameseTones(str) {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d")
-      .replace(/Đ/g, "D")
-      .replace(/\s+/g, "-")
-      .replace(/\//g, "-")
-      .toLowerCase();
-  }
-
-  let name = removeVietnameseTones(productData?.productName);
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
-  const productUrl = `${baseUrl}/san-pham/${name}`;
+  const productUrl = `${baseUrl}/san-pham/${productName}`;
 
   return {
     title: `${productData?.productName} - Shoes Store`,
