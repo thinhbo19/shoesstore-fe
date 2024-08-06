@@ -14,8 +14,8 @@ import {
   selectAccessToken,
 } from "@/services/Redux/user/useSlice";
 import { useRouter } from "next/navigation";
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { apiUrlUser } from "@/services/config";
+import { InlineShareButtons } from "sharethis-reactjs";
 
 const DetailsFirst = ({ product, userRes }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -357,10 +357,20 @@ const DetailsFirst = ({ product, userRes }) => {
         </div>
 
         <div className="share-product">
-          <p>Chia sẻ: </p>
-          <FontAwesomeIcon icon={faFacebook} />
-          <FontAwesomeIcon icon={faFacebook} />
-          <FontAwesomeIcon icon={faFacebook} />
+          <InlineShareButtons
+            config={{
+              alignment: "left",
+              color: "social",
+              enabled: true,
+              font_size: 16,
+              labels: "cta",
+              language: "en",
+              networks: ["messenger", "facebook"],
+              padding: 12,
+              radius: 4,
+              size: 40,
+            }}
+          />
         </div>
       </div>
     </div>

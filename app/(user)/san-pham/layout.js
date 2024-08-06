@@ -5,7 +5,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
   const header_url = headersList.get("x-url") || "";
   const domain = headersList.get("host") || "";
   return {
-    title: "Sản phẩm - Cửa hàng bán giày",
+    title: "Sản phẩm - Shoes Store",
     description:
       "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
     alternates: {
@@ -13,7 +13,7 @@ export async function generateMetadata({ params, searchParams }, parent) {
     },
     metadataBase: "https://shoesstore-thinhbo19s-projects.vercel.app/san-pham",
     openGraph: {
-      title: "Sản phẩm - Cửa hàng bán giày",
+      title: "Sản phẩm - Shoes Store",
       description:
         "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
       url: header_url,

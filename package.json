@@ -45,6 +45,7 @@
     "react-redux": "^9.1.2",
     "react-slick": "^0.30.2",
     "redux-persist": "^6.0.0",
+    "sharethis-reactjs": "^1.6.0",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.12.2"

@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 
 export async function generateMetadata({ params, searchParams }, parent) {
   const { productName } = params;
-
   const data = await getAllProducts();
 
   function removeVietnameseTones(str) {
@@ -13,9 +12,12 @@ export async function generateMetadata({ params, searchParams }, parent) {
       .replace(/đ/g, "d")
       .replace(/Đ/g, "D")
       .replace(/\s+/g, "-")
+      .replace(/\//g, "-")
       .toLowerCase();
   }
   let matchedName = productName;
+  let descriptionProduct;
+  let imageProduct;
 
   data.forEach((item) => {
     const normalizedItemName = removeVietnameseTones(
@@ -23,30 +25,28 @@ export async function generateMetadata({ params, searchParams }, parent) {
     );
     if (productName === normalizedItemName) {
       matchedName = item.productName;
+      descriptionProduct = item.description;
+      imageProduct = item.images[0];
     }
   });
-
   const headersList = headers();
   const header_url = headersList.get("x-url") || "";
   const domain = headersList.get("host") || "";
   return {
     title: `${matchedName} - Shoes Store`,
-    description:
-      "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
+    description: `${descriptionProduct}`,
     alternates: {
       canonical: "./",
     },
-    metadataBase:
-      "https://shoesstore-thinhbo19s-projects.vercel.app/danh-muc-san-pham/",
+    metadataBase: `https://shoesstore-thinhbo19s-projects.vercel.app/san-pham/${productName}`,
     openGraph: {
       title: `${matchedName} - Shoes Store`,
-      description:
-        "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
+      description: descriptionProduct,
       url: header_url,
       siteName: domain,
       images: [
         {
-          url: "https://res.cloudinary.com/dq1bmcdyc/image/upload/v1722946177/imageLogin_ktbiup.png",
+          url: imageProduct,
         },
       ],
     },
