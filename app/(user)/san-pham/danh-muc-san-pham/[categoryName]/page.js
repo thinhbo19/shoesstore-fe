@@ -10,7 +10,6 @@ export async function generateStaticParams() {
 
 export default async function CategoryPage({ params }) {
   const brands = await getBrand();
-
   const { categoryName } = params;
 
   return <SanPhamDanhMuc brands={brands} categoryName={categoryName} />;
