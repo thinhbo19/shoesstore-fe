@@ -28,3 +28,13 @@ export const getOneProduct = async (productId) => {
     console.error("Có lỗi xảy ra:", error);
   }
 };
+export const getOneProductByName = async (productName) => {
+  try {
+    const response = await axios.post(`${apiUrlProduct}/getByName`, {
+      productName: productName,
+    });
+    return response.data.productData;
+  } catch (error) {
+    console.error("Có lỗi xảy ra:", error);
+  }
+};

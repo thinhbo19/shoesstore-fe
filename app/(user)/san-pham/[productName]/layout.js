@@ -1,8 +1,8 @@
-import { getAllProducts } from "@/services/Redux/api";
+import { getOneProductByName } from "@/services/Redux/handle/hanldeProduct";
 
-export async function generateMetadata({ params, searchParams }, parent) {
+export async function generateMetadata({ params, searchParams }) {
   const { productName } = params;
-  const data = await getAllProducts();
+  const productData = await getOneProductByName(productName);
 
   function removeVietnameseTones(str) {
     return str
@@ -14,38 +14,27 @@ export async function generateMetadata({ params, searchParams }, parent) {
       .replace(/\//g, "-")
       .toLowerCase();
   }
-  let matchedName = productName;
-  let descriptionProduct;
-  let imageProduct;
-
-  data.forEach((item) => {
-    const normalizedItemName = removeVietnameseTones(
-      item.productName.toLowerCase()
-    );
-    if (productName === normalizedItemName) {
-      matchedName = item.productName;
-      descriptionProduct = item.description;
-      imageProduct = item.images[0];
-    }
-  });
 
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
+  const productUrl = `${baseUrl}/san-pham/${removeVietnameseTones(
+    productData?.productName
+  )}`;
 
   return {
-    title: `${matchedName} - Shoes Store`,
-    description: `${descriptionProduct}`,
+    title: `${productData?.productName} - Shoes Store`,
+    description: `${productData?.description}`,
     alternates: {
-      canonical: `${baseUrl}/san-pham/${removeVietnameseTones(matchedName)}`,
+      canonical: productUrl,
     },
     metadataBase: baseUrl,
     openGraph: {
-      title: `${matchedName} - Shoes Store`,
-      description: descriptionProduct,
-      url: `${baseUrl}/san-pham/${removeVietnameseTones(matchedName)}`,
+      title: `${productData?.productName} - Shoes Store`,
+      description: productData?.description,
+      url: productUrl,
       siteName: "Cửa hàng bán giày",
       images: [
         {
-          url: imageProduct,
+          url: productData?.images[0],
         },
       ],
     },

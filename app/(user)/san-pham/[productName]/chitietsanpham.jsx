@@ -4,19 +4,17 @@ import "../../../../Styles/productDetailFirst.css";
 import "../../../../Styles/productDetailSecond.css";
 import "../../../../Styles/productDetailThird.css";
 import { useSelector } from "react-redux";
-import { selectProductID } from "@/services/Redux/product/productSlice";
 import Loading from "@/component/Loading/Loading";
 import DetailsFirst from "@/component/ChiTietSanPham/DetailsFirst";
 import DetailSecond from "@/component/ChiTietSanPham/DetailSecond";
 import DetailThird from "@/component/ChiTietSanPham/DetailThird";
 import SliderProductCart from "@/component/Slider/SliderProductCart";
-import { getProductByIdProduct } from "@/services/Redux/fetchData/useFetchData";
 import BreadcrumbForProdDetail from "@/component/Breadcrumb/BreadcrumbForProdDetail";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
+import { getOneProductByName } from "@/services/Redux/handle/hanldeProduct";
 
 const ChiTietSanPham = ({ productName }) => {
-  const productId = useSelector(selectProductID);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const accessToken = useSelector(selectAccessToken);
@@ -24,14 +22,14 @@ const ChiTietSanPham = ({ productName }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await getProductByIdProduct(productId);
+      const response = await getOneProductByName(productName);
       const userRes = await getUserCurrent(accessToken);
       setUserRes(userRes);
       setProduct(response);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
     }
-  }, [productId]);
+  }, [productName]);
 
   useEffect(() => {
     localStorage.removeItem("cart");
