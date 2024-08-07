@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "../../../Styles/user/ThanhToanNgay.css";
 import Pay from "../../../component/Pay/Pay";
-import voucherSV from "../../../assets/voucher.png";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loading from "../../../component/Loading/Loading";
@@ -164,7 +163,6 @@ const ThanhToan = () => {
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
-    // Enable or disable buttons based on the selected payment method
     if (method === "cod") {
       setIsCodEnabled(true);
       setIsElectronicEnabled(false);

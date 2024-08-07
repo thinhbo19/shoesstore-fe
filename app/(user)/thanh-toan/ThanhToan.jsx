@@ -179,7 +179,7 @@ const ThanhToan = () => {
     }
     setLoading(true);
     try {
-      await axios.post(
+      const res = await axios.post(
         `${apiUrlOrder}/copy`,
         {
           products: cartData.map((selectedProduct) => ({
@@ -205,6 +205,8 @@ const ThanhToan = () => {
           { headers: { token: `Bearer ${accessToken}` } }
         );
       }
+      console.log(res);
+      // if(res.success)
       localStorage.removeItem("cartList");
       router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {

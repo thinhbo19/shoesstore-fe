@@ -66,7 +66,9 @@ const ChiTietSanPham = ({ productName }) => {
           </div>
         </>
       ) : (
-        <p>Đang tải....</p>
+        <div style={{ height: "80vh" }}>
+          <p style={{ fontSize: "1.4rem", fontWeight: "bold" }}>Đang tải....</p>
+        </div>
       )}
     </div>
   );

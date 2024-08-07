@@ -157,11 +157,11 @@ const ProductList = ({
           ) : (
             <div style={{ width: "100%", height: "100%" }}>
               {loadingPage ? (
-                <h3 style={{ textAlign: "center", fontSize: "3rem" }}>
+                <h3 style={{ textAlign: "center", fontSize: "2.4rem" }}>
                   Đang tải......
                 </h3>
               ) : (
-                <h3 style={{ textAlign: "center", fontSize: "3rem" }}>
+                <h3 style={{ textAlign: "center", fontSize: "2.4rem" }}>
                   Đang tải......
                 </h3>
               )}
