@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import "./Navbar.css";
-import Logo from "../../public/logo.svg";
+import Logo from "../../assets/ád.png";
 import Logout from "../../public/log-out.svg";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
@@ -24,7 +24,7 @@ const Navbar = () => {
     <>
       <aside className="aside">
         <Link href="#Species" className="nav__logo">
-          <Image src={Logo} alt="img" />
+          <Image src={Logo} alt="img" width={100} height={100} />
         </Link>
         <nav className="nav">
           <div className="nav__menu__admin">

@@ -147,7 +147,7 @@ const Products = ({ cateData, brandData, productList }) => {
   return (
     <section className="Categories maincontainer section" id="Categories">
       <div className="categories__container ">
-        <h2 className="section_title">Quản lý nhãn hiệu</h2>
+        <h2 className="section_title">Quản lý sản phẩm</h2>
         <div className="action__from">
           <Box
             sx={{

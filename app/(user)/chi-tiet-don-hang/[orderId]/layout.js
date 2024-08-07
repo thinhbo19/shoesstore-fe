@@ -1,10 +1,8 @@
-import ControlInfor from "./ControlInfor";
-
 export async function generateMetadata({ params, searchParams }) {
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
 
   return {
-    title: "Thông tin - Shoes Store",
+    title: "Chi tiết đơn hàng - Shoes Store",
     description:
       "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
     alternates: {
@@ -12,7 +10,7 @@ export async function generateMetadata({ params, searchParams }) {
     },
     metadataBase: baseUrl,
     openGraph: {
-      title: "Thông tin - Shoes Store",
+      title: "Chi tiết đơn hàng - Shoes Store",
       description:
         "Chào mừng đến với cửa hàng bán giày chính hãng. Chúng tôi cung cấp giày chất lượng cao với giá tốt nhất.",
       url: baseUrl,
@@ -26,11 +24,6 @@ export async function generateMetadata({ params, searchParams }) {
   };
 }
 
-export default function InfomationUserLayout({ children }) {
-  return (
-    <div className="container-thongtin">
-      <ControlInfor />
-      {children}
-    </div>
-  );
+export default function OrderDetailLayout({ children }) {
+  return <>{children}</>;
 }
