@@ -280,33 +280,25 @@ const ThanhToan = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${apiUrlOrder}/createUrl`,
-        {
-          userId: uid,
-          products: cartData.map((selectedProduct) => ({
-            product: selectedProduct.product,
-            size: selectedProduct.size,
-            count: selectedProduct.count,
-            price: selectedProduct.price,
-            img: selectedProduct.img,
-            name: selectedProduct.name,
-          })),
-          Note: note,
-          address: selectedAddress,
-          coupon: selectedVoucher ? selectedVoucher._id : null,
-          status: "Processing",
-          paymentMethod: "VNPay",
-          bankCode: "NCB",
-          language: "vn",
-          totalPrice: money,
-        }
-        // {
-        //   headers: {
-        //     token: `Bearer ${accessToken}`,
-        //   },
-        // }
-      );
+      const res = await axios.post(`${apiUrlOrder}/createUrl`, {
+        userId: uid,
+        products: cartData.map((selectedProduct) => ({
+          product: selectedProduct.product,
+          size: selectedProduct.size,
+          count: selectedProduct.count,
+          price: selectedProduct.price,
+          img: selectedProduct.img,
+          name: selectedProduct.name,
+        })),
+        Note: note,
+        address: selectedAddress,
+        coupon: selectedVoucher ? selectedVoucher._id : null,
+        status: "Processing",
+        paymentMethod: "VNPay",
+        bankCode: "NCB",
+        language: "vn",
+        totalPrice: money,
+      });
       if (res.data.success) {
         window.location.href = res.data.paymentUrl;
       } else {
@@ -386,7 +378,11 @@ const ThanhToan = () => {
                   <p className="item_price">
                     {item.price.toLocaleString()} VNĐ
                   </p>
-                  <p className="item_count">{item.count} đôi</p>
+
+                  <p className="item_count">
+                    {" "}
+                    Size: {item.size}, {item.count} đôi
+                  </p>
                 </div>
                 <DeleteIcon
                   className="icon_item"

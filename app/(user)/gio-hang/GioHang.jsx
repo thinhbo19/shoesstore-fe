@@ -24,9 +24,16 @@ const GioHang = () => {
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
   const isCartEmpty = cartList.length === 0;
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const getCartData = () => {
+    const cartData = localStorage.getItem("cartList");
+    return cartData ? JSON.parse(cartData) : [];
+  };
+  const cartData = getCartData();
 
   const fetchUserCurrent = async () => {
     try {
@@ -47,6 +54,7 @@ const GioHang = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
+      getCartData();
     }, 1500);
   }, []);
 
@@ -89,16 +97,23 @@ const GioHang = () => {
         icon: "info",
       });
       return;
-    }
-    if (isCartEmpty) {
+    } else if (isCartEmpty) {
       Swal.fire({
         title: "BẠN CHƯA THÊM SẢN PHẨM VÀO GIỎ HÀNG",
         icon: "info",
       });
       return;
+    } else if (cartData.length === 0) {
+      Swal.fire({
+        title: "BẠN CHƯA CHỌN SẢN PHẨM ĐỂ THANH TOÁN",
+        icon: "info",
+      });
+      return;
+    } else {
+      router.push("/thanh-toan");
     }
-    router.push("/thanh-toan");
   };
+
   const handleDeleteProduct = async (productID, size) => {
     try {
       const result = await Swal.fire({
@@ -211,6 +226,8 @@ const GioHang = () => {
                   onQuantityChange={(e) =>
                     handleQuantityChange(e, cart.product, cart.size)
                   }
+                  isChecked={isChecked}
+                  setIsChecked={setIsChecked}
                 />
               ))
             ) : (

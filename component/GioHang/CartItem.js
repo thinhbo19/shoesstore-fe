@@ -13,10 +13,12 @@ const CartItem = ({
   updateCartQuantityOnServer,
   selectedProduct,
   setSelectedProduct,
+  isChecked,
+  setIsChecked,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedQuantity, setEditedQuantity] = useState(cart.count);
-  const [isChecked, setIsChecked] = useState(false);
+
   const [remainingQuantity, setRemainingQuantity] = useState(0);
   const dispatch = useDispatch();
 

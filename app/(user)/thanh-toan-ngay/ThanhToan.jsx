@@ -384,7 +384,9 @@ const ThanhToan = () => {
                   <p className="item_price">
                     {item.price.toLocaleString()} VNĐ
                   </p>
-                  <p className="item_count">{item.count} đôi</p>
+                  <p className="item_count">
+                    Size: {item.size}, {item.count} đôi
+                  </p>
                 </div>
                 <DeleteIcon
                   className="icon_item"
