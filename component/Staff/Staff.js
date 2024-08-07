@@ -143,7 +143,7 @@ const Staff = ({ allUser }) => {
       }
     };
     fetchData();
-  }, [uid, searchTerm, allUser]);
+  }, [uid, searchTerm]);
 
   useEffect(() => {
     if (!currentChat?._id) return;
