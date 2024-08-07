@@ -6,7 +6,9 @@ export function slugify(text) {
 
     let normalizedWord = lowercaseWord
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D");
 
     if (normalizedWord === "–" || normalizedWord === "?") return normalizedWord;
     if (normalizedWord === "/") return "-";
