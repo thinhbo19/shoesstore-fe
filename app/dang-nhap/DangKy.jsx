@@ -104,7 +104,6 @@ const Signup = () => {
   const sendOtp = async () => {
     if (email && username && password && phoneNumber) {
       configureRecaptcha();
-      setLoading(true);
       try {
         const appVerifier = window.recaptchaVerifier;
         const formatPhone = formatPhoneNumber(phoneNumber);
@@ -121,7 +120,6 @@ const Signup = () => {
       }
     } else {
       Swal.fire("Lỗi", "Vui lòng nhập đầy đủ thông tin", "error");
-      setLoading(false);
     }
   };
 
