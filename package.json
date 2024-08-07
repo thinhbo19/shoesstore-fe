@@ -32,7 +32,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "dompurify": "^3.1.6",
-    "firebase": "^10.12.4",
+    "firebase": "^10.12.5",
     "js-cookie": "^3.0.5",
     "json2csv": "^6.0.0-alpha.2",
     "mapbox-gl": "^3.5.2",

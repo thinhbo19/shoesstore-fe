@@ -91,7 +91,7 @@ const Signup = () => {
         auth,
         "recaptcha-container",
         {
-          size: "normal",
+          size: "invisible",
           callback: (response) => {
             sendOtp();
           },
@@ -172,6 +172,7 @@ const Signup = () => {
 
   return (
     <>
+      <div id="recaptcha-container"></div>
       <Box
         maxWidth="100%"
         sx={{
@@ -180,7 +181,6 @@ const Signup = () => {
         }}
         className="form-box signup"
       >
-        <div id="recaptcha-container"></div>
         <h2>TẠO TÀI KHOẢN</h2>
         <div className="from__register">
           {step === 1 && (
