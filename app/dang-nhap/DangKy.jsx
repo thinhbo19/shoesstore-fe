@@ -91,7 +91,7 @@ const Signup = () => {
         auth,
         "recaptcha-container",
         {
-          size: "invisible",
+          size: "normal",
           callback: (response) => {
             sendOtp();
           },

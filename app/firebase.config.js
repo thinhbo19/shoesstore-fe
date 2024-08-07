@@ -1,23 +1,20 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBiqDF8HLczc4R0mM_uOAZFhixI_LPsVBI",
-  authDomain: "shoes-store-otp-2c94a.firebaseapp.com",
-  projectId: "shoes-store-otp-2c94a",
-  storageBucket: "shoes-store-otp-2c94a.appspot.com",
-  messagingSenderId: "364928727604",
-  appId: "1:364928727604:web:8ee19a9f6d02aa291e2861",
-  measurementId: "G-LGB4HQFH14",
+  apiKey: "AIzaSyAZCAMvJnzuz0YoMZkw2sIuMQAYx0bi3Qs",
+  authDomain: "shoes-store-b4353.firebaseapp.com",
+  projectId: "shoes-store-b4353",
+  storageBucket: "shoes-store-b4353.appspot.com",
+  messagingSenderId: "468067621036",
+  appId: "1:468067621036:web:fb2f77c47dabc286a92709",
+  measurementId: "G-P8TB3SGQMM",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+export { app, auth };
