@@ -189,8 +189,8 @@ const Staff = ({ allUser }) => {
       const res = await postMess(currentChat?._id, htmlDescription, uid);
       setNewMessages(res);
       setMessages((prevMessages) => [...prevMessages, res]);
-      setHtmlDescription("");
       scrollToBottom();
+      setHtmlDescription("");
     } catch (error) {
       console.error("Error sending message:", error);
       Swal.fire({
