@@ -10,7 +10,6 @@ const List = ({
   deleteItem,
   returnValue,
   selectedOption,
-  hanldePaymentStatus,
   hanldePaymentMethod,
   hanleSetShipping,
 }) => {
@@ -50,7 +49,6 @@ const List = ({
             <td>{order.username}</td>
             <td>{order.products.length} đôi</td>
             <td>{order.totalPrice.toLocaleString()} VNĐ</td>
-            <td>{hanldePaymentStatus(order.paymentStatus)}</td>
             <td>{hanldePaymentMethod(order.paymentMethod)}</td>
             <td>{formatDate(order.createdAt)}</td>
             <td>{returnValue(order.status)}</td>

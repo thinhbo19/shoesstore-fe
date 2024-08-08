@@ -195,7 +195,6 @@ const ThanhToan = () => {
           coupon: selectedVoucher ? selectedVoucher._id : null,
           status: "Processing",
           paymentMethod: "PaymentDelivery",
-          paymentStatus: "UnPaid",
         },
         { headers: { token: `Bearer ${accessToken}` } }
       );
@@ -238,7 +237,6 @@ const ThanhToan = () => {
           coupon: selectedVoucher ? selectedVoucher._id : null,
           status: "Processing",
           paymentMethod: "PayPal",
-          paymentStatus: "Paid",
         },
         {
           headers: {

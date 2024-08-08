@@ -24,7 +24,6 @@ const GioHang = () => {
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isChecked, setIsChecked] = useState(false);
   const isCartEmpty = cartList.length === 0;
   const router = useRouter();
   const dispatch = useDispatch();
@@ -226,8 +225,6 @@ const GioHang = () => {
                   onQuantityChange={(e) =>
                     handleQuantityChange(e, cart.product, cart.size)
                   }
-                  isChecked={isChecked}
-                  setIsChecked={setIsChecked}
                 />
               ))
             ) : (

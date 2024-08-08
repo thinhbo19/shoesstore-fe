@@ -24,17 +24,6 @@ const returnValue = (status) => {
   }
 };
 
-const hanldePaymentStatus = (paymentStatus) => {
-  switch (paymentStatus) {
-    case "Paid":
-      return "Đã thanh toán";
-    case "UnPaid":
-      return "Chưa thanh toán";
-    default:
-      return paymentStatus;
-  }
-};
-
 const hanldePaymentMethod = (paymentMethod) => {
   switch (paymentMethod) {
     case "PayPal":
@@ -83,7 +72,6 @@ const OrderDetail = ({ orderId }) => {
       <OrderDetailUser
         user={user}
         address={orderData?.address}
-        paymentStatus={hanldePaymentStatus(orderData?.paymentStatus)}
         paymentMethod={hanldePaymentMethod(orderData?.paymentMethod)}
         status={orderData?.status}
         returnValue={returnValue}

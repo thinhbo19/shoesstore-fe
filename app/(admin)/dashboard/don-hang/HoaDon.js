@@ -28,17 +28,6 @@ const returnValue = (status) => {
   }
 };
 
-const hanldePaymentStatus = (paymentStatus) => {
-  switch (paymentStatus) {
-    case "Paid":
-      return "Đã thanh toán";
-    case "UnPaid":
-      return "Chưa thanh toán";
-    default:
-      return paymentStatus;
-  }
-};
-
 const hanldePaymentMethod = (paymentMethod) => {
   switch (paymentMethod) {
     case "PayPal":
@@ -84,6 +73,7 @@ const HoaDon = ({ orderArrAll }) => {
   const fetchData = async () => {
     try {
       const userArr = await getAllUsers();
+
       const ordersData = orderArrAll.filter(
         (order) => order.status === selectedOption
       );
@@ -123,8 +113,8 @@ const HoaDon = ({ orderArrAll }) => {
           }
         );
         Swal.fire("Đã xác nhận đơn hàng!", "", "success");
+        fetchData();
       }
-      fetchData();
     } catch (error) {
       console.error("Error while updating order status:", error);
     }
@@ -227,7 +217,6 @@ const HoaDon = ({ orderArrAll }) => {
           deleteItem={deleteItem}
           returnValue={returnValue}
           selectedOption={selectedOption}
-          hanldePaymentStatus={hanldePaymentStatus}
           hanldePaymentMethod={hanldePaymentMethod}
           hanleSetShipping={hanleSetShipping}
         />

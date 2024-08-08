@@ -11,7 +11,6 @@ import React from "react";
 const OrderDetailUser = ({
   user,
   address,
-  paymentStatus,
   paymentMethod,
   status,
   returnValue,
