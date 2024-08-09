@@ -1,22 +1,33 @@
 import { getOneProductByName } from "@/services/Redux/handle/hanldeProduct";
 
+function stripHtmlTags(html) {
+  return html.replace(/<\/?[^>]+>/gi, "");
+}
+
 export async function generateMetadata({ params, searchParams }) {
   const { productName } = params;
   const productData = await getOneProductByName(productName);
 
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
   const productUrl = `${baseUrl}/san-pham/${productName}`;
+  const maxDescriptionLength = 200;
+
+  const description = stripHtmlTags(productData?.description || "");
+  const shortDescription =
+    description.length > maxDescriptionLength
+      ? description.slice(0, maxDescriptionLength) + "..."
+      : description;
 
   return {
     title: `${productData?.productName} - Shoes Store`,
-    description: `${productData?.description}`,
+    description: shortDescription,
     alternates: {
       canonical: productUrl,
     },
     metadataBase: baseUrl,
     openGraph: {
       title: `${productData?.productName} - Shoes Store`,
-      description: productData?.description,
+      description: shortDescription,
       url: productUrl,
       siteName: "Cửa hàng bán giày",
       images: [

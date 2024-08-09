@@ -5,7 +5,6 @@ import ProductList from "@/component/SanPham/ProductList";
 import Loading from "@/component/Loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import "../../../../../Styles/SanPham/SanPham.css";
-import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import {
@@ -15,7 +14,6 @@ import {
 } from "@/services/Redux/user/useSlice";
 import { selectCateID } from "@/services/Redux/product/productSlice";
 import { getProductByIdCate } from "@/services/Redux/fetchData/useFetchData";
-import { apiUrlBrand, apiUrlUser } from "@/services/config";
 import BreadcrumbForCate from "@/component/Breadcrumb/BreadcrumbForCate";
 import {
   addFavorites,

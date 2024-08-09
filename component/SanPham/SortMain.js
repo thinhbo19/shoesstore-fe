@@ -8,12 +8,27 @@ const FilterMain = ({
   toggleFilterOptions,
   currentSort,
   handleSort,
-}) => { 
+}) => {
+  const returnValue = (value) => {
+    switch (value) {
+      case "AZ":
+        return "Từ A đến Z";
+      case "ZA":
+        return "Từ Z đến A";
+      case "PriceAsc":
+        return "Tăng dần";
+      case "PriceDesc":
+        return "Giảm dần";
+      default:
+        return value;
+    }
+  };
+
   return (
     <div className="filter-main">
       <div className="filter-sapxep">
         <button id="filterButton" onClick={toggleFilterOptions}>
-          Sắp Xếp {currentSort && `: ${currentSort}`}{" "}
+          Sắp Xếp {currentSort && `: ${returnValue(currentSort)}`}{" "}
           <FontAwesomeIcon icon={faAnglesDown} />{" "}
         </button>
         <div
