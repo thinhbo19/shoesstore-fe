@@ -1,5 +1,6 @@
 import ReduxProvider from "@/component/providers/Redux";
 import "./globals.css";
+import Script from "next/script";
 
 export async function generateMetadata({ params, searchParams }) {
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
@@ -31,6 +32,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-798VRR2CBS"
+        ></Script>
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-798VRR2CBS');
+          `}
+        </Script>
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
