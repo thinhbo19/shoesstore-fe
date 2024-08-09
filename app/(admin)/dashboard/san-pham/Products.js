@@ -30,16 +30,15 @@ const Products = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const router = useRouter();
-
   useEffect(() => {
     const fetchData = async () => {
       const prodData = await getAllProducts();
       const brandData = await getBrand();
       const cateData = await getCategory();
 
-      setCateData(prodData);
+      setCateData(cateData);
       setBrandData(brandData);
-      setProductList(cateData);
+      setProductList(prodData.reverse());
     };
     fetchData();
   }, [accessToken]);
