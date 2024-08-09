@@ -7,8 +7,9 @@ import ShoppingBag from "../../../../assets/shopping-bag (1).png";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "@/services/Redux/user/useSlice";
 import Image from "next/image";
+import { getAllOrder } from "@/services/Redux/api";
 
-const ThongKe = ({ allOrder }) => {
+const ThongKe = () => {
   const accessToken = useSelector(selectAccessToken);
   const [tongDon, setTongDon] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -25,13 +26,18 @@ const ThongKe = ({ allOrder }) => {
 
   const fetchData = async () => {
     try {
+      const allOrder = await getAllOrder();
+      const successfulOrders = allOrder.filter(
+        (order) => order.status === "Success"
+      );
+
       const filteredOrders = selectedYear
-        ? allOrder.filter(
+        ? successfulOrders.filter(
             (order) =>
               new Date(order.createdAt).getFullYear() ===
               parseInt(selectedYear, 10)
           )
-        : allOrder;
+        : successfulOrders;
 
       const monthlyRevenue = Array.from({ length: 12 }, () => 0);
 
