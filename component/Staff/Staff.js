@@ -18,13 +18,15 @@ import {
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import io from "socket.io-client";
+import { getAllUsers } from "@/services/Redux/fetchData/useFetchData";
 
 const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
 
-const Staff = ({ allUser }) => {
+const Staff = () => {
   const uid = useSelector(selectUid);
   const accessToken = useSelector(selectAccessToken);
   const [userChats, setUserChats] = useState([]);
+  const [allUser, setAllUser] = useState([]);
   const [filteredUserChatList, setFilteredUserChatList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentChat, setCurrentChat] = useState(null);
@@ -109,7 +111,9 @@ const Staff = ({ allUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const allUsers = await getAllUsers();
         const allChat = await findChat(uid);
+        setAllUser(allUsers);
         setUserChats(allChat);
         const memberList = allChat.map((chat) => chat.members).flat();
         const uniqueMembers = [...new Set(memberList)].filter(
@@ -118,7 +122,7 @@ const Staff = ({ allUser }) => {
 
         const userChatData = uniqueMembers
           .map((memberId) => {
-            const user = allUser.find((user) => user._id === memberId);
+            const user = allUsers.find((user) => user._id === memberId);
             const chat = allChat.find((chat) =>
               chat.members.includes(memberId)
             );
