@@ -14,9 +14,14 @@ import {
   deleteProduct,
   reloadProduct,
 } from "@/services/Redux/handle/hanldeProduct";
+import { getBrand, getCategory } from "@/services/Redux/fetchData/useFetchData";
+import { getAllProducts } from "@/services/Redux/api";
 
-const Products = ({ cateData, brandData, productList }) => {
+const Products = () => {
   const accessToken = useSelector(selectAccessToken);
+  const [cateData, setCateData] = useState([]);
+  const [brandData, setBrandData] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [PerPage] = useState(5);
@@ -25,6 +30,19 @@ const Products = ({ cateData, brandData, productList }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const prodData = await getAllProducts();
+      const brandData = await getBrand();
+      const cateData = await getCategory();
+
+      setCateData(prodData);
+      setBrandData(brandData);
+      setProductList(cateData);
+    };
+    fetchData();
+  }, [accessToken]);
 
   useEffect(() => {
     if (!searchTerm) {
