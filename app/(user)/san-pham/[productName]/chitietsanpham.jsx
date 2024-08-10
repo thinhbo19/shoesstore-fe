@@ -4,7 +4,6 @@ import "../../../../Styles/productDetailFirst.css";
 import "../../../../Styles/productDetailSecond.css";
 import "../../../../Styles/productDetailThird.css";
 import { useSelector } from "react-redux";
-import Loading from "@/component/Loading/Loading";
 import DetailsFirst from "@/component/ChiTietSanPham/DetailsFirst";
 import DetailSecond from "@/component/ChiTietSanPham/DetailSecond";
 import DetailThird from "@/component/ChiTietSanPham/DetailThird";
@@ -16,7 +15,6 @@ import { getOneProductByName } from "@/services/Redux/handle/hanldeProduct";
 
 const ChiTietSanPham = ({ productName }) => {
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
   const accessToken = useSelector(selectAccessToken);
   const [userRes, setUserRes] = useState(null);
 
@@ -36,10 +34,6 @@ const ChiTietSanPham = ({ productName }) => {
     localStorage.removeItem("cartList");
     fetchData();
   }, [fetchData]);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div

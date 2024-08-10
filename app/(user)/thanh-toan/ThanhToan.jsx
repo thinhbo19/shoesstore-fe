@@ -1,12 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../../../Styles/user/ThanhToan.css";
 import Pay from "../../../component/Pay/Pay";
 import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loading from "../../../component/Loading/Loading";
-import { selectAccessToken, selectUid } from "@/services/Redux/user/useSlice";
+import {
+  removeCard,
+  selectAccessToken,
+  selectUid,
+} from "@/services/Redux/user/useSlice";
 import { getVouchers } from "@/services/Redux/handle/hanldeVoucher";
 import { useRouter } from "next/navigation";
 import { getUserCurrent } from "@/services/Redux/handle/hanldeUser";
@@ -66,6 +70,7 @@ const ThanhToan = () => {
   const [isCodEnabled, setIsCodEnabled] = useState(false);
   const [isElectronicEnabled, setIsElectronicEnabled] = useState(false);
   const money = selectedVoucher ? totalPriceVoucher : totalAmount;
+  const dispatch = useDispatch();
 
   const getCartData = () => {
     const cartData = localStorage.getItem("cartList");
@@ -179,7 +184,7 @@ const ThanhToan = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.post(
+      await axios.post(
         `${apiUrlOrder}/copy`,
         {
           products: cartData.map((selectedProduct) => ({
@@ -203,9 +208,8 @@ const ThanhToan = () => {
           `${apiUrlUser}/Cart/${product.product}/${product.size}`,
           { headers: { token: `Bearer ${accessToken}` } }
         );
+        dispatch(removeCard(product.product));
       }
-      console.log(res);
-      // if(res.success)
       localStorage.removeItem("cartList");
       router.push("/thong-tin/lich-su-mua-hang");
     } catch (error) {
@@ -255,6 +259,7 @@ const ThanhToan = () => {
             },
           }
         );
+        dispatch(removeCard(product.product));
       }
 
       localStorage.removeItem("cart");
@@ -299,6 +304,17 @@ const ThanhToan = () => {
       });
       if (res.data.success) {
         window.location.href = res.data.paymentUrl;
+        for (const product of cartData) {
+          await axios.delete(
+            `${apiUrlUser}/Cart/${product.product}/${product.size}`,
+            {
+              headers: {
+                token: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          dispatch(removeCard(product.product));
+        }
       } else {
         Swal.fire({
           title: "ĐẶT HÀNG THẤT BẠI",
