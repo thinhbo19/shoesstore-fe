@@ -1,6 +1,8 @@
 import ReduxProvider from "@/component/providers/Redux";
 import "./globals.css";
 import Script from "next/script";
+import ChatBox from "@/component/ChatBox/ChatBox";
+import ChatBotMessenger from "@/component/ChatBotMessenger/ChatBotMessenger";
 
 export async function generateMetadata({ params, searchParams }) {
   const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
@@ -44,7 +46,11 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-798VRR2CBS');
           `}
         </Script>
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          {children}
+          <ChatBox />
+          <ChatBotMessenger />
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -11,7 +11,11 @@ import { useSelector } from "react-redux";
 import ChatBoxMess from "./ChatBoxMess";
 import Swal from "sweetalert2";
 import { unreadNotificationFunc } from "../../utils/NotificationFunc";
-import { selectUid } from "@/services/Redux/user/useSlice";
+import {
+  selectAccessToken,
+  selectAdmin,
+  selectUid,
+} from "@/services/Redux/user/useSlice";
 import { getChat, getMess, postMess } from "@/services/Redux/handle/handleChat";
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -29,7 +33,8 @@ const ChatBox = () => {
   const messagesEndRef = useRef(null);
   const unreadNotifications = unreadNotificationFunc(notifications);
   const editorRef = useRef(null);
-
+  const accessToken = useSelector(selectAccessToken);
+  const role = useSelector(selectAdmin);
   const toggleChatBox = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
     if (!isOpen) {
@@ -171,7 +176,7 @@ const ChatBox = () => {
 
   return (
     <div className="chatbox__container">
-      {!isOpen && (
+      {role === "User" && accessToken && !isOpen && (
         <div className="chatbox__icon__container">
           <FontAwesomeIcon
             icon={faCommentDots}

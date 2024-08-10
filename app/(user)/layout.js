@@ -1,5 +1,3 @@
-import ChatBotMessenger from "@/component/ChatBotMessenger/ChatBotMessenger";
-import ChatBox from "@/component/ChatBox/ChatBox";
 import Footer from "@/component/HeaderFooter/Footers";
 import Header from "@/component/HeaderFooter/Headers";
 import { getAllProducts } from "@/services/Redux/api";
@@ -11,8 +9,6 @@ export default async function UserLayout({ children }) {
     <>
       <Header allProducts={allProducts} />
       {children}
-      <ChatBox />
-      <ChatBotMessenger />
       <Footer />
     </>
   );
