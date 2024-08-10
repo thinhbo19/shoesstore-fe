@@ -12,6 +12,7 @@ import List from "./List";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { apiUrlOrder } from "@/services/config";
 import { deleteOrder } from "@/services/Redux/handle/hanldeOrder";
+import { getAllOrder } from "@/services/Redux/api";
 
 const returnValue = (status) => {
   switch (status) {
@@ -56,7 +57,7 @@ const updateOrders = (ordersData, userArr) => {
   });
 };
 
-const HoaDon = ({ orderArrAll }) => {
+const HoaDon = () => {
   const [hoaDonData, setHoaDonData] = useState([]);
   const accessToken = useSelector(selectAccessToken);
   const Swal = require("sweetalert2");
@@ -72,9 +73,10 @@ const HoaDon = ({ orderArrAll }) => {
 
   const fetchData = async () => {
     try {
+      const orderArr = await getAllOrder();
       const userArr = await getAllUsers();
 
-      const ordersData = orderArrAll.filter(
+      const ordersData = orderArr.filter(
         (order) => order.status === selectedOption
       );
 
