@@ -13,6 +13,7 @@ const CartItem = ({
   updateCartQuantityOnServer,
   selectedProduct,
   setSelectedProduct,
+  setHasChecked,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedQuantity, setEditedQuantity] = useState(cart.count);
@@ -59,6 +60,7 @@ const CartItem = ({
   const handleCheckboxChange = (e) => {
     const isChecked = e.target.checked;
     setIsChecked(isChecked);
+    setHasChecked(isChecked);
     let cartList = JSON.parse(localStorage.getItem("cartList")) || [];
     const index = cartList.findIndex(
       (item) => item.product === cart.product && item.size === cart.size

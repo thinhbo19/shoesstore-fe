@@ -24,15 +24,11 @@ const GioHang = () => {
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [hasChecked, setHasChecked] = useState(false);
+
   const isCartEmpty = cartList.length === 0;
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const getCartData = () => {
-    const cartData = localStorage.getItem("cartList");
-    return cartData ? JSON.parse(cartData) : [];
-  };
-  const cartData = getCartData();
 
   const fetchUserCurrent = async () => {
     try {
@@ -53,7 +49,6 @@ const GioHang = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-      getCartData();
     }, 1500);
   }, []);
 
@@ -102,7 +97,7 @@ const GioHang = () => {
         icon: "info",
       });
       return;
-    } else if (cartData.length === 0) {
+    } else if (hasChecked === false) {
       Swal.fire({
         title: "BẠN CHƯA CHỌN SẢN PHẨM ĐỂ THANH TOÁN",
         icon: "info",
@@ -225,6 +220,7 @@ const GioHang = () => {
                   onQuantityChange={(e) =>
                     handleQuantityChange(e, cart.product, cart.size)
                   }
+                  setHasChecked={setHasChecked}
                 />
               ))
             ) : (
@@ -279,7 +275,7 @@ const GioHang = () => {
                   color: "#ee4d2d",
                 },
               }}
-              onClick={handleThanhToan}
+              onClick={() => handleThanhToan()}
             >
               THANH TOÁN
             </Button>
