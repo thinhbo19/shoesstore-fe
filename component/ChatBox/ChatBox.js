@@ -225,8 +225,7 @@ const ChatBox = () => {
                   "searchreplace visualblocks code fullscreen",
                   "insertdatetime media table code help wordcount",
                 ],
-                toolbar:
-                  "undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                toolbar: "",
                 content_style:
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 statusbar: false,
