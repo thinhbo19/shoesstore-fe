@@ -41,6 +41,14 @@ const Staff = () => {
   const dispatch = useDispatch();
   const [openNoti, setOpenNoti] = useState(false);
 
+  useEffect(() => {
+    const fetchDataUser = async () => {
+      const allUsers = await getAllUsers();
+      setAllUser(allUsers);
+    };
+    fetchDataUser();
+  }, [accessToken]);
+
   const handleOpenNotification = () => {
     setOpenNoti(!openNoti);
   };
@@ -111,9 +119,7 @@ const Staff = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allUsers = await getAllUsers();
         const allChat = await findChat(uid);
-        setAllUser(allUsers);
         setUserChats(allChat);
         const memberList = allChat.map((chat) => chat.members).flat();
         const uniqueMembers = [...new Set(memberList)].filter(
@@ -122,7 +128,7 @@ const Staff = () => {
 
         const userChatData = uniqueMembers
           .map((memberId) => {
-            const user = allUsers.find((user) => user._id === memberId);
+            const user = allUser.find((user) => user._id === memberId);
             const chat = allChat.find((chat) =>
               chat.members.includes(memberId)
             );
@@ -147,7 +153,7 @@ const Staff = () => {
       }
     };
     fetchData();
-  }, [uid, searchTerm, allUser]);
+  }, [accessToken, uid, searchTerm, allUser]);
 
   useEffect(() => {
     if (!currentChat?._id) return;
