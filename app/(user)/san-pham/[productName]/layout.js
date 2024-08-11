@@ -33,6 +33,7 @@ export async function generateMetadata({ params, searchParams }) {
       images: [
         {
           url: productData?.images[0],
+          alt: productData?.productName,
         },
       ],
     },
