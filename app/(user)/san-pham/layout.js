@@ -1,5 +1,5 @@
 export async function generateMetadata({ params, searchParams }) {
-  const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app/san-pham";
+  const baseUrl = "https://shoesstore-ten.vercel.app/san-pham";
 
   return {
     title: "Sản phẩm - Shoes Store",

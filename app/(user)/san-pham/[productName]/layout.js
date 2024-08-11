@@ -8,7 +8,7 @@ export async function generateMetadata({ params, searchParams }) {
   const { productName } = params;
   const productData = await getOneProductByName(productName);
 
-  const baseUrl = "https://shoesstore-thinhbo19s-projects.vercel.app";
+  const baseUrl = "https://shoesstore-ten.vercel.app";
   const productUrl = `${baseUrl}/san-pham/${productName}`;
   const maxDescriptionLength = 200;
 
