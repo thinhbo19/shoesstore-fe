@@ -12,6 +12,6 @@ export default function robots() {
         "/san-pham/danh-muc-san-pham/*",
       ],
     },
-    sitemap: "https://shoesstore-thinhbo19s-projects.vercel.app/sitemap.xml",
+    sitemap: "https://shoesstore-ten.vercel.app/sitemap.xml",
   };
 }
