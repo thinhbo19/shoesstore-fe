@@ -24,7 +24,7 @@ const PopupMailChimp = ({ handlePopup }) => {
         },
         body: JSON.stringify({ email, full_name: fullName }),
       });
-
+      console.log(response);
       if (response.ok) {
         Swal.fire({
           icon: "success",

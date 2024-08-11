@@ -17,7 +17,7 @@ const hashMD5 = (str) => {
 export async function POST(req) {
   const { email, full_name } = await req.json();
   const emailMd5 = hashMD5(email);
-
+  console.log(emailMd5);
   if (!email) {
     return new NextResponse(JSON.stringify({ message: "Email is required" }), {
       headers: { "Content-Type": "application/json" },

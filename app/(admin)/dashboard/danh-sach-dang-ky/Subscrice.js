@@ -19,7 +19,6 @@ const Subscribe = () => {
   const [PerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedEmail, setSelectedEmail] = useState([]);
-  const [selected, setSelected] = useState(null);
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const Swal = require("sweetalert2");
