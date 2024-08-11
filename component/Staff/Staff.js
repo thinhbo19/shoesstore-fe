@@ -122,7 +122,7 @@ const Staff = () => {
 
         const userChatData = uniqueMembers
           .map((memberId) => {
-            const user = allUsers.find((user) => user._id === memberId);
+            const user = allUser.find((user) => user._id === memberId);
             const chat = allChat.find((chat) =>
               chat.members.includes(memberId)
             );
