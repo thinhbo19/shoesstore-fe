@@ -4,11 +4,6 @@ import CryptoJS from "crypto-js";
 
 const LIST_ID = "bbc6f6ebd2";
 
-mailchimp.setConfig({
-  apiKey: process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY,
-  server: "us14",
-});
-
 const hashMD5 = (str) => {
   const hashStr = CryptoJS.MD5(str).toString();
   return hashStr;
@@ -17,13 +12,7 @@ const hashMD5 = (str) => {
 export async function POST(req) {
   const { email, full_name } = await req.json();
   const emailMd5 = hashMD5(email);
-  console.log(emailMd5);
-  if (!email) {
-    return new NextResponse(JSON.stringify({ message: "Email is required" }), {
-      headers: { "Content-Type": "application/json" },
-      status: 400,
-    });
-  }
+
   try {
     const response = await mailchimp.lists.setListMember(
       process.env.NEXT_PUBLIC_MAILCHIMP_AUDIENCE_ID,
@@ -72,7 +61,7 @@ export async function GET(req) {
 export async function PUT(req) {
   try {
     const { email } = await req.json();
-    console.log(email);
+
     let response;
     if (typeof email === "object") {
       response = await mailchimp.lists.setListMember(email.list_id, email.id, {
