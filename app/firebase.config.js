@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAZCAMvJnzuz0YoMZkw2sIuMQAYx0bi3Qs",
-  authDomain: "shoes-store-b4353.firebaseapp.com",
-  projectId: "shoes-store-b4353",
-  storageBucket: "shoes-store-b4353.appspot.com",
-  messagingSenderId: "468067621036",
-  appId: "1:468067621036:web:fb2f77c47dabc286a92709",
-  measurementId: "G-P8TB3SGQMM",
+  apiKey: "AIzaSyDWLlA70aMyQfTi_EyHOxvA8o3tdQ0ffLw",
+  authDomain: "shoes-store-b0f4d.firebaseapp.com",
+  projectId: "shoes-store-b0f4d",
+  storageBucket: "shoes-store-b0f4d.appspot.com",
+  messagingSenderId: "333610019938",
+  appId: "1:333610019938:web:734b6265cb540bc7a4353b",
+  measurementId: "G-QHM6BC8906",
 };
 
 // Initialize Firebase
